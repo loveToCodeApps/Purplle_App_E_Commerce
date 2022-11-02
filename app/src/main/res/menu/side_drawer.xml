@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+    android:id="@+id/homeSection">
+        <item
+            android:checked="false"
+            android:icon="@drawable/ic_baseline_home_24"
+            android:title="Home" />
+        <item
+            android:icon="@drawable/ic_baseline_sort_24"
+            android:title="Shop By Category" />
+        <item
+            android:icon="@drawable/ic_baseline_local_offer_24"
+            android:title="Explore Brands" />
+        <item
+            android:icon="@drawable/ic_baseline_discount_24"
+            android:title="Offers" />
+        <item
+            android:icon="@drawable/ic_baseline_star_border_24"
+            android:title="Newbies" />
+        <item
+            android:icon="@drawable/ic_baseline_star_border_24"
+            android:title="Unique at Purplle" />
+        <item
+            android:icon="@drawable/ic_baseline_star_border_24"
+            android:title="SPLURGE - The Luxury Store" />
+        <item
+            android:icon="@drawable/ic_baseline_star_border_24"
+            android:title="Elite " />
+        <item
+            android:icon="@drawable/ic_baseline_menu_book_24"
+            android:title="Magzine" />
+</group>
+    <group
+        android:id="@+id/accountSection">
+        <item
+            android:icon="@drawable/ic_baseline_shopping_cart_24"
+            android:title="My Orders" />
+        <item
+            android:icon="@drawable/ic_baseline_favorite_border_24"
+            android:title="My WishList" />
+        <item
+            android:icon="@drawable/ic_baseline_emoji_emotions_24"
+            android:title="My Account" />
+    </group>
+    <group android:id="@+id/customerSupportSection" >
+        <item
+            android:icon="@drawable/ic_baseline_phone_24"
+            android:title="Customer Support" />
+        <item
+            android:icon="@drawable/ic_baseline_lock_24"
+            android:title="Privacy Policy" />
+        <item
+            android:icon="@drawable/ic_baseline_library_books_24"
+            android:title="Terms and Conditions" />
+        <item
+            android:icon="@drawable/ic_baseline_message_24"
+            android:title="Feedback" />
+        <item
+            android:icon="@drawable/ic_baseline_info_24"
+            android:title="About Purplle" />
+    </group>
+</menu>

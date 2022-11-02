@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/purplle_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.purpleapp.HomeFragment"
+        android:label="Purplle"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myCartFragment"
+        android:name="com.example.purpleapp.MyCartFragment"
+        android:label="My Cart"
+        tools:layout="@layout/fragment_my_cart" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.example.purpleapp.CategoryFragment"
+        android:label="categories"
+        tools:layout="@layout/fragment_category" />
+</navigation>
