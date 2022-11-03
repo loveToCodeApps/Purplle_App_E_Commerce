@@ -9,11 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.example.purpleapp.HomeFragment"
         android:label="Purplle"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/myCartFragment"
         android:name="com.example.purpleapp.MyCartFragment"
@@ -24,4 +20,24 @@
         android:name="com.example.purpleapp.CategoryFragment"
         android:label="categories"
         tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/brandFragment"
+        android:name="com.example.purpleapp.BrandFragment"
+        android:label="Brands"
+        tools:layout="@layout/fragment_brand" />
+    <fragment
+        android:id="@+id/offerFragment"
+        android:name="com.example.purpleapp.OfferFragment"
+        android:label="Offers"
+        tools:layout="@layout/fragment_offer" />
+    <dialog
+        android:id="@+id/myAccountFragment"
+        android:name="com.example.purpleapp.MyAccountFragment"
+        android:label="fragment_my_account"
+        tools:layout="@layout/fragment_my_account" />
+    <fragment
+        android:id="@+id/productDescriptionFragment"
+        android:name="com.example.purpleapp.ProductDescriptionFragment"
+        android:label="Product Description"
+        tools:layout="@layout/fragment_product_description" />
 </navigation>

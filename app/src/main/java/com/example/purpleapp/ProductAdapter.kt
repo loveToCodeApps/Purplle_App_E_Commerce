@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.google.android.material.snackbar.Snackbar
 
 
 class ProductAdapter(val data:List<ProductData>) : Adapter<MyProductViewHolder>()
@@ -37,8 +36,8 @@ class ProductAdapter(val data:List<ProductData>) : Adapter<MyProductViewHolder>(
 
 class MyProductViewHolder(itemView: View):ViewHolder(itemView)
 {
-    val img:ImageView = itemView.findViewById(R.id.prodImage)
-    val first:TextView = itemView.findViewById(R.id.firstOffer)
-    val second:TextView = itemView.findViewById(R.id.secondOffer)
+    val img:ImageView = itemView.findViewById(R.id.offerForYouImg)
+    val first:TextView = itemView.findViewById(R.id.offerForYouFirst)
+    val second:TextView = itemView.findViewById(R.id.offerForYouSecond)
 }
 

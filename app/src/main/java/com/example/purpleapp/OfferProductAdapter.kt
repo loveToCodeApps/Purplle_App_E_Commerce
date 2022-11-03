@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class OfferProductAdapter(val data:List<OfferProductData>):Adapter<OfferProductViewHolder>()
+class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<OfferProductViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OfferProductViewHolder {
        val inflater = LayoutInflater.from(parent.context)

@@ -4,16 +4,20 @@
     <group
     android:id="@+id/homeSection">
         <item
+            android:id="@+id/homeFragment"
             android:checked="false"
             android:icon="@drawable/ic_baseline_home_24"
             android:title="Home" />
         <item
+            android:id="@+id/categoryFragment"
             android:icon="@drawable/ic_baseline_sort_24"
             android:title="Shop By Category" />
         <item
-            android:icon="@drawable/ic_baseline_local_offer_24"
+            android:id="@+id/brandFragment"
+            android:icon="@drawable/ic_baseline_info_24"
             android:title="Explore Brands" />
         <item
+            android:id="@+id/offerFragment"
             android:icon="@drawable/ic_baseline_discount_24"
             android:title="Offers" />
         <item
@@ -35,6 +39,7 @@
     <group
         android:id="@+id/accountSection">
         <item
+            android:id="@+id/myCartFragment"
             android:icon="@drawable/ic_baseline_shopping_cart_24"
             android:title="My Orders" />
         <item

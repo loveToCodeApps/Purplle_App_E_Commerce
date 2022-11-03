@@ -97,3 +97,5 @@ class HomeFragment : Fragment() {
         return NavigationUI.onNavDestinationSelected(item!!,requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
 }
+
+
