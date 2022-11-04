@@ -14,18 +14,13 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen)
 
-        val titleAnim = AnimationUtils.loadAnimation(this,R.anim.left_to_center)
-        binding.splashTitle.animation=titleAnim
-
-
-        val subTitleAnim = AnimationUtils.loadAnimation(this,R.anim.fade)
-        binding.splashHeading.animation=subTitleAnim
-
+        val logoAnim = AnimationUtils.loadAnimation(this,R.anim.zoom_in)
+        binding.logo.animation=logoAnim
 
         Handler().postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-        }, 2300)
+        }, 1500)
 
     }
 
