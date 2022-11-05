@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".PrivacyPolicyFragment">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_baseline_privacy_tip_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_lock_24"
+                app:tint="#292828" />
+
+            <TextView
+                android:id="@+id/textView34"
+                android:text="www.affetta.com is committed to protecting your privacy. We collect information about you to process your orders and to make your shopping experience more personalized. Your name, e-mail address, mailing address, credit card number and expiration date allow us to fulfill your order and to inform you of your order status.  Information about you may also be required to notify you about functionality changes on our website, new services and special offers you may find of value.  When you place orders or access your account information, we offer the use of secure server. The secure server software encrypts all your information before it reaches us. When you submit a customer review, we ask for your e-mail address, although you can instruct us not to display your e-mail address with your review.  www.affetta.com does not sell, trade or rent your personal information to others. The website may release account information when it believes, in good faith that such release is reasonably necessary to  a.   Comply with law,  b.   Enforce, or apply the terms of any of our user agreements, or  c.   Protect the rights, property or safety of affetta.com  , our users, or others.  By using our website, you consent to the collection and use of this information by www.affetta.com  In case there is any change in our privacy policy, we will post those changes on this page to keep you updated of what information we collect, how we use it and when we disclose it.  As far as changes in information and updating related to your www.affetta.com  account is concerned, you may access your account of our website with your e-mail address and password.  Sales Policy  www.affetta.com strives to give you the power to order and receive your books at a place most convenient to you. Our shipping arrangements cover almost all places in India and abroad. For details, read our shipping policy. Once an order and its payment are fully processed we pack the Cosmetics Products for shipping. This is done with utmost care so as to avoid damage to the Cosmetics Products. Our couriers deliver these items at the address submitted by customers while filling up the online order form.  The shipping address is where the customer wishes to receive his order. Once a customer does a transaction on www.affetta.com he can instruct us to store his shipping address so that he does not have to enter the address again.  Shipping time is the time taken to deliver an order at a shipping address, after the order has been shipped out. It depends on where the customer stays and the shipping method selected while filling up the online order form.  Return Policy  Within 24 hours of receipt of your shipment, you may return a defective or damaged Cosmetics Products.  Customer can cancel the order within 1 hour after placing the order. The email must be sent within 24 hours of the receipt of the Cosmetics Products. Approved returns will be given a Return Id from us and same id has to be pasted on the return parcel. We will accept returns only in case of damaged Cosmetics Products, wrong supplied or with any printing errors. We will notify you through e-mail of your refund once we have received and processed the returned item. You can expect a refund in the same form of payment originally used for purchase within 7 to 14 working days of our receiving your return. If you have lost your packing slip, please indicate the order number or the e-mail address and name of the person who placed the order, along with the reason for your return on a separate piece of paper, and send the packet to the address given below:\n501-A, 5th Floor, Kaveri Building, Kurla (West), Near To Sakinaka Metro Station,"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                style="@style/about_app_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

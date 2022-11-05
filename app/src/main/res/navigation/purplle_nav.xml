@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.purpleapp.HomeFragment"
-        android:label="Purplle"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/myCartFragment"
@@ -40,4 +40,19 @@
         android:name="com.example.purpleapp.ProductDescriptionFragment"
         android:label="Product Description"
         tools:layout="@layout/fragment_product_description" />
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.example.purpleapp.PrivacyPolicyFragment"
+        android:label="Privacy Policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+    <fragment
+        android:id="@+id/aboutAppFragment"
+        android:name="com.example.purpleapp.AboutAppFragment"
+        android:label="About Affetta"
+        tools:layout="@layout/fragment_about_app" />
+    <fragment
+        android:id="@+id/termsAndConditionsFragment"
+        android:name="com.example.purpleapp.TermsAndConditionsFragment"
+        android:label="Terms And Conditions"
+        tools:layout="@layout/fragment_terms_and_conditions" />
 </navigation>

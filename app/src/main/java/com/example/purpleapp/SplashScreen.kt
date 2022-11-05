@@ -14,6 +14,8 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen)
 
+        supportActionBar?.hide()
+
         val logoAnim = AnimationUtils.loadAnimation(this,R.anim.zoom_in)
         binding.logo.animation=logoAnim
 

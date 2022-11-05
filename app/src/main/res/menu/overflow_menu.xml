@@ -7,6 +7,7 @@
         android:icon="@drawable/ic_baseline_emoji_emotions_24"
         android:title="My Account" />
     <item
+        android:id="@+id/eliteMembership"
         android:icon="@drawable/ic_baseline_done_24"
         android:title="Elite Membership" />
     <item

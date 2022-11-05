@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
@@ -21,9 +22,16 @@ class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<Offer
         holder.first.text = item.offer_first
         holder.second.text = item.offer_second
         holder.img.setImageResource(item.productImage)
+
+
+        holder.img.setOnClickListener {
+            it.findNavController().navigate(R.id.productDescriptionFragment)
+        }
     }
 
     override fun getItemCount()=data.size
+
+
 
 
 }

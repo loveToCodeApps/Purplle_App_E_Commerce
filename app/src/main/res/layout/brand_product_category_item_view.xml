@@ -54,7 +54,7 @@
             android:layout_marginBottom="8dp"
             android:background="#5CEDA6"
             android:gravity="center"
-            android:text="Extra 10% off\non Every Order"
+            android:text="Extra 10% off on Every Order"
             android:textColor="#000000"
             android:textSize="12sp"
             android:textStyle="bold"

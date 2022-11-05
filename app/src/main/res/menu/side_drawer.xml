@@ -46,24 +46,29 @@
             android:icon="@drawable/ic_baseline_favorite_border_24"
             android:title="My WishList" />
         <item
+            android:id="@+id/myAccountFragment"
             android:icon="@drawable/ic_baseline_emoji_emotions_24"
             android:title="My Account" />
     </group>
     <group android:id="@+id/customerSupportSection" >
         <item
+            android:id="@+id/customerSupport"
             android:icon="@drawable/ic_baseline_phone_24"
             android:title="Customer Support" />
         <item
+            android:id="@+id/privacyPolicyFragment"
             android:icon="@drawable/ic_baseline_lock_24"
             android:title="Privacy Policy" />
         <item
+            android:id="@+id/termsAndConditionsFragment"
             android:icon="@drawable/ic_baseline_library_books_24"
             android:title="Terms and Conditions" />
         <item
             android:icon="@drawable/ic_baseline_message_24"
             android:title="Feedback" />
         <item
+            android:id="@+id/aboutAppFragment"
             android:icon="@drawable/ic_baseline_info_24"
-            android:title="About Purplle" />
+            android:title="About Affetta" />
     </group>
 </menu>
