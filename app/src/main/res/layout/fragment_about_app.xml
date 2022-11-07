@@ -32,7 +32,7 @@
                 android:id="@+id/imageView16"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:alpha="0.4"
+                android:alpha="0.6"
                 android:scaleType="centerCrop"
                 android:src="@drawable/black"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView14"
@@ -51,9 +51,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <com.codesgood.views.JustifiedTextView
                 android:id="@+id/textView28"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:lineSpacingMultiplier="2"
@@ -78,11 +78,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
-            <TextView
+            <com.codesgood.views.JustifiedTextView
                 android:id="@+id/textView30"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:background="#FFFFFF"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center|start"

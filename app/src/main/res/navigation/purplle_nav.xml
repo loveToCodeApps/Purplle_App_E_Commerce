@@ -31,7 +31,7 @@
         android:label="Offers"
         tools:layout="@layout/fragment_offer" />
     <dialog
-        android:id="@+id/myAccountFragment"
+        android:id="@+id/myProfileFragment"
         android:name="com.example.purpleapp.MyAccountFragment"
         android:label="fragment_my_account"
         tools:layout="@layout/fragment_my_account" />
@@ -55,4 +55,40 @@
         android:name="com.example.purpleapp.TermsAndConditionsFragment"
         android:label="Terms And Conditions"
         tools:layout="@layout/fragment_terms_and_conditions" />
+    <fragment
+        android:id="@+id/customerSupportFragment"
+        android:name="com.example.purpleapp.CustomerSupportFragment"
+        android:label="Customer Support"
+        tools:layout="@layout/fragment_customer_support" />
+    <fragment
+        android:id="@+id/wishlistFragment"
+        android:name="com.example.purpleapp.WishlistFragment"
+        android:label="Favourites"
+        tools:layout="@layout/fragment_wishlist" />
+    <fragment
+        android:id="@+id/wishlistStoriesTabFragment"
+        android:name="com.example.purpleapp.WishlistStoriesTabFragment"
+        android:label="fragment_wishlist_stories_tab"
+        tools:layout="@layout/fragment_wishlist_stories_tab" />
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.example.purpleapp.MyProfileFragment"
+        android:label="My Profile"
+        tools:layout="@layout/fragment_my_profile" >
+        <action
+            android:id="@+id/action_myProfileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_wishlistFragment"
+            app:destination="@id/wishlistFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_myCartFragment"
+            app:destination="@id/myCartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.purpleapp.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile" />
 </navigation>
+

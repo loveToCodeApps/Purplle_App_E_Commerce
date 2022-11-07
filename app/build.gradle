@@ -54,6 +54,12 @@ dependencies {
     //    gif image
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
 
+    //justified text
+    implementation 'com.codesgood:justifiedtextview:1.1.0'
+
+    //circle image
+    implementation 'com.mikhaellopez:circularimageview:4.3.1'
+
 }
 
 

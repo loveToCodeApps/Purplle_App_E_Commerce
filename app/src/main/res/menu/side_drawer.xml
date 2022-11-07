@@ -23,19 +23,7 @@
         <item
             android:icon="@drawable/ic_baseline_star_border_24"
             android:title="Newbies" />
-        <item
-            android:icon="@drawable/ic_baseline_star_border_24"
-            android:title="Unique at Purplle" />
-        <item
-            android:icon="@drawable/ic_baseline_star_border_24"
-            android:title="SPLURGE - The Luxury Store" />
-        <item
-            android:icon="@drawable/ic_baseline_star_border_24"
-            android:title="Elite " />
-        <item
-            android:icon="@drawable/ic_baseline_menu_book_24"
-            android:title="Magzine" />
-</group>
+    </group>
     <group
         android:id="@+id/accountSection">
         <item
@@ -43,16 +31,17 @@
             android:icon="@drawable/ic_baseline_shopping_cart_24"
             android:title="My Orders" />
         <item
+            android:id="@+id/wishlistFragment"
             android:icon="@drawable/ic_baseline_favorite_border_24"
             android:title="My WishList" />
         <item
-            android:id="@+id/myAccountFragment"
+            android:id="@+id/myProfileFragment"
             android:icon="@drawable/ic_baseline_emoji_emotions_24"
             android:title="My Account" />
     </group>
     <group android:id="@+id/customerSupportSection" >
         <item
-            android:id="@+id/customerSupport"
+            android:id="@+id/customerSupportFragment"
             android:icon="@drawable/ic_baseline_phone_24"
             android:title="Customer Support" />
         <item

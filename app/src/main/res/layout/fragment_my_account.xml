@@ -122,7 +122,7 @@
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:padding="4dp"
-            android:text="By creating an account or logging in to Puplle's Terms use and privacy policy and consent to the collection and use of your personal information / sensitive personal data or information"
+            android:text="By creating an account or logging in to Affetta's Terms use and privacy policy and consent to the collection and use of your personal information / sensitive personal data or information"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"

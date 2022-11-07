@@ -20,8 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // action bar title changed
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.title = "Affetta"
+
 
         drawerLayout = binding.myDrawer
 
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.myNavView, navController)
         binding.bottomNavigationView.setupWithNavController(navController)
 
-        binding.myNavView.setNavigationItemSelectedListener();
+
 
 
 
