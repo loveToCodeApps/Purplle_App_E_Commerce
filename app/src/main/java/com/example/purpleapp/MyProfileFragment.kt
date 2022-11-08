@@ -31,6 +31,10 @@ var binding : FragmentMyProfileBinding = DataBindingUtil.inflate(inflater,R.layo
             it.findNavController().navigate(R.id.action_myProfileFragment_to_wishlistFragment)
         }
 
+        binding.textView75.setOnClickListener {
+            it.findNavController().navigate(R.id.action_myProfileFragment_to_customerSupportFragment  )
+        }
+
     return  binding.root
 
     }

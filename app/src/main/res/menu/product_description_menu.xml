@@ -15,7 +15,7 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/myCartFragment"
+        android:id="@+id/myOrdersFragment"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
         android:title="Item"
         app:showAsAction="ifRoom"
