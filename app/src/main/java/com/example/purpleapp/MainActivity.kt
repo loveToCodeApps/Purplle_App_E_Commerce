@@ -9,7 +9,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.databinding.ActivityMainBinding
+import com.example.purpleapp.databinding.FragmentMyProfileBinding
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -20,19 +22,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // action bar title changed
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-
         drawerLayout = binding.myDrawer
-
-
         val navController = this.findNavController(R.id.purplleNavHost)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(binding.myNavView, navController)
         binding.bottomNavigationView.setupWithNavController(navController)
 
 
-
-
+        if (SharedPrefManager.getInstance(this).isLoggedIn) {
+            val user = SharedPrefManager.getInstance(this).user
+            binding.textView87.text = user.firstName.toString()
+        }
+        else {
+            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
     }
 
