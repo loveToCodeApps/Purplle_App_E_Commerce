@@ -3,20 +3,30 @@ package com.example.purpleapp
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.purpleapp.api.URLs
 import com.example.purpleapp.databinding.FragmentHomeBinding
+import org.json.JSONException
+import org.json.JSONObject
 
 class HomeFragment : Fragment() {
+lateinit var binding : FragmentHomeBinding
+private var productList: MutableList<ProductData>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-         val binding : FragmentHomeBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
+        binding  = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
 
         val categoryList = mutableListOf<CategoryData>()
         categoryList.add(CategoryData("offers",R.drawable.percentage))
@@ -27,13 +37,14 @@ class HomeFragment : Fragment() {
        binding.categoryList.adapter = CategoryAdapter(categoryList)
 
 
-        val productList = mutableListOf<ProductData>()
-        productList.add(ProductData("choose your free gift on 499/-","UPTO 35% OFF /-",R.drawable.product_one))
-        productList.add(ProductData("you are very lucky","It's a new launch /-",R.drawable.product_two))
-        productList.add(ProductData("bring diamond glow to your skin","offer is ending soon",R.drawable.product_three))
-        productList.add(ProductData("choose your free gift on 1499/-","most sold out product",R.drawable.product_four))
-        productList.add(ProductData("made from special herbs","UPTO 55% OFF /-",R.drawable.product_five))
-        binding.productList.adapter = ProductAdapter(productList)
+        productList = mutableListOf<ProductData>()
+//        productList.add(ProductData("choose your free gift on 499/-","UPTO 35% OFF /-",R.drawable.product_one))
+//        productList.add(ProductData("you are very lucky","It's a new launch /-",R.drawable.product_two))
+//        productList.add(ProductData("bring diamond glow to your skin","offer is ending soon",R.drawable.product_three))
+//        productList.add(ProductData("choose your free gift on 1499/-","most sold out product",R.drawable.product_four))
+//        productList.add(ProductData("made from special herbs","UPTO 55% OFF /-",R.drawable.product_five))
+        getProducts()
+
 
 
         val offerProductList = mutableListOf<OfferProductData>()
@@ -90,6 +101,44 @@ class HomeFragment : Fragment() {
 
     }
 
+    // volley request for banners
+    private fun getProducts() {
+        val stringRequest = StringRequest(
+            Request.Method.GET,
+            URLs.URL_GET_BANNER,
+            { s ->
+                try {
+                    val obj = JSONObject(s)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        for (i in 0..array.length()-1) {
+                            val objectArtist = array.getJSONObject(i)
+                            val banners = ProductData(
+                                objectArtist.getInt("id"),
+                                objectArtist.getString("url")
+                            )
+                            productList!!.add(banners)
+                            val adapter = ProductAdapter(productList!!)
+                           binding.productList.adapter = adapter
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), obj.getString("message"), Toast.LENGTH_LONG).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            { volleyError -> Toast.makeText(requireContext(), volleyError.message, Toast.LENGTH_LONG).show() })
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+
+}
+
+
+    //----------------------------------------------------------------
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
     inflater.inflate(R.menu.overflow_menu,menu)
     }
@@ -97,9 +146,11 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(item!!,requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
-
+   //---------------------------------------------------------------------------------
 
 }
+
+
 
 
 

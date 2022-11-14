@@ -1,5 +1,6 @@
 package com.example.purpleapp
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,10 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.purpleapp.api.ImageDownloaderTask
 
 
 class ProductAdapter(val data:List<ProductData>) : Adapter<MyProductViewHolder>()
 {
+    lateinit var bitmap:Bitmap
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyProductViewHolder {
       val inflater = LayoutInflater.from(parent.context)
       val view = inflater.inflate(R.layout.product_item_view,parent,false)
@@ -19,9 +22,14 @@ class ProductAdapter(val data:List<ProductData>) : Adapter<MyProductViewHolder>(
 
     override fun onBindViewHolder(holder: MyProductViewHolder, position: Int) {
         val item = data[position]
-        holder.first.text = item.offer_first
-        holder.second.text = item.offer_second
-        holder.img.setImageResource(item.productImage)
+//        holder.first.text = item.offer_first
+//        holder.second.text = item.offer_second
+        ImageDownloaderTask(holder.img).execute(item.url)
+        holder.img.setImageBitmap(bitmap)
+
+//        holder.img.
+
+
 
 //        holder.img.setOnClickListener {
 //            Snackbar.make(,"${item.offer_first.toString()}",Snackbar.LENGTH_SHORT)

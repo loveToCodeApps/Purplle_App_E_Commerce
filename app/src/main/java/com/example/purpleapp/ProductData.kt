@@ -1,7 +1,8 @@
 package com.example.purpleapp
 
 data class ProductData(
-    var offer_first:String,
-    var offer_second:String,
-    var productImage: Int
+   var id : Int,
+   var url: String
+    //    var offer_first:String,
+//    var offer_second:String,
 )

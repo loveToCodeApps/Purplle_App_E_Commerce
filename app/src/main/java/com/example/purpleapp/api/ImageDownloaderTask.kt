@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.ImageView
-import org.apache.http.HttpStatus
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpStatus
 import java.io.InputStream
 import java.lang.ref.WeakReference
 import java.net.HttpURLConnection
@@ -38,7 +38,7 @@ class ImageDownloaderTask(imageView: ImageView?) :
                     imageView.setImageBitmap(bitmap)
                 } else {
                     val placeholder: Drawable =
-                        imageView.getContext().getResources().getDrawable(R.drawable.placeholder)
+                        imageView.getContext().getResources().getDrawable(R.drawable.star_big_on)
                     imageView.setImageDrawable(placeholder)
                 }
             }

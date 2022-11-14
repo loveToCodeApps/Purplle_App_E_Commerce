@@ -123,6 +123,35 @@ case 'userdetail':
  }  
 //}  
 break;   
+case 'bannerAds':  
+
+  //if(isTheseParametersAvailable(array('id'))){  
+  
+
+   // $id = $_GET['id'];  
+    $stmt = $conn->prepare("SELECT id, image as url  FROM banners WHERE active='0'");  
+    //$stmt->bind_param("s",$id);  
+    $stmt->execute();  
+    $stmt->store_result(); 
+
+    if($stmt->num_rows > 0){  
+    $stmt->bind_result($id,$url);  
+    $stmt->fetch();  
+    $user = array(  
+    'id'=>$id,   
+    'url'=>IMGPATH.$url  
+    );  
+   
+    $response['error'] = false;   
+    $response['message'] = 'banners Fetch successfull';   
+    $response['user'] = json_encode($user);   
+ }  
+ else{  
+    $response['error'] = false;   
+    $response['message'] = 'Invalid id';  
+ }  
+//}  
+break;   
 default:   
  $response['error'] = true;   
  $response['message'] = 'Invalid Operation Called';  
