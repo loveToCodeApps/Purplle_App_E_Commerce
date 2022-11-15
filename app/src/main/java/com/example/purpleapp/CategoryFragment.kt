@@ -16,7 +16,7 @@ class CategoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-var binding : FragmentCategoryBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_category,container,false)
+val binding : FragmentCategoryBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_category,container,false)
 
 
         val serviceCategoryList = mutableListOf<ServiceCategoryData>()

@@ -40,15 +40,14 @@
 
         <TextView
             android:id="@+id/offerprodsecond"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:padding="2dp"
-            android:text="$123  30%off"
+            android:text="₹123"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/textView4"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/offerprodfirst" />
 
@@ -63,5 +62,29 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/offerprodsecond" />
+
+        <TextView
+            android:id="@+id/offerProdThird"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="₹399"
+            android:textColor="#4C4C4C"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/offerprodsecond"
+            app:layout_constraintStart_toEndOf="@+id/offerprodsecond"
+            app:layout_constraintTop_toTopOf="@+id/offerprodsecond" />
+
+        <TextView
+            android:id="@+id/offerProdFourth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="13% off"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView4"
+            app:layout_constraintStart_toEndOf="@+id/offerProdThird"
+            app:layout_constraintTop_toBottomOf="@+id/offerprodfirst" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

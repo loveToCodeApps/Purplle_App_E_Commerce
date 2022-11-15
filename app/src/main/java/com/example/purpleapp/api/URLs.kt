@@ -5,4 +5,5 @@ object URLs {
         val URL_REGISTER = ROOT_URL + "signup"
         val URL_LOGIN = ROOT_URL + "login"
         val URL_GET_BANNER = ROOT_URL + "bannerAds"
+        val URL_GET_CATEGORIES = ROOT_URL + "categories"
 }

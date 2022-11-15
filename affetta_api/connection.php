@@ -10,4 +10,5 @@ if ($conn->connect_error) {
 }  
 
 define("IMGPATH", "https://affetta.com/cms/");
-?>  
+?> 
+

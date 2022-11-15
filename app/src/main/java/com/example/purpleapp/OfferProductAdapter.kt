@@ -19,9 +19,11 @@ class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<Offer
 
     override fun onBindViewHolder(holder: OfferProductViewHolder, position: Int) {
         val item = data[position]
-        holder.first.text = item.offer_first
-        holder.second.text = item.offer_second
-        holder.img.setImageResource(item.productImage)
+        holder.title.text = item.item_name
+        holder.sale.text = item.sale_price
+        holder.mrp.text = item.mrp_price
+        holder.discount.text = item.disc_amt
+        holder.img.setImageResource(item.image1)
 
 
         holder.img.setOnClickListener {
@@ -39,6 +41,9 @@ class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<Offer
 class OfferProductViewHolder(itemView: View):ViewHolder(itemView)
 {
     val img:ImageView = itemView.findViewById(R.id.offerprodimg)
-    val first:TextView = itemView.findViewById(R.id.offerprodfirst)
-    val second:TextView = itemView.findViewById(R.id.offerprodsecond)
+    val title:TextView = itemView.findViewById(R.id.offerprodfirst)
+    val mrp:TextView = itemView.findViewById(R.id.offerProdThird)
+    val sale:TextView = itemView.findViewById(R.id.offerprodsecond)
+    val discount:TextView = itemView.findViewById(R.id.offerProdFourth)
+
 }
