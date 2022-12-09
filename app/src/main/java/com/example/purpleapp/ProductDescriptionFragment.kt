@@ -1,5 +1,6 @@
 package com.example.purpleapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -55,7 +56,7 @@ class ProductDescriptionFragment : Fragment() {
         return binding.root
 
 
-
+0
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -63,6 +64,18 @@ class ProductDescriptionFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+      when(item.itemId)
+      {
+          R.id.shareProduct->   startActivity(getShareIntent())
+      }
         return NavigationUI.onNavDestinationSelected(item!!,requireView().findNavController()) || super.onOptionsItemSelected(item)
+    }
+
+    // Creating our Share Intent
+    private fun getShareIntent() : Intent {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.setType("text/plain")
+            .putExtra(Intent.EXTRA_TEXT,"https://www.afeta.com/prod")
+        return shareIntent
     }
 }

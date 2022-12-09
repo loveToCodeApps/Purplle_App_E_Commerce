@@ -1,5 +1,6 @@
 package com.example.purpleapp
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.purpleapp.api.ImageDownloaderTask
+import com.squareup.picasso.Picasso
 
 
-class ProductAdapter(val data:List<ProductData>) : Adapter<MyProductViewHolder>()
+class ProductAdapter(val data:List<ProductData>,val context: Context) : Adapter<MyProductViewHolder>()
 {
+
     lateinit var bitmap:Bitmap
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyProductViewHolder {
       val inflater = LayoutInflater.from(parent.context)
@@ -24,12 +27,11 @@ class ProductAdapter(val data:List<ProductData>) : Adapter<MyProductViewHolder>(
         val item = data[position]
 //        holder.first.text = item.offer_first
 //        holder.second.text = item.offer_second
-        ImageDownloaderTask(holder.img).execute(item.url)
-        holder.img.setImageBitmap(bitmap)
+//        ImageDownloaderTask(holder.img).execute(item.url)
 
 //        holder.img.
 
-
+Picasso.get().load(item.url).into(holder.img)
 
 //        holder.img.setOnClickListener {
 //            Snackbar.make(,"${item.offer_first.toString()}",Snackbar.LENGTH_SHORT)

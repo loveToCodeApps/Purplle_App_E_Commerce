@@ -19,6 +19,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -64,10 +65,8 @@ dependencies {
     //volley
     implementation 'com.android.volley:volley:1.2.1'
 
-//    implementation 'org.apache.httpcomponents:httpcore:4.4.13'
-//    implementation 'org.apache.httpcomponents:httpclient:4.5'
-
-
+    //picasso image loading
+    implementation 'com.squareup.picasso:picasso:2.8'
 
 }
 

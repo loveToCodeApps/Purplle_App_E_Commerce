@@ -15,6 +15,7 @@ import com.example.purpleapp.api.URLs
 import com.example.purpleapp.api.User
 import com.example.purpleapp.api.VolleySingleton
 import com.example.purpleapp.databinding.ActivityRegistrationBinding
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -106,23 +107,6 @@ class RegistrationActivity : AppCompatActivity() {
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
 
-                        //getting the user from the response
-                        val userJson = obj.getJSONObject("user")
-
-                        //creating a new user object
-                        val user = User(
-                            userJson.getInt("id"),
-                            userJson.getString("firstname"),
-                            userJson.getString("middlename"),
-                            userJson.getString("lastname"),
-                            userJson.getString("email"),
-                            userJson.getString("phone")
-
-                        )
-
-                        //storing the user in shared preferences
-                        SharedPrefManager.getInstance(applicationContext).userLogin(user)
-
                         //starting the MainActivity activity
                         finish()
                         startActivity(Intent(applicationContext, LoginActivity::class.java))
@@ -142,7 +126,6 @@ class RegistrationActivity : AppCompatActivity() {
                 params["lastname"] = lastname.toString()
                 params["email"] = email.toString()
                 params["phone"] = phone.toString()
-
                 return params
             }
         }
@@ -151,9 +134,6 @@ class RegistrationActivity : AppCompatActivity() {
 
 
 
-
-
-
-
     }
 }
+

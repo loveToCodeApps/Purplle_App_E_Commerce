@@ -3,7 +3,6 @@ package com.example.purpleapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -11,8 +10,6 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.databinding.ActivityMainBinding
-import com.example.purpleapp.databinding.FragmentMyProfileBinding
-import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -33,14 +30,41 @@ class MainActivity : AppCompatActivity() {
             val user = SharedPrefManager.getInstance(this).user
             binding.textView87.text = user.firstName.toString()
         }
-        else {
-            val intent = Intent(this@MainActivity, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+
+
+//        }
+//        else {
+//            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
+
+
+        //bottom navigation view listners
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.myProfile -> if (!SharedPrefManager.getInstance(this).isLoggedIn) {
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                    true
+                } else {
+                    findNavController(R.id.purplleNavHost)
+                        .navigate(R.id.myProfileFragment)
+                }
+                R.id.homeFragment -> findNavController(R.id.purplleNavHost)
+                    .navigate(R.id.homeFragment)
+                R.id.categoryFragment -> findNavController(R.id.purplleNavHost)
+                    .navigate(R.id.categoryFragment)
+                R.id.brandFragment -> findNavController(R.id.purplleNavHost)
+                    .navigate(R.id.brandFragment)
+                R.id.offerFragment -> findNavController(R.id.purplleNavHost)
+                    .navigate(R.id.offerFragment)
+            }
+            true
         }
 
     }
-
 
 
     override fun onSupportNavigateUp(): Boolean {
@@ -48,8 +72,6 @@ class MainActivity : AppCompatActivity() {
 
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
-
-
 
 
 }

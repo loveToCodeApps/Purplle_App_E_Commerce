@@ -9,6 +9,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.squareup.picasso.Picasso
 
 class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>() {
 
@@ -21,8 +22,7 @@ class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>
     override fun onBindViewHolder(holder: MyCategoryViewHolder, position: Int) {
 
         val item = cate[position]
-        holder.header.text = item.heading
-        holder.headImg.setImageResource(item.image)
+        Picasso.get().load(item.image).into(holder.headImg)
     }
 
     override fun getItemCount():Int = cate.size
@@ -31,6 +31,5 @@ class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>
 
 class MyCategoryViewHolder(itemView: View) : ViewHolder(itemView)
 {
-val header:TextView = itemView.findViewById(R.id.category_heading)
 val headImg:ImageView = itemView.findViewById(R.id.category_img)
 }

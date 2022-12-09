@@ -39,7 +39,11 @@
         android:id="@+id/productDescriptionFragment"
         android:name="com.example.purpleapp.ProductDescriptionFragment"
         android:label="Product Description"
-        tools:layout="@layout/fragment_product_description" />
+        tools:layout="@layout/fragment_product_description">
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="https://www.afeta.com/prod" />
+    </fragment>
     <fragment
         android:id="@+id/privacyPolicyFragment"
         android:name="com.example.purpleapp.PrivacyPolicyFragment"

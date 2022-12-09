@@ -37,6 +37,9 @@ val binding : FragmentMyProfileBinding = DataBindingUtil.inflate(inflater,R.layo
         binding.textView75.setOnClickListener {
             it.findNavController().navigate(R.id.action_myProfileFragment_to_customerSupportFragment  )
         }
+
+
+
         binding.textView69.text=SharedPrefManager.getInstance(requireActivity().applicationContext).user.firstName+" "+
                 SharedPrefManager.getInstance(requireActivity().applicationContext).user.lastName
 

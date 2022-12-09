@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.squareup.picasso.Picasso
 
 class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<OfferProductViewHolder>()
 {
@@ -19,11 +20,11 @@ class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<Offer
 
     override fun onBindViewHolder(holder: OfferProductViewHolder, position: Int) {
         val item = data[position]
-        holder.title.text = item.item_name
-        holder.sale.text = item.sale_price
-        holder.mrp.text = item.mrp_price
-        holder.discount.text = item.disc_amt
-        holder.img.setImageResource(item.image1)
+        holder.title.text = item.heading
+        holder.sale.text = "₹"+item.sale
+        holder.mrp.text = "₹"+item.mrp
+//        holder.discount.text = item.disc
+        Picasso.get().load(item.image1).into(holder.img)
 
 
         holder.img.setOnClickListener {
@@ -44,6 +45,6 @@ class OfferProductViewHolder(itemView: View):ViewHolder(itemView)
     val title:TextView = itemView.findViewById(R.id.offerprodfirst)
     val mrp:TextView = itemView.findViewById(R.id.offerProdThird)
     val sale:TextView = itemView.findViewById(R.id.offerprodsecond)
-    val discount:TextView = itemView.findViewById(R.id.offerProdFourth)
+//    val discount:TextView = itemView.findViewById(R.id.offerProdFourth)
 
 }

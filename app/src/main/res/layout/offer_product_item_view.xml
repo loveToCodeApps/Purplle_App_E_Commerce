@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="140dp"
-    android:layout_height="210dp"
+    android:layout_height="220dp"
     android:layout_margin="8dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="6dp">
@@ -16,8 +16,8 @@
         <ImageView
             android:id="@+id/offerprodimg"
             android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_marginTop="4dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -27,13 +27,15 @@
             android:id="@+id/offerprodfirst"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="2dp"
             android:fontFamily="casual"
+            android:gravity="center"
             android:padding="2dp"
             android:text="Good Vibes "
             android:textColor="#000000"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/offerprodsecond"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/offerprodimg" />
@@ -42,32 +44,32 @@
             android:id="@+id/offerprodsecond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="16dp"
             android:padding="2dp"
             android:text="₹123"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/textView4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/offerprodfirst" />
+            app:layout_constraintEnd_toStartOf="@+id/offerProdThird"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="3dp"
             android:text="ADD TO CART"
             android:textColor="#FF4081"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/offerprodsecond" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/offerProdThird"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
             android:text="₹399"
             android:textColor="#4C4C4C"
             android:textSize="11sp"
@@ -75,16 +77,14 @@
             app:layout_constraintStart_toEndOf="@+id/offerprodsecond"
             app:layout_constraintTop_toTopOf="@+id/offerprodsecond" />
 
-        <TextView
-            android:id="@+id/offerProdFourth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="13% off"
-            android:textColor="#000000"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView4"
-            app:layout_constraintStart_toEndOf="@+id/offerProdThird"
-            app:layout_constraintTop_toBottomOf="@+id/offerprodfirst" />
+        <View
+            android:id="@+id/view4"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#4C4C4C"
+            app:layout_constraintBottom_toBottomOf="@+id/offerProdThird"
+            app:layout_constraintEnd_toEndOf="@+id/offerProdThird"
+            app:layout_constraintStart_toStartOf="@+id/offerProdThird"
+            app:layout_constraintTop_toTopOf="@+id/offerProdThird" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
