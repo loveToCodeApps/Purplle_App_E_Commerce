@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.squareup.picasso.Picasso
 
 class BannerDiscountAdapter(val data : List<BannerDiscountData>):Adapter<BannerDiscountViewHolder>()
 {
@@ -18,7 +19,10 @@ class BannerDiscountAdapter(val data : List<BannerDiscountData>):Adapter<BannerD
 
     override fun onBindViewHolder(holder: BannerDiscountViewHolder, position: Int) {
         val item = data[position]
-        holder.img.setImageResource(item.banner)
+      //  holder.img.setImageResource(item.banner)
+        Picasso.get().load(item.banner).into(holder.img)
+
+
     }
 
     override fun getItemCount() = data.size

@@ -19,7 +19,11 @@
         android:id="@+id/categoryFragment"
         android:name="com.example.purpleapp.CategoryFragment"
         android:label="categories"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_categoryFragment_to_categoryAllProductsFragment"
+            app:destination="@id/categoryAllProductsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/brandFragment"
         android:name="com.example.purpleapp.BrandFragment"
@@ -102,5 +106,14 @@
         android:name="com.example.purpleapp.MyOrdersFragment"
         android:label="My Orders"
         tools:layout="@layout/fragment_my_orders" />
+    <fragment
+        android:id="@+id/categoryAllProductsFragment"
+        android:name="com.example.purpleapp.CategoryAllProductsFragment"
+        android:label="All Products  Of Category"
+        tools:layout="@layout/fragment_category_all_products" >
+        <argument
+            android:name="categ_name"
+            app:argType="string" />
+    </fragment>
 </navigation>
 

@@ -14,7 +14,7 @@
         android:layout_gravity="center">
 
         <ImageView
-            android:id="@+id/categprodimg"
+            android:id="@+id/offerprodimgcombo"
             android:layout_width="130dp"
             android:layout_height="120dp"
             android:layout_marginTop="2dp"
@@ -24,7 +24,7 @@
             app:srcCompat="@drawable/face_cream" />
 
         <TextView
-            android:id="@+id/categprodfirst"
+            android:id="@+id/offerprodfirstcombo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
@@ -38,10 +38,10 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/categprodimg" />
+            app:layout_constraintTop_toBottomOf="@+id/offerprodimgcombo" />
 
         <TextView
-            android:id="@+id/categprodsecond"
+            android:id="@+id/offerprodsecondcombo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -49,13 +49,13 @@
             android:text="₹123"
             android:textColor="#000000"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView4"
-            app:layout_constraintEnd_toStartOf="@+id/offerProdThird"
+            app:layout_constraintBottom_toTopOf="@+id/textView4combo"
+            app:layout_constraintEnd_toStartOf="@+id/offerProdThirdcombo"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textView4combo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
@@ -66,25 +66,25 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/offerProdThird"
+            android:id="@+id/offerProdThirdcombo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="₹399"
             android:textColor="#4C4C4C"
             android:textSize="11sp"
-            app:layout_constraintBottom_toBottomOf="@+id/categprodsecond"
-            app:layout_constraintStart_toEndOf="@+id/categprodsecond"
-            app:layout_constraintTop_toTopOf="@+id/categprodsecond" />
+            app:layout_constraintBottom_toBottomOf="@+id/offerprodsecondcombo"
+            app:layout_constraintStart_toEndOf="@+id/offerprodsecondcombo"
+            app:layout_constraintTop_toTopOf="@+id/offerprodsecondcombo" />
 
         <View
-            android:id="@+id/view4"
+            android:id="@+id/view4combo"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="#4C4C4C"
-            app:layout_constraintBottom_toBottomOf="@+id/offerProdThird"
-            app:layout_constraintEnd_toEndOf="@+id/offerProdThird"
-            app:layout_constraintStart_toStartOf="@+id/offerProdThird"
-            app:layout_constraintTop_toTopOf="@+id/offerProdThird" />
+            app:layout_constraintBottom_toBottomOf="@+id/offerProdThirdcombo"
+            app:layout_constraintEnd_toEndOf="@+id/offerProdThirdcombo"
+            app:layout_constraintStart_toStartOf="@+id/offerProdThirdcombo"
+            app:layout_constraintTop_toTopOf="@+id/offerProdThirdcombo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

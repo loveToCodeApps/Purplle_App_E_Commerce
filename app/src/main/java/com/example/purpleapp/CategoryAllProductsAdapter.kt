@@ -10,19 +10,22 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.squareup.picasso.Picasso
 
-class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<OfferProductViewHolder>()
+class CategoryAllProductsAdapter(val data: MutableList<CategoryAllProductsData>):Adapter<CategoryAllProductsViewHolder>()
 {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OfferProductViewHolder {
-       val inflater = LayoutInflater.from(parent.context)
-       val view = inflater.inflate(R.layout.offer_product_item_view,parent,false)
-       return OfferProductViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryAllProductsViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.category_all_products_item_view,parent,false)
+        return CategoryAllProductsViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: OfferProductViewHolder, position: Int) {
+
+
+    override fun getItemCount()=data.size
+    override fun onBindViewHolder(holder: CategoryAllProductsViewHolder, position: Int) {
         val item = data[position]
         holder.title.text = item.heading
-        holder.sale.text = "₹"+item.sale
-        holder.mrp.text = "₹"+item.mrp
+       // holder.sale.text = "₹"+item.sale
+       holder.mrp.text = "₹"+item.mrp
 //        holder.discount.text = item.disc
         Picasso.get().load(item.image1).into(holder.img)
 
@@ -32,19 +35,15 @@ class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<Offer
         }
     }
 
-    override fun getItemCount()=data.size
-
-
-
 
 }
 
-class OfferProductViewHolder(itemView: View):ViewHolder(itemView)
+class CategoryAllProductsViewHolder(itemView: View):ViewHolder(itemView)
 {
     val img:ImageView = itemView.findViewById(R.id.categprodimg)
     val title:TextView = itemView.findViewById(R.id.categprodfirst)
-    val mrp:TextView = itemView.findViewById(R.id.offerProdThird)
-    val sale:TextView = itemView.findViewById(R.id.categprodsecond)
+    val mrp:TextView = itemView.findViewById(R.id.categprodsecond)
+  //  val sale:TextView = itemView.findViewById(R.id.categprodsecond)
 //    val discount:TextView = itemView.findViewById(R.id.offerProdFourth)
 
 }

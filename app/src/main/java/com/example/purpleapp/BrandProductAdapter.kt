@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.squareup.picasso.Picasso
 
 class BrandProductAdapter(val data : List<BrandProductData>):Adapter<BrandProductViewHolder>()
 {
@@ -18,9 +19,9 @@ class BrandProductAdapter(val data : List<BrandProductData>):Adapter<BrandProduc
 
     override fun onBindViewHolder(holder: BrandProductViewHolder, position: Int) {
         val item = data[position]
-        holder.img.setImageResource(item.img)
         holder.heading.text = item.brand
-        holder.discountInfo.text = item.discount
+        Picasso.get().load(item.img).into(holder.imge)
+      //  holder.discountInfo.text = item.discount
     }
 
     override fun getItemCount() = data.size
@@ -28,8 +29,8 @@ class BrandProductAdapter(val data : List<BrandProductData>):Adapter<BrandProduc
 
 class BrandProductViewHolder(itemView: View):ViewHolder(itemView)
 {
-    val img:ImageView = itemView.findViewById(R.id.brand_product_img)
+    val imge:ImageView = itemView.findViewById(R.id.brand_product_img)
     val heading:TextView = itemView.findViewById(R.id.brand_title)
-    val discountInfo:TextView = itemView.findViewById(R.id.brand_discount_info)
+   // val discountInfo:TextView = itemView.findViewById(R.id.brand_discount_info)
 
 }
