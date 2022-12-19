@@ -3,8 +3,10 @@ package com.example.purpleapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -74,6 +76,16 @@ class MainActivity : AppCompatActivity() {
                     .navigate(R.id.offerFragment)
             }
             true
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if(destination.id == R.id.productDescriptionFragment) {
+
+                binding.bottomNavigationView.visibility = View.GONE
+            } else {
+
+                binding.bottomNavigationView.visibility = View.VISIBLE
+            }
         }
 
 
@@ -150,13 +162,39 @@ class MainActivity : AppCompatActivity() {
                     .navigate(R.id.aboutAppFragment)
                     binding.myDrawer.closeDrawer(GravityCompat.START, true)
                 }
+
             }
             true
         }
 
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
 
+            R.id.loginBtn -> {
+                if (SharedPrefManager.getInstance(this).isLoggedIn) {
+                    Toast.makeText(this, "You are already logged in ", Toast.LENGTH_SHORT).show()
+                } else {
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            R.id.myCartFragment->{
+                findNavController(R.id.purplleNavHost)
+                    .navigate(R.id.myCartFragment)
+            }
+            R.id.myProfileFragment->{
+                findNavController(R.id.purplleNavHost)
+                    .navigate(R.id.myProfileFragment)
+            }
+
+
+
+        }
+        return true
+
+    }
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.purplleNavHost)
 

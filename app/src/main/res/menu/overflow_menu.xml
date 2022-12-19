@@ -37,6 +37,7 @@
         android:icon="@drawable/ic_baseline_account_balance_wallet_24"
         android:title="Purplle Credit" />
     <item
+        android:id="@+id/loginBtn"
         android:icon="@drawable/ic_baseline_login_24"
         android:title="Login or Register" />
     <item

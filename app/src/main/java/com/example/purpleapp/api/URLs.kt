@@ -14,6 +14,11 @@ object URLs {
         val URL_GET_NEW_ARRIVALS = ROOT_URL + "newArrivals"
         val URL_GET_HOT_DEALS = ROOT_URL + "deals"
         val URL_GET_PARTICULAR_CATEGORY_PRODUCTS = ROOT_URL + "getParticularCategoryProducts"
+        val URL_ADD_TO_CART = ROOT_URL + "addToCart"
+        val URL_GET_MY_CART = ROOT_URL + "getMyCart"
+        val URL_GET_MY_WISH_LIST = ROOT_URL + "getMyWishlist"
+
+
 
 }
 

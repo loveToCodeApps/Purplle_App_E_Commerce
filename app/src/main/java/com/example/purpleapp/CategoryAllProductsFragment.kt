@@ -42,10 +42,10 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_all_produc
     }
 
     private fun getParticularCategoryProducts() {
-        val categoryAllProducrsList = mutableListOf<CategoryAllProductsData>()
+        val categorList = mutableListOf<CategoryAllProductsData>()
 
         val args = CategoryAllProductsFragmentArgs.fromBundle(requireArguments())
-       val subcategory = args.categName
+       val category = args.categName
 
         val stringRequest = object : StringRequest(
             Request.Method.POST, URLs.URL_GET_PARTICULAR_CATEGORY_PRODUCTS,
@@ -62,13 +62,12 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_all_produc
                             val banners = CategoryAllProductsData(
                                 objectArtist.getString("heading"),
                                 objectArtist.getString("sale"),
-                                objectArtist.getString("disc"),
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image")
                             )
 
-                            categoryAllProducrsList.add(banners)
-                            val adapter = CategoryAllProductsAdapter(categoryAllProducrsList)
+                            categorList.add(banners)
+                            val adapter = CategoryAllProductsAdapter(categorList)
                             binding.categoryAllProductsList.adapter = adapter
                         }
                     } else {
@@ -94,7 +93,7 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_all_produc
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["subcategory"] = subcategory
+                params["category"] = category
 
                 return params
             }

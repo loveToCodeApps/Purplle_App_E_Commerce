@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="135dp"
-    android:layout_height="190dp"
+    android:layout_height="150dp"
     android:layout_margin="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,27 +42,10 @@
             android:id="@+id/brand_product_img"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginTop="13dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/imageView3"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/face_cream" />
 
-        <TextView
-            android:id="@+id/brand_discount_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:background="#5CEDA6"
-            android:gravity="center"
-            android:text="Extra 10% off on Every Order"
-            android:textColor="#000000"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

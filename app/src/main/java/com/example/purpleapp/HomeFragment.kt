@@ -1,16 +1,13 @@
 package com.example.purpleapp
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.app.NotificationCompat.getCategory
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.purpleapp.api.URLs
@@ -364,6 +361,7 @@ class HomeFragment : Fragment() {
                         for (i in 2 until array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = OfferProductData(
+                                objectArtist.getString("id"),
                                 objectArtist.getString("heading"),
                                 objectArtist.getString("sale"),
                                 objectArtist.getString("disc"),

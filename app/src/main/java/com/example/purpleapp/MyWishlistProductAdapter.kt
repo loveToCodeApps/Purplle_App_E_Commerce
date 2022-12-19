@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.squareup.picasso.Picasso
 
 class MyWishlistProductAdapter (val data : List<MyWishlistProductData>):Adapter<MyWishlistProductViewHolder>()
 {
@@ -20,14 +21,14 @@ class MyWishlistProductAdapter (val data : List<MyWishlistProductData>):Adapter<
     override fun onBindViewHolder(holder: MyWishlistProductViewHolder, position: Int) {
 
         val item = data[position]
-        holder.img.setImageResource(item.wishlistProdImg)
+        Picasso.get().load(item.wishlistProdImg).into(holder.img)
         holder.price.text=item.wishlistProdPrice
         holder.cutPrice.text=item.wislistProdCutPrice
-        holder.discount.text=item.wishlistProdDiscount
-        holder.heading.text=item.wishlistProDesc
-        holder.rate.text=item.wishlistProdRating
-        holder.reviews.text=item.wishlistProdReviewNo
-        holder.likes.text=item.wishlistProdLikes
+        holder.heading.text=item.wishlistProdHeading
+//        holder.discount.text=item.wishlistProdDiscount
+//        holder.rate.text=item.wishlistProdRating
+//        holder.reviews.text=item.wishlistProdReviewNo
+//        holder.likes.text=item.wishlistProdLikes
     }
 
     override fun getItemCount() = data.size
@@ -42,9 +43,9 @@ class MyWishlistProductViewHolder(itemView: View):ViewHolder(itemView)
    val heading:TextView = itemView.findViewById(R.id.textView71)
    val price:TextView=itemView.findViewById(R.id.textView78)
    val cutPrice:TextView=itemView.findViewById(R.id.textView81)
-       val discount:TextView=itemView.findViewById(R.id.textView82)
-        val rate : Button=itemView.findViewById(R.id.button9)
-            val reviews:TextView =itemView.findViewById(R.id.textView86)
-                val likes:TextView=itemView.findViewById(R.id.textView83)
+//       val discount:TextView=itemView.findViewById(R.id.textView82)
+//        val rate : Button=itemView.findViewById(R.id.button9)
+//            val reviews:TextView =itemView.findViewById(R.id.textView86)
+//                val likes:TextView=itemView.findViewById(R.id.textView83)
 
 }

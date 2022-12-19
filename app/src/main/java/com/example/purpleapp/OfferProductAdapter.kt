@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -26,10 +27,11 @@ class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<Offer
 //        holder.discount.text = item.disc
         Picasso.get().load(item.image1).into(holder.img)
 
-
-        holder.img.setOnClickListener {
-            it.findNavController().navigate(R.id.productDescriptionFragment)
+        holder.openProduct.setOnClickListener {
+                    it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDescriptionFragment(item))
         }
+
+
     }
 
     override fun getItemCount()=data.size
@@ -45,6 +47,7 @@ class OfferProductViewHolder(itemView: View):ViewHolder(itemView)
     val title:TextView = itemView.findViewById(R.id.categprodfirst)
     val mrp:TextView = itemView.findViewById(R.id.offerProdThird)
     val sale:TextView = itemView.findViewById(R.id.categprodsecond)
+    val openProduct:TextView = itemView.findViewById(R.id.textView4OfferProd)
 //    val discount:TextView = itemView.findViewById(R.id.offerProdFourth)
 
 }
