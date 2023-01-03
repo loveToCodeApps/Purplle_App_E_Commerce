@@ -24,13 +24,14 @@
             android:id="@+id/textView96"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:padding="4dp"
             android:text="TNW - The natural wash pure gold neem oil for skin and hair (100 ml) "
             android:textColor="#F78195"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView97"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView39"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,6 +43,7 @@
             android:text="₹199"
             android:textColor="#DF2E4C"
             android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/button14"
             app:layout_constraintStart_toEndOf="@+id/imageView39"
             app:layout_constraintTop_toBottomOf="@+id/textView96" />
 
@@ -83,14 +85,13 @@
             android:id="@+id/textView101"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:text="IN YOUR CART"
+            android:layout_marginEnd="12dp"
+            android:text="1"
             android:textColor="#F78195"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView39" />
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+            app:layout_constraintEnd_toStartOf="@+id/textView109"
+            app:layout_constraintTop_toTopOf="@+id/textView4" />
 
         <Button
             android:id="@+id/button14"
@@ -102,6 +103,7 @@
             android:textStyle="bold"
             app:backgroundTint="#FFAB40"
             app:cornerRadius="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView42"
             app:layout_constraintStart_toEndOf="@+id/imageView39"
             app:layout_constraintTop_toBottomOf="@+id/textView97" />
 
@@ -148,6 +150,33 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView104"
             app:layout_constraintStart_toEndOf="@+id/textView104"
             app:layout_constraintTop_toTopOf="@+id/textView104" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/quantity_back"
+            android:gravity="center"
+            android:text="+"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView101"
+            app:layout_constraintTop_toBottomOf="@+id/imageView39" />
+
+        <TextView
+            android:id="@+id/textView109"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/quantity_back"
+            android:gravity="center"
+            android:text="-"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView101"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView101" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -27,12 +27,13 @@ val binding : FragmentMyProfileBinding = DataBindingUtil.inflate(inflater,R.layo
        it.findNavController().navigate(R.id.action_myProfileFragment_to_editProfileFragment)
    }
 
-        binding.imageView25.setOnClickListener {
-            it.findNavController().navigate(R.id.action_myProfileFragment_to_myCartFragment)
+        binding.cardView5.setOnClickListener {
+            it.findNavController().navigate(R.id.action_myProfileFragment_to_myOrdersFragment)
         }
-        binding.imageView26.setOnClickListener {
+        binding.cardView13.setOnClickListener {
             it.findNavController().navigate(R.id.action_myProfileFragment_to_wishlistFragment)
         }
+
 
         binding.textView75.setOnClickListener {
             it.findNavController().navigate(R.id.action_myProfileFragment_to_customerSupportFragment  )
@@ -58,6 +59,9 @@ val binding : FragmentMyProfileBinding = DataBindingUtil.inflate(inflater,R.layo
 
             requireActivity().finish()
         }
+
+
+
 
 
     return  binding.root

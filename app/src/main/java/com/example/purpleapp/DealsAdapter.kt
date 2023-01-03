@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
@@ -27,7 +28,10 @@ class DealsAdapter(val data: MutableList<DealsData>):
      //   holder.mrp.text = "₹"+item.mrp
 //        holder.discount.text = item.disc
         Picasso.get().load(item.image).into(holder.img)
+holder.img.setOnClickListener {
+    it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDescriptionFragment(item.id))
 
+}
 
     }
 

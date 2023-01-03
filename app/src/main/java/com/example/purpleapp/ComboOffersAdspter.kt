@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.squareup.picasso.Picasso
@@ -25,6 +26,9 @@ class ComboOffersAdspter(val data : MutableList<ComboOffersData>):Adapter<ComboO
         holder.price.text = item.mrp
         holder.sale.text = item.sale
         Picasso.get().load(item.image).into(holder.image)
+        holder.openProduct.setOnClickListener {
+            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDescriptionFragment(item.id))
+        }
 
     }
 
@@ -37,5 +41,7 @@ class ComboOffersViewHolder(itemView: View):ViewHolder(itemView)
     val title:TextView = itemView.findViewById(R.id.offerprodfirstcombo)
     val price:TextView = itemView.findViewById(R.id.offerProdThirdcombo)
     val sale:TextView = itemView.findViewById(R.id.offerprodsecondcombo)
+    val openProduct:TextView = itemView.findViewById(R.id.textView4combo)
+
 
 }

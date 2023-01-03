@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.android.volley.AuthFailureError
@@ -29,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
            finish()
             startActivity(Intent(this,RegistrationActivity::class.java))
         }
+
 
 
         // check if already logged in or not
@@ -71,14 +73,17 @@ class LoginActivity : AppCompatActivity() {
                     //if no error in response
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
-//                        Snackbar.make(findViewById(android.R.id.content),
-//                            obj.getString("message"),
-//                            Snackbar.LENGTH_SHORT
-//                        ).show()
+                        Snackbar.make(findViewById(android.R.id.content),
+                            obj.getString("message"),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+
+
 
 
                         //getting the user from the response
                         val userJson = obj.getJSONObject("user")
+
 
                         //creating a new user object
                         val user = User(

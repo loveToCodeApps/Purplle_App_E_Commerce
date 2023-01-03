@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
@@ -19,29 +20,21 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class MyCartFragment : Fragment() {
-lateinit var binding : FragmentMyCartBinding
+    lateinit var binding: FragmentMyCartBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
- binding = DataBindingUtil.inflate(inflater,R.layout.fragment_my_cart,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_cart, container, false)
 
-      //  val myCartDataList = mutableListOf<MyCartData>()
-//        myCartDataList.add(MyCartData(R.drawable.offer_prod_two,"TNW - The natural wash pure gold neem oil for skin and hair (100 ml) ","₹324","476","12%","★4.2","213","12"))
-//        myCartDataList.add(MyCartData(R.drawable.offer_prod_one,"TNW - The natural wash pure gold neem oil for skin and hair (100 ml) ","₹324","476","12%","★4.2","213","12"))
-//        myCartDataList.add(MyCartData(R.drawable.offer_prod_four,"TNW - The natural wash pure gold neem oil for skin and hair (100 ml) ","₹324","476","12%","★4.2","213","12"))
-//        myCartDataList.add(MyCartData(R.drawable.offer_prod_three,"TNW - The natural wash pure gold neem oil for skin and hair (100 ml) ","₹324","476","12%","★4.2","213","12"))
-//        myCartDataList.add(MyCartData(R.drawable.offer_prod_five,"TNW - The natural wash pure gold neem oil for skin and hair (100 ml) ","₹324","476","12%","★4.2","213","12"))
-//        myCartDataList.add(MyCartData(R.drawable.offer_prod_two,"TNW - The natural wash pure gold neem oil for skin and hair (100 ml) ","₹324","476","12%","★4.2","213","12"))
-
-      //  binding.myCartProdList.adapter = MyCartAdapter(myCartDataList)
-
-
+        binding.button11.setOnClickListener {
+            it.findNavController().navigate(R.id.shipToAddressFragment)
+        }
 
         getMyCartData()
-    return binding.root
+        return binding.root
 
     }
 
@@ -52,45 +45,34 @@ lateinit var binding : FragmentMyCartBinding
             Response.Listener { response ->
 
                 try {
-                    //converting response to json object
                     val obj = JSONObject(response)
-                    //if no error in response
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-
-
-//                        if(array.length()<=0)
-//                        {
-//                            binding.textView13.visibility=View.VISIBLE
-//                            binding.lottieAnimationView.visibility=View.VISIBLE
-//                        }
-//                        else
-//                        {
-//                            binding.textView13.visibility=View.INVISIBLE
-//                            binding.lottieAnimationView.visibility=View.INVISIBLE
-//                            binding.progressBar1.visibility=View.GONE
 //
-//                        }
 
-
-
-
-
-                        for (i in (array.length()-1) downTo 0) {
+                        //   for (i in (array.length()-1) until  1) {
+                        for (i in (array.length() - 1) downTo 0) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = MyCartData(
                                 objectArtist.optString("image"),
                                 objectArtist.optString("sale"),
                                 objectArtist.optString("mrp"),
-                                objectArtist.optString("heading")
+                                objectArtist.optString("heading"),
+                                objectArtist.optString("sum")
                             )
                             myCartProdList.add(banners)
                             val adapter = MyCartAdapter(myCartProdList)
-                            binding.myCartProdList.adapter=adapter
+                            binding.myCartProdList.adapter = adapter
+                            //   binding.textView89.text = banners.myCartTotalPrice
+
                         }
                     } else {
-                        Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireActivity().applicationContext,
+                            obj.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
 
 
                     }
@@ -104,25 +86,28 @@ lateinit var binding : FragmentMyCartBinding
                 }
 
             },
-            Response.ErrorListener { error -> Toast.makeText(requireActivity().applicationContext, error.message, Toast.LENGTH_SHORT).show() }
+            Response.ErrorListener { error ->
+                Toast.makeText(
+                    requireActivity().applicationContext,
+                    error.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         ) {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["id"] = SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString().trim()
+                params["id"] =
+                    SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString()
+                        .trim()
                 return params
 
             }
         }
 
-        VolleySingleton.getInstance(requireActivity().applicationContext).addToRequestQueue(stringRequest)
-
-
-
-
+        VolleySingleton.getInstance(requireActivity().applicationContext)
+            .addToRequestQueue(stringRequest)
     }
-
-
 }
 
 

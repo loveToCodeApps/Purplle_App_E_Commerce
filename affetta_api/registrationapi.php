@@ -461,13 +461,19 @@ break;
 
 
 
-// //-------------------------------------------------------------------------------------------- 
-case 'getMyCart':  
+// //-------------------------------------------------------------------------------------------- c.status='Added in cart'
+ case 'getMyCart':  
 $id = $_POST['id'];
+// $prod_desc_id = $_POST['prod_desc_id'];
+// $prod_id = $_POST['prod_id'];
 
-    $stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1,c.quantity from cart c left JOIN products pd on pd.productid=c.productid LEFT join product_detail_description pdd on pdd.id=c.product_desc_id where c.status='Added in cart' and c.userid=? ");  
-    $stmt->bind_param("s",$id);  
-    $stmt->execute();   
+    $stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1,c.quantity from cart c left JOIN products pd on pd.productid=c.productid LEFT join product_detail_description pdd on pdd.id=c.product_desc_id where c.userid=? and c.status='Added in cart'");  
+     
+//, $prod_id,$prod_desc_id
+ //and pd.productid=? and pdd.id = ?
+   
+         $stmt->bind_param("s",$id);  
+    $stmt->execute();        
     $stmt->store_result(); 
 
   if($stmt->num_rows > 0){  
@@ -478,7 +484,7 @@ $id = $_POST['id'];
  while($stmt->fetch()){
  $temp = array(); 
  $temp['id'] = $id; 
- $temp['heading']= $name;
+ $temp['heading']= $name;   
  $temp['sale'] =$sale;
  $temp['disc']=$disc;
  $temp['mrp']=$mrp;
@@ -500,10 +506,6 @@ $id = $_POST['id'];
 //}  
 //}  
 break; 
-
-
-
-
 
 //-------------------------------------------------------------------------------------------- 
 case 'getMyWishlist':
@@ -581,59 +583,63 @@ case 'getMyOrders':
 break; 
 //-------------------------------------------------------------------------------------------- 
 case 'addToCart':  
-    if(isTheseParametersAvailable(array('id','middlename','lastname','email','phone'))){  
-    $firstname = $_POST['firstname'];   
-    $middlename = $_POST['middlename'];   
-    $lastname = $_POST['lastname'];  
-    $email = $_POST['email'];   
-    $phone = $_POST['phone'];   
+    if(isTheseParametersAvailable(array('prod_id','user_id'))){  
+    $prod_id = $_POST['prod_id'];   
+    $prod_desc_id = $_POST['prod_desc_id'];   
+    $user_id = $_POST['user_id'];
+    $unit_price = $_POST['unit_price'];
+    $total_price = $_POST['total_price'];
+    $confirm_mobile = $_POST['confirm_mobile'];
 
-    $stmt = $conn->prepare("SELECT id FROM register WHERE phone = ?");  
-    $stmt->bind_param("s", $phone);  
-    $stmt->execute();  
-    $stmt->store_result();  
-// if($stmt->mysql_insert_id();))
-    if($stmt->num_rows > 0){  
-        $response['error'] = true;  
-        $response['message'] = 'User already registered';  
-        $stmt->close();  
-    }  
-    else{  
-    $stmt = $conn->prepare("INSERT INTO register (firstname, middlename, lastname, email, phone) VALUES (?, ?, ?, ?, ?)");  
-        $stmt->bind_param("sssss", $firstname, $middlename, $lastname, $email, $phone);  
-   
-        if($stmt->execute()){  
-            $stmt = $conn->prepare("SELECT id,firstname,middlename,lastname,email,phone FROM register WHERE phone = ?");   
-            $stmt->bind_param("s",$phone);  
-            $stmt->execute();  
-            $stmt->bind_result($id, $firstname, $middlename, $lastname,$email, $phone);  
-            $stmt->fetch();  
-     
-            $user = array(  
-            'id'=>$id,   
-            'firstname'=>$firstname, 
-            'middlename'=>$middlename, 
-            'lastname'=>$lastname, 
-            'email'=>$email,  
-            'phone'=>$phone  
-            );  
-   
+// move_uploaded_file($ref_img['tmp_name'], UPLOAD_PATH . $ref_img['name']);
+        $stmt = $conn->prepare("INSERT INTO cart (productid, userid,product_desc_id,unit_price,total_price,confirm_mobile) VALUES (?, ?, ?, ?, ?, ?)");  
+        $stmt->bind_param("ssssss", $prod_id ,$user_id, $prod_desc_id,$unit_price,$total_price,$confirm_mobile);  
+
+        $stmt->execute();
             $stmt->close();  
-   
-            $response['error'] = false;   
-            $response['message'] = 'User registered successfully';   
-            $response['user'] = $user;   
-        }  
-    }  
-   
-}  
-else{  
-    $response['error'] = true;   
-    $response['message'] = 'required parameters are not available bro';   
-}  
-break; 
 
+
+
+            $response['error'] = false;   
+            $response['message'] = 'Added to cart successfully';   
+            $response['user'] = "";   
+
+        }  
+
+    
+    else{  
+        $response['error'] = true;   
+        $response['message'] = 'required parameters are not available';   
+    }  
+    break; 
 //---------------------------------------------------------------------------------------------------------------------------------
+case 'addToWishList':  
+    if(isTheseParametersAvailable(array('prod_id','user_id'))){  
+    $prod_id = $_POST['prod_id'];   
+    $user_id = $_POST['user_id'];   
+// move_uploaded_file($ref_img['tmp_name'], UPLOAD_PATH . $ref_img['name']);
+        $stmt = $conn->prepare("INSERT INTO wishlist (productid, userid) VALUES (?, ?)");  
+        $stmt->bind_param("ss", $prod_id , $user_id);  
+
+        $stmt->execute();
+            $stmt->close();  
+
+
+
+            $response['error'] = false;   
+            $response['message'] = 'Added to wishlist successfully';   
+            $response['user'] = "";   
+
+        }  
+
+    
+    else{  
+        $response['error'] = true;   
+        $response['message'] = 'required parameters are not available';   
+    }  
+    break; 
+
+//-----------------------------------------------------------------------------------------------------------------------------------    
 case 'getParticularCategoryProducts' :  
 $category = $_POST['category'];   
 $stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category=? ");  
@@ -674,6 +680,139 @@ $stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale
 break; 
 
    //---------------------------------------------------------------------------------
+
+case 'getParticularBrandProducts' :  
+$brand = $_POST['brand'];   
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.dressmadefor=? ");  
+   
+    $stmt->bind_param("s",$brand);  
+    $stmt->execute();  
+    $stmt->store_result(); 
+
+    if($stmt->num_rows > 0){  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->fetch();
+
+ $banner_data = array();
+ 
+ while($stmt->fetch()){
+ $temp = array(); 
+ $temp['id'] = $id; 
+ $temp['heading']= $name;
+ $temp['sale'] =$sale;
+ $temp['disc']=$disc;
+ $temp['mrp']=$mrp;
+  $temp['image'] =IMGPATH.$image ;
+
+ 
+ array_push($banner_data, $temp);
+ }
+   
+    $response['error'] = false;   
+    $response['message'] = 'Particular Brand products Fetch successfull';   
+    $response['user'] = $banner_data;   
+ }  
+ else{  
+    $response['error'] = false;   
+    $response['message'] = 'Invalid id';  
+ }  
+//}  
+//}  
+break; 
+
+   //------------------------------------------------------------------------------------------------------------------------------
+
+
+//when we click on any product this page will open up.
+case 'getProductDetailDescription':  
+
+  //if(isTheseParametersAvailable(array('id'))){  
+    $id = $_POST['id'];  
+
+   
+    $stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.image1,pd.image2 , pd.image3 , pd.image4 , pd.image5 , pd.image6 , pdd.item_desc , pdd.id from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.productid=? ");  
+    $stmt->bind_param("s",$id);  
+    $stmt->execute();  
+    $stmt->store_result(); 
+
+    if($stmt->num_rows > 0){  
+    $stmt->bind_result($id, $heading,$mrp,$sale, $image1, $image2,$image3,$image4,$image5,$image6,$disc,$prod_desc_id);  
+    $stmt->fetch();  
+    $user = array(  
+    'id'=>$id,   
+    'heading'=>$heading,  
+    'sale'=>$sale,  
+    'disc'=>$disc,   
+    'mrp'=>$mrp,  
+    'image1'=>IMGPATH.$image1,
+    'image2'=>IMGPATH.$image2,
+    'image3'=>IMGPATH.$image3,
+    'image4'=>IMGPATH.$image4,
+    'image5'=>IMGPATH.$image5,
+    'image6'=>IMGPATH.$image6,
+ 
+    'prod_desc_id'=>$prod_desc_id
+
+
+    );  
+   
+    $response['error'] = false;   
+    $response['message'] = 'Product description fetch successfull';   
+    $response['user'] = $user;   
+ }  
+ else{  
+    $response['error'] = false;   
+    $response['message'] = 'Invalid id';  
+ }  
+//}  
+break;   
+//-----------------------------------------------------------------------------------------------
+case 'editMyProfile':  
+
+
+if(isTheseParametersAvailable(array('first_name','last_name','email','user_id','full_name','shipping_state','shipping_city','shipping_zipcode','shipping_whatsappno','billing_whatsappno'))){ 
+    $first_name = $_POST['first_name'];    
+    $last_name = $_POST['last_name']; 
+    $email = $_POST['email']; 
+    $user_id = $_POST['user_id']; 
+    $shipping_state = $_POST['shipping_state']; 
+    $shipping_city = $_POST['shipping_city']; 
+    $shipping_zipcode = $_POST['shipping_zipcode']; 
+    $shipping_whatsappno = $_POST['shipping_whatsappno']; 
+    $billing_whatsappno = $_POST['billing_whatsappno']; 
+    $full_name = $_POST['full_name']; 
+
+
+
+   
+
+
+    
+    $stmt = $conn->prepare("UPDATE register SET firstname=?, lastname=?,email=?,fullname=?,shipping_state=?,shipping_city=?,shipping_zipcode=?,shipping_whatsappno=?,billing_whatsappno=?
+      where id = ? ");
+    $stmt->bind_param("ssssssssss", $first_name,$last_name,$email,$full_name,$shipping_state,$shipping_city,$shipping_zipcode,$shipping_whatsappno,$billing_whatsappno,$user_id);  
+    $stmt->execute();  
+    
+     $stmt->close();   
+
+     $response['error'] = false;   
+     $response['message'] = 'Your Profile edited successfully';   
+             // $response['user'] = ;   
+
+ }  
+
+
+else{  
+    $response['error'] = true;   
+    $response['message'] = 'required parameters are not available';   
+}  
+break; 
+
+
+//------------------------------------------------------------------------------------------------
+
+
+//-------------------------------------------------------------------------------------------------
 default:   
  $response['error'] = true;   
  $response['message'] = 'Invalid Operation Called';  

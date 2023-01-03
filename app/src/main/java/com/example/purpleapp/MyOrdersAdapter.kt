@@ -21,13 +21,13 @@ class MyOrdersAdapter(val data : List<MyOrdersData>):Adapter<MyOrdersViewHolder>
     override fun onBindViewHolder(holder: MyOrdersViewHolder, position: Int) {
         val item = data[position]
         holder.img.setImageResource(item.myOrdersProdImg)
-        holder.price.text=item.myOrdersProdPrice
-        holder.cutPrice.text=item.myOrdersProdCutPrice
-        holder.discount.text=item.myOrdersProdDiscount
-        holder.heading.text=item.myOrdersProDesc
-        holder.rate.text=item.myOrdersProdRating
-        holder.reviews.text=item.myOrdersProdReviewNo
-        holder.likes.text=item.myOrdersProdLikes
+//        holder.price.text=item.myOrdersProdPrice
+//        holder.cutPrice.text=item.myOrdersProdCutPrice
+//        holder.discount.text=item.myOrdersProdDiscount
+//        holder.heading.text=item.myOrdersProDesc
+//        holder.rate.text=item.myOrdersProdRating
+//        holder.reviews.text=item.myOrdersProdReviewNo
+//        holder.likes.text=item.myOrdersProdLikes
     }
 
     override fun getItemCount() = data.size
@@ -38,12 +38,12 @@ class MyOrdersAdapter(val data : List<MyOrdersData>):Adapter<MyOrdersViewHolder>
 class MyOrdersViewHolder(itemView: View):ViewHolder(itemView)
 {
     val img: ImageView = itemView.findViewById(R.id.imageView35)
-    val heading: TextView = itemView.findViewById(R.id.textView88)
-    val price: TextView =itemView.findViewById(R.id.textView89)
-    val cutPrice: TextView =itemView.findViewById(R.id.textView90)
-    val discount: TextView =itemView.findViewById(R.id.textView91)
-    val rate : Button =itemView.findViewById(R.id.button12)
-    val reviews: TextView =itemView.findViewById(R.id.textView94)
-    val likes: TextView =itemView.findViewById(R.id.textView92)
+    //val heading: TextView = itemView.findViewById(R.id.textView88)
+  //  val price: TextView =itemView.findViewById(R.id.textView89)
+//    val cutPrice: TextView =itemView.findViewById(R.id.textView90)
+  //  val discount: TextView =itemView.findViewById(R.id.textView91)
+   // val rate : Button =itemView.findViewById(R.id.button12)
+  ////  val reviews: TextView =itemView.findViewById(R.id.textView94)
+ //   val likes: TextView =itemView.findViewById(R.id.textView92)
 
 }

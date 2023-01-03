@@ -5,5 +5,7 @@ data class DealsData(
     var sale:String,
     var disc:String,
     var mrp:String,
-    var image: String
+    var image: String,
+    var id : String
+
 )

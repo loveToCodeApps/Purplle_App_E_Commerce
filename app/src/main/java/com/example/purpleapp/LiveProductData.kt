@@ -2,5 +2,6 @@ package com.example.purpleapp
 
 data class LiveProductData(
     var product_price:String,
-    var product_image: Int
+    var product_image: String,
+    var id : String
 )

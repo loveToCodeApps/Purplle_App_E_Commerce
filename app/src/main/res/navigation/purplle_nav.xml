@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_homeFragment_to_productDescriptionFragment"
             app:destination="@id/productDescriptionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_brandAllProductsFragment"
+            app:destination="@id/brandAllProductsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoryHomeAllProductsFragment"
+            app:destination="@id/categoryHomeAllProductsFragment" />
     </fragment>
     <fragment
         android:id="@+id/myCartFragment"
@@ -52,8 +58,8 @@
             android:id="@+id/deepLink"
             app:uri="https://www.afeta.com/prod" />
         <argument
-            android:name="oldProductData"
-            app:argType="com.example.purpleapp.OfferProductData" />
+            android:name="prodId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/privacyPolicyFragment"
@@ -97,11 +103,11 @@
             android:id="@+id/action_myProfileFragment_to_wishlistFragment"
             app:destination="@id/wishlistFragment" />
         <action
-            android:id="@+id/action_myProfileFragment_to_myCartFragment"
-            app:destination="@id/myOrdersFragment" />
-        <action
             android:id="@+id/action_myProfileFragment_to_customerSupportFragment"
             app:destination="@id/customerSupportFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_myOrdersFragment"
+            app:destination="@id/myOrdersFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -121,6 +127,43 @@
         <argument
             android:name="categ_name"
             app:argType="string" />
+        <action
+            android:id="@+id/action_categoryAllProductsFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/brandAllProductsFragment"
+        android:name="com.example.purpleapp.BrandAllProductsFragment"
+        android:label="Bands Products"
+        tools:layout="@layout/fragment_brand_all_products">
+        <argument
+            android:name="brandName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_brandAllProductsFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryHomeAllProductsFragment"
+        android:name="com.example.purpleapp.CategoryHomeAllProductsFragment"
+        android:label="Category Products"
+        tools:layout="@layout/fragment_category_home_all_products">
+        <argument
+            android:name="categoryName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_categoryHomeAllProductsFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shipToAddressFragment"
+        android:name="com.example.purpleapp.ShipToAddressFragment"
+        android:label="Address"
+        tools:layout="@layout/fragment_ship_to_address" />
+    <fragment
+        android:id="@+id/editAddressFragment"
+        android:name="com.example.purpleapp.EditAddressFragment"
+        android:label="fragment_edit_address"
+        tools:layout="@layout/fragment_edit_address" />
 </navigation>
 

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.graphics.drawable.toDrawable
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -23,6 +24,10 @@ class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>
 
         val item = cate[position]
         Picasso.get().load(item.image).into(holder.headImg)
+        holder.headImg.setOnClickListener {
+            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCategoryHomeAllProductsFragment(item.heading))
+
+        }
     }
 
     override fun getItemCount():Int = cate.size

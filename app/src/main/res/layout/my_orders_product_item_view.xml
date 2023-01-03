@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_margin="8dp"
     app:cardBackgroundColor="#FFFFFF"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="4dp"
+    app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,140 +15,123 @@
 
         <ImageView
             android:id="@+id/imageView35"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView12"
             app:srcCompat="@drawable/offer_prod_four" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F1E9EA">
+
+                <TextView
+                    android:id="@+id/textView111"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Order ID"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView112"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Order Date"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView111"
+                    app:layout_constraintStart_toEndOf="@+id/textView113"
+                    app:layout_constraintTop_toTopOf="@+id/textView111" />
+
+                <Button
+                    android:id="@+id/button10"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="View Order"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView112"
+                    app:strokeColor="#F78195" />
+
+                <TextView
+                    android:id="@+id/textView113"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="31049290"
+                    android:textColor="#000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/textView111"
+                    app:layout_constraintStart_toStartOf="@+id/textView111"
+                    app:layout_constraintTop_toBottomOf="@+id/textView111" />
+
+                <TextView
+                    android:id="@+id/textView114"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="sat , 24 Dec 2022"
+                    android:textColor="#000000"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView113"
+                    app:layout_constraintStart_toStartOf="@+id/textView112"
+                    app:layout_constraintTop_toBottomOf="@+id/textView112" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView115"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Arriving by"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView35" />
+
+        <TextView
+            android:id="@+id/textView116"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="December 25 , 2022"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView115"
+            app:layout_constraintStart_toEndOf="@+id/textView115"
+            app:layout_constraintTop_toTopOf="@+id/textView115"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textView88"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:padding="4dp"
-            android:text="TNW - The natural wash pure gold neem oil for skin and hair (100 ml) "
-            android:textColor="#F78195"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView35"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView89"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:text="₹199"
-            android:textColor="#DF2E4C"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView35"
-            app:layout_constraintTop_toBottomOf="@+id/textView88" />
-
-        <TextView
-            android:id="@+id/textView90"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="249"
-            android:textColor="#9E9B9B"
-            app:layout_constraintBottom_toBottomOf="@+id/textView89"
-            app:layout_constraintStart_toEndOf="@+id/textView89"
-            app:layout_constraintTop_toTopOf="@+id/textView89" />
-
-        <TextView
-            android:id="@+id/textView91"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="17% off"
-            android:textColor="#F78195"
-            app:layout_constraintBottom_toBottomOf="@+id/textView90"
-            app:layout_constraintStart_toEndOf="@+id/textView90"
-            app:layout_constraintTop_toTopOf="@+id/textView90" />
-
-        <ImageView
-            android:id="@+id/imageView36"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
-            android:tint="#F78195"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView30"
-            app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
-
-        <TextView
-            android:id="@+id/textView92"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="1002"
-            android:textColor="#F78195"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView36"
-            app:layout_constraintStart_toEndOf="@+id/imageView36"
-            app:layout_constraintTop_toTopOf="@+id/imageView36" />
-
-        <TextView
-            android:id="@+id/textView93"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="IN YOUR CART"
-            android:textColor="#F78195"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView35" />
-
-        <Button
-            android:id="@+id/button12"
-            android:layout_width="65dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:text="★4.1"
-            android:textSize="12sp"
+            android:background="@drawable/pink_button_back"
+            android:padding="5dp"
+            android:text="Preparing"
             android:textStyle="bold"
-            app:backgroundTint="#FFAB40"
-            app:cornerRadius="20dp"
-            app:layout_constraintStart_toEndOf="@+id/imageView35"
-            app:layout_constraintTop_toBottomOf="@+id/textView89" />
-
-        <ImageView
-            android:id="@+id/imageView37"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:tint="#F78195"
-            app:layout_constraintBottom_toBottomOf="@+id/textView92"
-            app:layout_constraintStart_toEndOf="@+id/textView92"
-            app:layout_constraintTop_toBottomOf="@+id/imageView35"
-            app:srcCompat="@drawable/ic_baseline_share_24" />
-
-        <ImageView
-            android:id="@+id/imageView38"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:tint="#F78195"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView37"
-            app:layout_constraintStart_toEndOf="@+id/imageView37"
-            app:layout_constraintTop_toTopOf="@+id/imageView37"
-            app:srcCompat="@drawable/ic_baseline_delete_24" />
-
-        <TextView
-            android:id="@+id/textView94"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="(160)"
-            android:textColor="#BCBABA"
-            app:layout_constraintBottom_toBottomOf="@+id/button12"
-            app:layout_constraintStart_toEndOf="@+id/button12"
-            app:layout_constraintTop_toTopOf="@+id/button12" />
+            app:layout_constraintBottom_toBottomOf="@+id/textView115"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

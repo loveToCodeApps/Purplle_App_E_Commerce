@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.squareup.picasso.Picasso
@@ -21,6 +22,10 @@ class BrandProductAdapter(val data : List<BrandProductData>):Adapter<BrandProduc
         val item = data[position]
         holder.heading.text = item.brand
         Picasso.get().load(item.img).into(holder.imge)
+
+        holder.imge.setOnClickListener {
+            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToBrandAllProductsFragment(item.brand))
+        }
       //  holder.discountInfo.text = item.discount
     }
 

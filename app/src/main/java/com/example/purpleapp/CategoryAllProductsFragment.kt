@@ -14,6 +14,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.api.URLs
 import com.example.purpleapp.api.VolleySingleton
 import com.example.purpleapp.databinding.FragmentCategoryAllProductsBinding
@@ -52,50 +53,49 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_all_produc
             Response.Listener { response ->
 
                 try {
-
-                    val obj = JSONObject()
+                    val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 until array.length()) {
+//
+
+                        //   for (i in (array.length()-1) until  1) {
+                        for (i in 0 until array.length() + 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = CategoryAllProductsData(
-                                objectArtist.getString("heading"),
-                                objectArtist.getString("sale"),
-                                objectArtist.getString("mrp"),
-                                objectArtist.getString("image")
+                                objectArtist.optString("heading"),
+                                objectArtist.optString("sale"),
+                                objectArtist.optString("mrp"),
+                                objectArtist.optString("image"),
+                                objectArtist.optString("id")
                             )
-
                             categorList.add(banners)
                             val adapter = CategoryAllProductsAdapter(categorList)
-                            binding.categoryAllProductsList.adapter = adapter
+                            binding.categoryAllProductsList.adapter=adapter
                         }
                     } else {
-                        Toast.makeText(
-                            requireContext(),
-                            obj.getString("message"),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
 
 
                     }
+
                 } catch (e: JSONException) {
                     e.printStackTrace()
+//                    binding.textView13.visibility=View.VISIBLE
+//                    binding.lottieAnimationView.visibility=View.VISIBLE
+//                    binding.progressBar1.visibility=View.GONE
+
                 }
+
             },
-            Response.ErrorListener { error ->
-                Toast.makeText(
-                    requireActivity().applicationContext,
-                    error.message,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }) {
+            Response.ErrorListener { error -> Toast.makeText(requireActivity().applicationContext, error.message, Toast.LENGTH_SHORT).show() }
+        ) {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
                 params["category"] = category
-
                 return params
+
             }
         }
 

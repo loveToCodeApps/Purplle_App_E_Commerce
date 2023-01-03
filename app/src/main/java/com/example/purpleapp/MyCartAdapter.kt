@@ -21,17 +21,30 @@ class MyCartAdapter(val data : List<MyCartData>):Adapter<MyCartViewHolder>()
 
     override fun onBindViewHolder(holder: MyCartViewHolder, position: Int) {
         val item = data[position]
+        var quantity = 1
         Picasso.get().load(item.myCartProdImg).into(holder.img)
-        holder.price.text=item.myCartProdNewPrice
+        holder.price.text="₹"+item.myCartProdNewPrice
         holder.cutPrice.text=item.myCartProdOrgPrice
-      //  holder.discount.text=item.myCartProdDiscount
         holder.heading.text=item.myCartProdHeading
-//        holder.rate.text=item.myCartProdRating
-//        holder.reviews.text=item.myCartProdReviewNo
-//        holder.likes.text=item.myCartProdLikes
+
+        //plus button
+        holder.plusBtn.setOnClickListener {
+            quantity = quantity + 1
+            holder.Qty.text = quantity.toString()
+        }
+
+        //minus button
+        holder.minusBtn.setOnClickListener {
+            quantity = quantity - 1
+            holder.Qty.text = quantity.toString()
+        }
+
+
     }
 
+
     override fun getItemCount() = data.size
+
 
 
 }
@@ -42,7 +55,16 @@ class MyCartViewHolder(itemView: View):ViewHolder(itemView)
     val heading: TextView = itemView.findViewById(R.id.textView96)
     val price: TextView =itemView.findViewById(R.id.textView97)
     val cutPrice: TextView =itemView.findViewById(R.id.textView104)
-   // val discount: TextView =itemView.findViewById(R.id.textView)
+    val plusBtn: TextView =itemView.findViewById(R.id.textView4)
+    val minusBtn: TextView =itemView.findViewById(R.id.textView109)
+    val Qty: TextView =itemView.findViewById(R.id.textView101)
+//    val total_price: TextView =itemView.findViewById(R.id.textView89)
+
+
+
+
+
+    // val discount: TextView =itemView.findViewById(R.id.textView)
   //  val rate : Button =itemView.findViewById(R.id.button14)
    // val reviews: TextView =itemView.findViewById(R.id.textView102)
   //  val likes: TextView =itemView.findViewById(R.id.textView100)

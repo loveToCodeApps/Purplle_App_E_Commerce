@@ -119,10 +119,12 @@ class HomeFragment : Fragment() {
                                 objectArtist.getString("sale"),
                                 objectArtist.getString("disc"),
                                 objectArtist.getString("mrp"),
-                                objectArtist.getString("image")
+                                objectArtist.getString("image"),
+                                objectArtist.getString("id")
 
 
-                            )
+
+                                )
                             newArrivalsList.add(banners)
                             val adapter = NewArrivalsAdapter(newArrivalsList)
                             binding.newArrivalsList.adapter = adapter
@@ -170,7 +172,8 @@ class HomeFragment : Fragment() {
                                 objectArtist.getString("sale"),
                                 objectArtist.getString("disc"),
                                 objectArtist.getString("mrp"),
-                                objectArtist.getString("image")
+                                objectArtist.getString("image"),
+                                objectArtist.getString("id")
 
 
                             )
@@ -224,7 +227,8 @@ class HomeFragment : Fragment() {
                                         objectArtist.getString("sale"),
                                 objectArtist.getString("disc"),
                                 objectArtist.getString("mrp"),
-                                objectArtist.getString("image")
+                                objectArtist.getString("image"),
+                                objectArtist.getString("id")
 
 
                                 )
@@ -410,7 +414,8 @@ class HomeFragment : Fragment() {
                         for (i in 2 until array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = CategoryData(
-                                objectArtist.getString("url")
+                                objectArtist.getString("url"),
+                                objectArtist.getString("heading")
                             )
                             categoryList.add(banners)
                             val adapter = CategoryAdapter(categoryList)

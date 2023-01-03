@@ -1,8 +1,10 @@
 package com.example.purpleapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -74,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                     .navigate(R.id.brandFragment)
                 R.id.offerFragment -> findNavController(R.id.purplleNavHost)
                     .navigate(R.id.offerFragment)
+
             }
             true
         }
@@ -169,6 +172,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("RtlHardcoded")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 
@@ -188,7 +192,9 @@ class MainActivity : AppCompatActivity() {
                 findNavController(R.id.purplleNavHost)
                     .navigate(R.id.myProfileFragment)
             }
-
+            android.R.id.home->{
+                binding.myDrawer.openDrawer(Gravity.LEFT)
+            }
 
 
         }
@@ -203,6 +209,11 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+
+
+
+
+
 
 
 

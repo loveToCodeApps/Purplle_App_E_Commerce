@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.squareup.picasso.Picasso
 
 class ProductDescriptionAdapter(val data : List<ProductImageData>):Adapter<ProductDescriptionViewHolder>()
 {
@@ -17,7 +18,8 @@ class ProductDescriptionAdapter(val data : List<ProductImageData>):Adapter<Produ
 
     override fun onBindViewHolder(holder: ProductDescriptionViewHolder, position: Int) {
        val item = data[position]
-       holder.img.setImageResource(item.producImage)
+        Picasso.get().load(item.producImage).into(holder.img)
+
     }
 
     override fun getItemCount() = data.size
