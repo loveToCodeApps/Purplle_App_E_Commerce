@@ -46,10 +46,4 @@
         android:title="My Cart"
         app:iconTint="#ffffff"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/productDescriptionFragment"
-        android:icon="@drawable/ic_baseline_favorite_border_24"
-        android:title="prouct info"
-        app:showAsAction="ifRoom"
-        app:iconTint="#ffffff"/>
 </menu>

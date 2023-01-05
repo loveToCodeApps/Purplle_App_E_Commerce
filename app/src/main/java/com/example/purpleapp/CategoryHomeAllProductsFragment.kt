@@ -39,6 +39,7 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_home_all_p
 
         val args = CategoryHomeAllProductsFragmentArgs.fromBundle(requireArguments())
         val category = args.categoryName
+        binding.textView129.text = category
 
         val stringRequest = object : StringRequest(
             Request.Method.POST, URLs.URL_GET_PARTICULAR_CATEGORY_PRODUCTS,

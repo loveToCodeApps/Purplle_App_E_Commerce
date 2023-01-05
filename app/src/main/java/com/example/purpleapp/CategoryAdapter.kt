@@ -1,10 +1,12 @@
 package com.example.purpleapp
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.drawable.toDrawable
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +30,17 @@ class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>
             it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCategoryHomeAllProductsFragment(item.heading))
 
         }
+        if (item.img_name=="0" || item.img_name=="null")
+        {
+            holder.img_name.text = item.heading
+            holder.background.setBackgroundColor(Color.parseColor("#ff4646"))
+            holder.img_name.visibility=View.VISIBLE
+
+        }
+        else
+        {
+            holder.img_name.visibility=View.GONE
+        }
     }
 
     override fun getItemCount():Int = cate.size
@@ -37,4 +50,21 @@ class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>
 class MyCategoryViewHolder(itemView: View) : ViewHolder(itemView)
 {
 val headImg:ImageView = itemView.findViewById(R.id.category_img)
+val img_name:TextView = itemView.findViewById(R.id.textView128)
+val background:ConstraintLayout = itemView.findViewById(R.id.categoryItemViewConstraintLayout)
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+

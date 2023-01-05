@@ -9,8 +9,8 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_height="235dp"
+        android:layout_margin="5dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="6dp">
 
@@ -32,16 +32,17 @@
             <TextView
                 android:id="@+id/categoHomeprodfirst"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="2dp"
-                android:gravity="center"
+                android:gravity="center|top"
                 android:padding="2dp"
                 android:text="NY Bae pretty pastels nail paint | Glossy Finish | Chip Resistant Cruelity free"
                 android:textColor="#000000"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textStyle="normal"
+                app:layout_constraintBottom_toTopOf="@+id/categoHomeprodsecond"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/categoHomeprodimg" />
@@ -51,41 +52,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:fontFamily="@font/alata"
                 android:padding="2dp"
                 android:text="₹123"
                 android:textColor="#000000"
                 android:textSize="13sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/categoHomeprodfirst" />
+                app:layout_constraintBottom_toTopOf="@+id/textHomeView105"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/openHomeProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
-                android:text="SEE PRODUCT .."
+                android:text="VIEW PRODUCT .."
                 android:textColor="#FF4081"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textHomeView107" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/textHomeView105"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/ratings_back"
                 android:paddingLeft="3dp"
                 android:paddingRight="3dp"
                 android:text="4.3 ★"
                 android:textColor="#FFFFFF"
                 android:textSize="10sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/categoHomeprodsecond" />
+                app:layout_constraintBottom_toTopOf="@+id/openHomeProduct"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/textHomeView106"
@@ -98,18 +99,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/textHomeView105"
                 app:layout_constraintStart_toEndOf="@+id/textHomeView105"
-                app:layout_constraintTop_toBottomOf="@+id/categoHomeprodsecond" />
-
-            <TextView
-                android:id="@+id/textHomeView107"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="5ml"
-                android:textSize="9sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textHomeView105" />
+                app:layout_constraintTop_toTopOf="@+id/textHomeView105" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

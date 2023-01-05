@@ -42,6 +42,7 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_brand_all_products,
 
         val args = BrandAllProductsFragmentArgs.fromBundle(requireArguments())
         val brand = args.brandName
+        binding.textView130.text = brand
 
         val stringRequest = object : StringRequest(
             Request.Method.POST, URLs.URL_GET_PARTICULAR_BRAND_PRODUCTS,

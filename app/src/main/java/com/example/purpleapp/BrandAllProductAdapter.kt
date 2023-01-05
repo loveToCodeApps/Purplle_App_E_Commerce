@@ -49,6 +49,7 @@ class BrandAllProductsViewHolder(itemView: View):ViewHolder(itemView)
     val mrp:TextView = itemView.findViewById(R.id.brandsprodsecond)
     val openProd:TextView = itemView.findViewById(R.id.brandsopenProduct)
 
+
     //  val sale:TextView = itemView.findViewById(R.id.categprodsecond)
 //    val discount:TextView = itemView.findViewById(R.id.offerProdFourth)
 

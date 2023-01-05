@@ -1,5 +1,7 @@
 package com.example.purpleapp
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -25,6 +27,55 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+
+        if (checkConnection(requireContext())) {
+            binding.animationView.visibility = View.GONE
+            binding.textView103.visibility=View.VISIBLE
+            binding.categoryList.visibility = View.VISIBLE
+            binding.textView95.visibility= View.VISIBLE
+            binding.textView2.visibility= View.VISIBLE
+            binding.textView3.visibility= View.VISIBLE
+            binding.textView87.visibility= View.VISIBLE
+            binding.textView98.visibility= View.VISIBLE
+            binding.textView99.visibility= View.VISIBLE
+            binding.comboOffersList.visibility= View.VISIBLE
+            binding.productList.visibility= View.VISIBLE
+            binding.offerProductList.visibility= View.VISIBLE
+            binding.newArrivalsList.visibility= View.VISIBLE
+            binding.liveProductList.visibility= View.VISIBLE
+            binding.dicountbannerList.visibility= View.VISIBLE
+            binding.brandProductCategoryList.visibility= View.VISIBLE
+            binding.vertcalBannerList.visibility= View.VISIBLE
+            binding.gifImageView.visibility = View.VISIBLE
+//
+//
+        }
+        else
+        {
+            Toast.makeText(requireContext(),"Bad Connection",Toast.LENGTH_SHORT).show()
+          binding.animationView.visibility = View.VISIBLE
+            binding.textView103.visibility=View.GONE
+          binding.categoryList.visibility = View.GONE
+          binding.textView95.visibility= View.GONE
+          binding.textView2.visibility= View.GONE
+          binding.textView3.visibility= View.GONE
+            binding.textView87.visibility= View.GONE
+            binding.textView98.visibility= View.GONE
+            binding.textView99.visibility= View.GONE
+            binding.comboOffersList.visibility= View.GONE
+            binding.productList.visibility= View.GONE
+            binding.offerProductList.visibility= View.GONE
+            binding.newArrivalsList.visibility= View.GONE
+            binding.liveProductList.visibility= View.GONE
+            binding.dicountbannerList.visibility= View.GONE
+            binding.brandProductCategoryList.visibility= View.GONE
+            binding.vertcalBannerList.visibility= View.GONE
+            binding.gifImageView.visibility = View.GONE
+
+
+
+        }
+
 
         //categories here
         getCategories()
@@ -112,7 +163,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 until array.length()) {
+                        for (i in 0 .. array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = NewArrivalsData(
                                 objectArtist.getString("heading"),
@@ -165,7 +216,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 until array.length()) {
+                        for (i in 0 .. array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = DealsData(
                                 objectArtist.getString("heading"),
@@ -220,7 +271,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 until array.length()) {
+                        for (i in 0..array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ComboOffersData(
                                 objectArtist.getString("heading"),
@@ -273,7 +324,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 2 until array.length() - 1) {
+                        for (i in 0 .. array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BrandProductData(
                                 objectArtist.getString("url"),
@@ -318,7 +369,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 until array.length() + 1) {
+                        for (i in 0 ..array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BannerDiscountData(
                                 objectArtist.getString("url")
@@ -362,7 +413,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 2 until array.length() - 1) {
+                        for (i in 0.. array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = OfferProductData(
                                 objectArtist.getString("id"),
@@ -411,12 +462,13 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 2 until array.length() - 1) {
+                        for (i in 0..array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = CategoryData(
                                 objectArtist.getString("url"),
-                                objectArtist.getString("heading")
-                            )
+                                objectArtist.getString("heading"),
+                                objectArtist.getString("img_name")
+                                )
                             categoryList.add(banners)
                             val adapter = CategoryAdapter(categoryList)
                             binding.categoryList.adapter = adapter
@@ -456,7 +508,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 until array.length()) {
+                        for (i in 0 .. array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ProductData(
                                 objectArtist.getString("url")
@@ -503,5 +555,21 @@ class HomeFragment : Fragment() {
         ) || super.onOptionsItemSelected(item)
     }
     //---------------------------------------------------------------------------------
+
+// Check internet connectivity
+fun checkConnection(context: Context): Boolean {
+    val connMgr = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (connMgr != null) {
+        val activeNetworkInfo = connMgr.activeNetworkInfo
+        if (activeNetworkInfo != null) { // connected to the internet
+            // connected to the mobile provider's data plan
+            return if (activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI) {
+                // connected to wifi
+                true
+            } else activeNetworkInfo.type == ConnectivityManager.TYPE_MOBILE
+        }
+    }
+    return false
+}
 
 }

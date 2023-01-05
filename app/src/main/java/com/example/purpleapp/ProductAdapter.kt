@@ -47,7 +47,6 @@ Picasso.get().load(item.url).into(holder.img)
 class MyProductViewHolder(itemView: View):ViewHolder(itemView)
 {
     val img:ImageView = itemView.findViewById(R.id.offerForYouImg)
-    val first:TextView = itemView.findViewById(R.id.offerForYouFirst)
-    val second:TextView = itemView.findViewById(R.id.offerForYouSecond)
+
 }
 

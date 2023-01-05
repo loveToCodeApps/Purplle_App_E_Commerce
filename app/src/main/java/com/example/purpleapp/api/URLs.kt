@@ -1,7 +1,9 @@
 package com.example.purpleapp.api
 
 object URLs {
-        private val ROOT_URL = "http://192.168.0.102/affetta_api/registrationapi.php?apicall="
+       private val ROOT_URL = "https://affetta.com/affetta_api/registrationapi.php?apicall="
+       // private val ROOT_URL = "http://192.168.0.105/affetta_api/registrationapi.php?apicall="
+
         val URL_REGISTER = ROOT_URL + "signup"
         val URL_LOGIN = ROOT_URL + "login"
         val URL_GET_BANNER = ROOT_URL + "bannerAds"
@@ -21,9 +23,6 @@ object URLs {
         val URL_GET_PRODUCT_DETAILED_DESCRIPTION = ROOT_URL + "getProductDetailDescription"
         val URL_ADD_TO_WISH_LIST = ROOT_URL + "addToWishList"
         val URL_EDIT_PROFILE = ROOT_URL + "editMyProfile"
-
-
-
 
 }
 

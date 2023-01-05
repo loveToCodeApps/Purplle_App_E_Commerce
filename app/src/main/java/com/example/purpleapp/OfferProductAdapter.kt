@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -26,7 +27,7 @@ class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<Offer
 //        holder.discount.text = item.disc
         Picasso.get().load(item.image1).into(holder.img)
 
-        holder.openProduct.setOnClickListener {
+        holder.constraint.setOnClickListener {
                     it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDescriptionFragment(item.id))
         }
 
@@ -47,6 +48,7 @@ class OfferProductViewHolder(itemView: View):ViewHolder(itemView)
     val mrp:TextView = itemView.findViewById(R.id.offerProdThird)
     val sale:TextView = itemView.findViewById(R.id.categprodsecond)
     val openProduct:TextView = itemView.findViewById(R.id.textView4NewArrival)
+    val constraint:ConstraintLayout = itemView.findViewById(R.id.featuredConstraint)
 //    val discount:TextView = itemView.findViewById(R.id.offerProdFourth)
 
 }

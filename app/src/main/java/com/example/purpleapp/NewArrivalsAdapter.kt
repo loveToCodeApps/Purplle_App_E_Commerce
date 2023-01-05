@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -28,7 +29,7 @@ class NewArrivalsAdapter(val data: MutableList<NewArrivalsData>):
         holder.mrp.text = "₹"+item.mrp
 //        holder.discount.text = item.disc
         Picasso.get().load(item.image).into(holder.img)
-        holder.open.setOnClickListener {
+        holder.constraint.setOnClickListener {
             it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDescriptionFragment(item.id))
         }
 
@@ -43,6 +44,7 @@ class NewArrivalsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
     val mrp: TextView = itemView.findViewById(R.id.newArrivalThird)
     val sale: TextView = itemView.findViewById(R.id.newArrivalsecond)
     val open: TextView = itemView.findViewById(R.id.newArrivalOpen)
+    val constraint:ConstraintLayout = itemView.findViewById(R.id.newArrivalsConstraint)
 
 //    val discount:TextView = itemView.findViewById(R.id.offerProdFourth)
 

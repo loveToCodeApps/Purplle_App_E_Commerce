@@ -165,5 +165,10 @@
         android:name="com.example.purpleapp.EditAddressFragment"
         android:label="fragment_edit_address"
         tools:layout="@layout/fragment_edit_address" />
+    <fragment
+        android:id="@+id/viewAllFragment"
+        android:name="com.example.purpleapp.ViewAllFragment"
+        android:label="fragment_view_all"
+        tools:layout="@layout/fragment_view_all" />
 </navigation>
 
