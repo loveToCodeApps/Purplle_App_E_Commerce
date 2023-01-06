@@ -3,6 +3,7 @@ package com.example.purpleapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -30,6 +31,9 @@ class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<Offer
         holder.constraint.setOnClickListener {
                     it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDescriptionFragment(item.id))
         }
+        holder.openProduct.setOnClickListener {
+            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDescriptionFragment(item.id))
+        }
 
 
     }
@@ -47,7 +51,7 @@ class OfferProductViewHolder(itemView: View):ViewHolder(itemView)
     val title:TextView = itemView.findViewById(R.id.categprodfirst)
     val mrp:TextView = itemView.findViewById(R.id.offerProdThird)
     val sale:TextView = itemView.findViewById(R.id.categprodsecond)
-    val openProduct:TextView = itemView.findViewById(R.id.textView4NewArrival)
+    val openProduct:Button = itemView.findViewById(R.id.textView4comboas)
     val constraint:ConstraintLayout = itemView.findViewById(R.id.featuredConstraint)
 //    val discount:TextView = itemView.findViewById(R.id.offerProdFourth)
 

@@ -3,9 +3,11 @@ package com.example.purpleapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -25,17 +27,22 @@ class CategoryHomeAllProductsAdapter(val data: MutableList<CategoryHomeAllProduc
         val item = data[position]
         holder.title.text = item.heading
         // holder.sale.text = "₹"+item.sale
-        holder.mrp.text = "₹"+item.mrp
+        holder.mrp.text = "₹"+item.sale
+        holder.sale.text = "₹"+item.mrp
+
 //        holder.discount.text = item.disc
         Picasso.get().load(item.image1).into(holder.img)
 
+        holder.constraint.setOnClickListener {
+            it.findNavController().navigate(CategoryHomeAllProductsFragmentDirections.actionCategoryHomeAllProductsFragmentToProductDescriptionFragment(item.id))
 
-
-
+        }
         holder.openProd.setOnClickListener {
             it.findNavController().navigate(CategoryHomeAllProductsFragmentDirections.actionCategoryHomeAllProductsFragmentToProductDescriptionFragment(item.id))
 
-        }    }
+        }
+
+    }
 
 
 }
@@ -45,7 +52,12 @@ class CategoryHomeAllProductsViewHolder(itemView: View):ViewHolder(itemView)
     val img:ImageView = itemView.findViewById(R.id.categoHomeprodimg)
     val title:TextView = itemView.findViewById(R.id.categoHomeprodfirst)
     val mrp:TextView = itemView.findViewById(R.id.categoHomeprodsecond)
-    val openProd:TextView = itemView.findViewById(R.id.openHomeProduct)
+    val sale:TextView = itemView.findViewById(R.id.newArrivalThirdscad)
+
+    val openProd:Button = itemView.findViewById(R.id.textView4comboas)
+    val constraint:ConstraintLayout = itemView.findViewById(R.id.categoryHomeConstraint)
+
+
 
     //  val sale:TextView = itemView.findViewById(R.id.categprodsecond)
 //    val discount:TextView = itemView.findViewById(R.id.offerProdFourth)

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
@@ -18,6 +19,9 @@ class BrandNameAdapter(val data : List<BrandNameData>):Adapter<BrandNameViewHold
     override fun onBindViewHolder(holder: BrandNameViewHolder, position: Int) {
         val item = data[position]
         holder.names.text = item.brand
+        holder.names.setOnClickListener {
+            it.findNavController().navigate(BrandFragmentDirections.actionBrandFragmentToBrandAllProductsFragment(item.brand))
+        }
 
     }
 

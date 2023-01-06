@@ -1,59 +1,257 @@
 package com.example.purpleapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.purpleapp.api.URLs
+import com.example.purpleapp.databinding.FragmentViewAllBinding
+import org.json.JSONException
+import org.json.JSONObject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ViewAllFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ViewAllFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+lateinit var binding:FragmentViewAllBinding
+var listType=" "
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_all, container, false)
+
+    binding = DataBindingUtil.inflate(inflater,R.layout.fragment_view_all,container,false)
+       var args = ViewAllFragmentArgs.fromBundle(requireArguments())
+            listType = args.typeOfList.toString()
+
+
+       if (listType=="comboOffers")
+       {
+           getComboOffers()
+           binding.textView137.text = "Combo Offers"
+       }
+        else if (listType=="featured")
+       {
+         getFeaturedProducts()
+           binding.textView137.text = "Featured Products"
+
+       }
+       else if (listType=="newArrivals")
+       {
+           getNewArrivals()
+           binding.textView137.text = "New Arrivals"
+
+       }else if (listType=="hotDeals")
+       {
+            getHotDeals()
+           binding.textView137.text = "Hot Deals"
+
+       }
+
+
+
+        return binding.root
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ViewAllFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ViewAllFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun getHotDeals() {
+        val dealsList = mutableListOf<ViewAllProductsData>()
+        val stringRequest = StringRequest(
+            Request.Method.GET,
+            URLs.URL_GET_HOT_DEALS_ALL,
+            { s ->
+                try {
+                    val obj = JSONObject(s)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        for (i in 0 .. array.length()) {
+                            val objectArtist = array.getJSONObject(i)
+                            val banners = ViewAllProductsData(
+                                objectArtist.getString("heading"),
+                                objectArtist.getString("sale"),
+                                objectArtist.getString("mrp"),
+                                objectArtist.getString("image"),
+                                objectArtist.getString("id")
+                            )
+                            dealsList.add(banners)
+                            val adapter = ViewAllProductsAdapter(dealsList)
+                            binding.typeOfList.adapter = adapter
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
                 }
-            }
+            },
+            { volleyError ->
+                Toast.makeText(
+                    requireContext(),
+                    volleyError.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+
     }
+
+    private fun getNewArrivals() {
+        val newArrivalsList = mutableListOf<ViewAllProductsData>()
+        val stringRequest = StringRequest(
+            Request.Method.GET,
+            URLs.URL_GET_NEW_ARRIVALS_ALL,
+            { s ->
+                try {
+                    val obj = JSONObject(s)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        for (i in 0 .. array.length()) {
+                            val objectArtist = array.getJSONObject(i)
+                            val banners = ViewAllProductsData(
+                                objectArtist.getString("heading"),
+                                objectArtist.getString("sale"),
+                                objectArtist.getString("mrp"),
+                                objectArtist.getString("image"),
+                                objectArtist.getString("id")
+                            )
+                            newArrivalsList.add(banners)
+                            val adapter = ViewAllProductsAdapter(newArrivalsList)
+                            binding.typeOfList.adapter = adapter
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            { volleyError ->
+                Toast.makeText(
+                    requireContext(),
+                    volleyError.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+
+    }
+
+    private fun getFeaturedProducts() {
+        val offerProductList = mutableListOf<ViewAllProductsData>()
+        val stringRequest = StringRequest(
+            Request.Method.GET,
+            URLs.URL_GET_FEATURED_PRODUCTS_ALL,
+            { s ->
+                try {
+                    val obj = JSONObject(s)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        for (i in 0.. array.length()) {
+                            val objectArtist = array.getJSONObject(i)
+                            val banners = ViewAllProductsData(
+                                objectArtist.getString("heading"),
+                                objectArtist.getString("sale"),
+                                objectArtist.getString("mrp"),
+                                objectArtist.getString("image"),
+                                objectArtist.getString("id")
+                            )
+
+                            offerProductList.add(banners)
+                            val adapter = ViewAllProductsAdapter(offerProductList)
+                            binding.typeOfList.adapter = adapter
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            { volleyError ->
+                Toast.makeText(
+                    requireContext(),
+                    volleyError.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+    }
+
+    private fun getComboOffers() {
+        val comboOffersList = mutableListOf<ViewAllProductsData>()
+        val stringRequest = StringRequest(
+            Request.Method.GET,
+            URLs.URL_GET_COMBO_OFFERS_ALL,
+            { s ->
+                try {
+                    val obj = JSONObject(s)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        for (i in 0..array.length()) {
+                            val objectArtist = array.getJSONObject(i)
+                            val banners = ViewAllProductsData(
+                                objectArtist.getString("heading"),
+                                objectArtist.getString("sale"),
+                                objectArtist.getString("mrp"),
+                                objectArtist.getString("image"),
+                                objectArtist.getString("id")
+
+
+                            )
+                            comboOffersList.add(banners)
+                            val adapter = ViewAllProductsAdapter(comboOffersList)
+                            binding.typeOfList.adapter = adapter
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            { volleyError ->
+                Toast.makeText(
+                    requireContext(),
+                    volleyError.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+    }
+
+
 }

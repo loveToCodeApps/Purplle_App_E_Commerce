@@ -3,6 +3,7 @@ package com.example.purpleapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -30,6 +31,9 @@ class ComboOffersAdspter(val data : MutableList<ComboOffersData>):Adapter<ComboO
         holder.layout.setOnClickListener {
             it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDescriptionFragment(item.id))
         }
+        holder.openProduct.setOnClickListener {
+            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDescriptionFragment(item.id))
+        }
 
     }
 
@@ -42,7 +46,7 @@ class ComboOffersViewHolder(itemView: View):ViewHolder(itemView)
     val title:TextView = itemView.findViewById(R.id.offerprodfirstcombo)
     val price:TextView = itemView.findViewById(R.id.offerProdThirdcombo)
     val sale:TextView = itemView.findViewById(R.id.offerprodsecondcombo)
-    val openProduct:TextView = itemView.findViewById(R.id.textView4combo)
+    val openProduct:Button = itemView.findViewById(R.id.textView4comboas)
     val layout:ConstraintLayout = itemView.findViewById(R.id.comboConstraint)
 
 

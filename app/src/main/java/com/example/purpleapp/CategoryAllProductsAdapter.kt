@@ -26,7 +26,7 @@ class CategoryAllProductsAdapter(val data: MutableList<CategoryAllProductsData>)
         val item = data[position]
         holder.title.text = item.heading
        // holder.sale.text = "₹"+item.sale
-       holder.mrp.text = "₹"+item.mrp
+       holder.mrp.text = "₹"+item.sale
 //        holder.discount.text = item.disc
         Picasso.get().load(item.image1).into(holder.img)
 

@@ -10,7 +10,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/register_back"
         tools:context=".RegistrationActivity">
 
         <TextView
@@ -42,7 +41,6 @@
             android:paddingLeft="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            android:tint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -145,6 +143,7 @@
             android:padding="15dp"
             android:text="Register"
             app:backgroundTint="#F67086"
+            app:cornerRadius="25dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView85"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -158,7 +157,7 @@
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:text="Already Registered\nLog In Here :)"
-            android:textColor="#FFFFFF"
+            android:textColor="#F67086"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

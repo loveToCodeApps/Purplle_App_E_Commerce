@@ -10,18 +10,18 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="245dp"
-        android:layout_margin="8dp"
+        android:layout_margin="5dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="6dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintBrandsProd"
+            android:id="@+id/myConstraint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center">
 
             <ImageView
-                android:id="@+id/brandsprodimg"
+                android:id="@+id/viewAllHomeprodimg"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_marginTop="2dp"
@@ -31,28 +31,29 @@
                 app:srcCompat="@drawable/nail" />
 
             <TextView
-                android:id="@+id/brandsprodfirst"
+                android:id="@+id/viewAllHomeprodfirst"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/gilroy_semibold"
-                android:gravity="center"
+                android:gravity="center|top"
                 android:maxLines="2"
                 android:padding="2dp"
                 android:text="NY Bae pretty pastels nail paint | Glossy Finish | Chip Resistant Cruelity free"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 android:textStyle="normal"
-                app:layout_constraintBottom_toTopOf="@+id/brandsprodsecond"
+                app:layout_constraintBottom_toTopOf="@+id/viewAllHomeprodsecond"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brandsprodimg" />
+                app:layout_constraintTop_toBottomOf="@+id/viewAllHomeprodimg" />
 
             <TextView
-                android:id="@+id/brandsprodsecond"
+                android:id="@+id/viewAllHomeprodsecond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -66,7 +67,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/brandstextView105"
+                android:id="@+id/viewAllHomeView105"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -78,10 +79,10 @@
                 android:textSize="10sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brandsprodsecond" />
+                tools:layout_editor_absoluteY="191dp" />
 
             <TextView
-                android:id="@+id/brandstextView106"
+                android:id="@+id/viewAllHomeView106"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -90,10 +91,9 @@
                 android:textSize="10sp"
                 android:textStyle="bold"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/brandstextView105"
-                app:layout_constraintStart_toEndOf="@+id/brandstextView105"
-                app:layout_constraintTop_toBottomOf="@+id/brandsprodsecond" />
-
+                app:layout_constraintBottom_toBottomOf="@+id/viewAllHomeView105"
+                app:layout_constraintStart_toEndOf="@+id/viewAllHomeView105"
+                app:layout_constraintTop_toTopOf="@+id/viewAllHomeView105" />
 
             <Button
                 android:id="@+id/textView4com"
@@ -109,7 +109,7 @@
                 app:strokeColor="#F78195" />
 
             <TextView
-                android:id="@+id/newArrivalThirdscad"
+                android:id="@+id/offerProdThir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -117,19 +117,19 @@
                 android:text="₹399"
                 android:textColor="#4C4C4C"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/brandsprodsecond"
-                app:layout_constraintStart_toEndOf="@+id/brandsprodsecond"
-                app:layout_constraintTop_toTopOf="@+id/brandsprodsecond" />
+                app:layout_constraintBottom_toBottomOf="@+id/viewAllHomeprodsecond"
+                app:layout_constraintStart_toEndOf="@+id/viewAllHomeprodsecond"
+                app:layout_constraintTop_toTopOf="@+id/viewAllHomeprodsecond" />
 
             <View
                 android:id="@+id/view4"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="#4C4C4C"
-                app:layout_constraintBottom_toBottomOf="@+id/newArrivalThirdscad"
-                app:layout_constraintEnd_toEndOf="@+id/newArrivalThirdscad"
-                app:layout_constraintStart_toStartOf="@+id/newArrivalThirdscad"
-                app:layout_constraintTop_toTopOf="@+id/newArrivalThirdscad" />
+                app:layout_constraintBottom_toBottomOf="@+id/offerProdThir"
+                app:layout_constraintEnd_toEndOf="@+id/offerProdThir"
+                app:layout_constraintStart_toStartOf="@+id/offerProdThir"
+                app:layout_constraintTop_toTopOf="@+id/offerProdThir" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

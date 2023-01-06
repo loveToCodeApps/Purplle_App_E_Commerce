@@ -14,6 +14,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.purpleapp.api.URLs
 import com.example.purpleapp.databinding.FragmentHomeBinding
+import com.google.android.material.snackbar.Snackbar
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -46,14 +47,42 @@ class HomeFragment : Fragment() {
             binding.dicountbannerList.visibility= View.VISIBLE
             binding.brandProductCategoryList.visibility= View.VISIBLE
             binding.vertcalBannerList.visibility= View.VISIBLE
-            binding.gifImageView.visibility = View.VISIBLE
+            binding.textView134.visibility= View.VISIBLE
+            binding.textView135.visibility= View.VISIBLE
+            binding.textView136.visibility= View.VISIBLE
+            binding.textView138.visibility= View.VISIBLE
+            binding.searchView.visibility = View.VISIBLE
+            //categories here
+            getCategories()
+
+            //combo offers are here
+            getComboOffers()
+
+            //banner ads here
+            getProducts()
+
+            //product details here
+            getOfferProducts()
+
+            //Offer banners here
+            getOfferBanners()
+
+            //Brands here
+            getBrands()
+
+            //Deals here
+            getDeals()
+
+            //New Arrivals here
+            getNewArrivals()
 //
 //
         }
         else
         {
-            Toast.makeText(requireContext(),"Bad Connection",Toast.LENGTH_SHORT).show()
-          binding.animationView.visibility = View.VISIBLE
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),
+                "Bad internet connection!!", Snackbar.LENGTH_LONG).show();
+            binding.animationView.visibility = View.VISIBLE
             binding.textView103.visibility=View.GONE
           binding.categoryList.visibility = View.GONE
           binding.textView95.visibility= View.GONE
@@ -70,39 +99,22 @@ class HomeFragment : Fragment() {
             binding.dicountbannerList.visibility= View.GONE
             binding.brandProductCategoryList.visibility= View.GONE
             binding.vertcalBannerList.visibility= View.GONE
-            binding.gifImageView.visibility = View.GONE
+            binding.textView134.visibility= View.GONE
+            binding.textView135.visibility= View.GONE
+            binding.textView136.visibility= View.GONE
+            binding.searchView.visibility = View.GONE
+            binding.textView138.visibility= View.GONE
 
 
 
         }
 
+        binding.textView138.setOnClickListener {
+            it.findNavController().navigate(R.id.brandFragment)
+        }
 
-        //categories here
-        getCategories()
 
-        //combo offers are here
-        getComboOffers()
 
-        //banner ads here
-        getProducts()
-
-        //product details here
-        getOfferProducts()
-
-        //
-        //
-
-        //Offer banners here
-        getOfferBanners()
-
-        //Brands here
-        getBrands()
-
-        //Deals here
-        getDeals()
-
-        //New Arrivals here
-        getNewArrivals()
 
 //
 
@@ -146,6 +158,27 @@ class HomeFragment : Fragment() {
 
         binding.vertcalBannerList.adapter = VerticalBannerAdapter(verticalBannerList)
 
+
+        // to open a page where we can see all of the combo offers product
+       // All combo offers
+        binding.textView136.setOnClickListener {
+            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("comboOffers"))
+        }
+
+        // All featured products
+        binding.textView3.setOnClickListener {
+            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("featured"))
+        }
+
+        // All combo offers
+        binding.textView134.setOnClickListener {
+            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("newArrivals"))
+        }
+
+        // All hot deals
+        binding.textView135.setOnClickListener {
+            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("hotDeals"))
+        }
 
         setHasOptionsMenu(true)
         return binding.root

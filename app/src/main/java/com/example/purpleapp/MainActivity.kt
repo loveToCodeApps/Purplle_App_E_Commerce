@@ -76,8 +76,7 @@ class MainActivity : AppCompatActivity() {
                     .navigate(R.id.categoryFragment)
                 R.id.brandFragment -> findNavController(R.id.purplleNavHost)
                     .navigate(R.id.brandFragment)
-                R.id.offerFragment -> findNavController(R.id.purplleNavHost)
-                    .navigate(R.id.offerFragment)
+              R.id.offerFragment -> findNavController(R.id.purplleNavHost).navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("hotDeals"))
 
             }
             true
@@ -167,6 +166,10 @@ class MainActivity : AppCompatActivity() {
                     .navigate(R.id.aboutAppFragment)
                     binding.myDrawer.closeDrawer(GravityCompat.START, true)
                 }
+//                else->
+//                {
+//
+//                }
 
             }
             true

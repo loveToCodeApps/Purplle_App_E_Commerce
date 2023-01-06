@@ -19,6 +19,15 @@
         <action
             android:id="@+id/action_homeFragment_to_categoryHomeAllProductsFragment"
             app:destination="@id/categoryHomeAllProductsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_viewAllFragment"
+            app:destination="@id/viewAllFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_viewAllFragment3"
+            app:destination="@id/viewAllFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_viewAllFragment4"
+            app:destination="@id/viewAllFragment" />
     </fragment>
     <fragment
         android:id="@+id/myCartFragment"
@@ -38,7 +47,11 @@
         android:id="@+id/brandFragment"
         android:name="com.example.purpleapp.BrandFragment"
         android:label="Brands"
-        tools:layout="@layout/fragment_brand" />
+        tools:layout="@layout/fragment_brand" >
+        <action
+            android:id="@+id/action_brandFragment_to_brandAllProductsFragment"
+            app:destination="@id/brandAllProductsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/offerFragment"
         android:name="com.example.purpleapp.OfferFragment"
@@ -134,7 +147,7 @@
     <fragment
         android:id="@+id/brandAllProductsFragment"
         android:name="com.example.purpleapp.BrandAllProductsFragment"
-        android:label="Bands Products"
+        android:label="Brand Products"
         tools:layout="@layout/fragment_brand_all_products">
         <argument
             android:name="brandName"
@@ -168,7 +181,15 @@
     <fragment
         android:id="@+id/viewAllFragment"
         android:name="com.example.purpleapp.ViewAllFragment"
-        android:label="fragment_view_all"
-        tools:layout="@layout/fragment_view_all" />
+        android:label="All Products"
+        tools:layout="@layout/fragment_view_all" >
+        <argument
+            android:name="typeOfList"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_viewAllFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment" />
+    </fragment>
 </navigation>
 
