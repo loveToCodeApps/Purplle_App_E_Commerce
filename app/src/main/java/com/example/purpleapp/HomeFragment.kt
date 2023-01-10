@@ -3,6 +3,7 @@ package com.example.purpleapp
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import org.json.JSONObject
 
 class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
+    var activityAlreadyCreated:Boolean = false
 
 
     override fun onCreateView(
@@ -28,6 +30,7 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        Log.i("@@@@","onCreateView() called")
 
         if (checkConnection(requireContext())) {
             binding.animationView.visibility = View.GONE
@@ -52,32 +55,33 @@ class HomeFragment : Fragment() {
             binding.textView136.visibility= View.VISIBLE
             binding.textView138.visibility= View.VISIBLE
             binding.searchView.visibility = View.VISIBLE
+
             //categories here
-            getCategories()
+             getCategories()
 
-            //combo offers are here
-            getComboOffers()
+             //combo offers are here
+             getComboOffers()
 
-            //banner ads here
-            getProducts()
+             //banner ads here
+             getProducts()
 
-            //product details here
-            getOfferProducts()
+             //product details here
+             getOfferProducts()
 
-            //Offer banners here
-            getOfferBanners()
+             //Offer banners here
+             getOfferBanners()
 
-            //Brands here
-            getBrands()
+             //Brands here
+             getBrands()
 
-            //Deals here
-            getDeals()
+             //Deals here
+             getDeals()
 
-            //New Arrivals here
-            getNewArrivals()
-//
-//
-        }
+             //New Arrivals here
+             getNewArrivals()
+
+
+             }
         else
         {
             Snackbar.make(requireActivity().findViewById(android.R.id.content),
@@ -183,6 +187,36 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
         return binding.root
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("@@@@","onPause() called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("@@@@","onStop() called")
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.i("@@@@","onDestroyView() called")
+        //activityAlreadyCreated=false
+
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("@@@@","onDestroy() called")
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.i("@@@@","onCreate() called")
     }
 
     private fun getNewArrivals() {
@@ -294,6 +328,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getComboOffers() {
+        Log.i("@@@@","volley fired")
         val comboOffersList = mutableListOf<ComboOffersData>()
         val stringRequest = StringRequest(
             Request.Method.GET,
@@ -485,6 +520,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun getCategories() {
+        activityAlreadyCreated=true
+        Log.i("@@@@","volley fired")
         var categoryList = mutableListOf<CategoryData>()
         val stringRequest = StringRequest(
             Request.Method.GET,

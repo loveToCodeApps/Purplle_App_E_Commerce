@@ -8,7 +8,7 @@
         android:id="@+id/brandNames"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gilroy_bold"
+        android:fontFamily="@font/gilroy_thin"
         android:paddingStart="40dp"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"

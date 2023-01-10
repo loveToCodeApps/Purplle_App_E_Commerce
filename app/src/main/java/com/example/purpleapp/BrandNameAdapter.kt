@@ -8,8 +8,15 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class BrandNameAdapter(val data : List<BrandNameData>):Adapter<BrandNameViewHolder>()
+class BrandNameAdapter(var data : List<BrandNameData>):Adapter<BrandNameViewHolder>()
 {
+
+    fun filtering(newFilteredList: ArrayList<BrandNameData>)
+    {
+        data = newFilteredList
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandNameViewHolder {
        val inflater = LayoutInflater.from(parent.context)
        val view = inflater.inflate(R.layout.search_brands_item_view,parent,false)

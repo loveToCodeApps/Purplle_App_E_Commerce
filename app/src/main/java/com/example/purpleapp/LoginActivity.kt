@@ -31,6 +31,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this,RegistrationActivity::class.java))
         }
 
+        binding.textView139.setOnClickListener {
+            finish()
+            startActivity(Intent(this,MainActivity::class.java))
+        }
 
 
         // check if already logged in or not

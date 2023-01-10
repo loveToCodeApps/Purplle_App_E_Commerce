@@ -6,10 +6,10 @@
         android:id="@+id/myProfileFragment"
         android:icon="@drawable/ic_baseline_emoji_emotions_24"
         android:title="My Account" />
-    <item
-        android:id="@+id/eliteMembership"
-        android:icon="@drawable/ic_baseline_done_24"
-        android:title="Elite Membership" />
+<!--    <item-->
+<!--        android:id="@+id/eliteMembership"-->
+<!--        android:icon="@drawable/ic_baseline_done_24"-->
+<!--        android:title="Elite Membership" />-->
     <item
         android:id="@+id/myOrdersFragment"
         android:icon="@drawable/ic_baseline_sort_24"
@@ -18,30 +18,30 @@
         android:id="@+id/wishlistFragment"
         android:icon="@drawable/ic_baseline_favorite_border_24"
         android:title="My WishList" />
-    <item
-        android:icon="@drawable/ic_baseline_emoji_emotions_24"
-        android:title="Skin Experts" />
-    <item
-        android:icon="@drawable/ic_baseline_edit_note_24"
-        android:title="My Reviews" />
-    <item
-        android:icon="@drawable/ic_baseline_edit_note_24"
-        android:title="Create Story" />
-    <item
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="Settings" />
-    <item
-        android:icon="@drawable/ic_baseline_message_24"
-        android:title="Refer and Earn" />
-    <item
-        android:icon="@drawable/ic_baseline_account_balance_wallet_24"
-        android:title="Purplle Credit" />
+<!--    <item-->
+<!--        android:icon="@drawable/ic_baseline_emoji_emotions_24"-->
+<!--        android:title="Skin Experts" />-->
+<!--    <item-->
+<!--        android:icon="@drawable/ic_baseline_edit_note_24"-->
+<!--        android:title="My Reviews" />-->
+<!--    <item-->
+<!--        android:icon="@drawable/ic_baseline_edit_note_24"-->
+<!--        android:title="Create Story" />-->
+<!--    <item-->
+<!--        android:icon="@drawable/ic_baseline_settings_24"-->
+<!--        android:title="Settings" />-->
+<!--    <item-->
+<!--        android:icon="@drawable/ic_baseline_message_24"-->
+<!--        android:title="Refer and Earn" />-->
+<!--    <item-->
+<!--        android:icon="@drawable/ic_baseline_account_balance_wallet_24"-->
+<!--        android:title="Purplle Credit" />-->
     <item
         android:id="@+id/loginBtn"
         android:icon="@drawable/ic_baseline_login_24"
         android:title="Login or Register" />
     <item
-        android:id="@+id/myCartFragment"
+        android:id="@+id/myOrdersFragment"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
         android:title="My Cart"
         app:iconTint="#ffffff"

@@ -21,6 +21,7 @@
             android:icon="@drawable/ic_baseline_discount_24"
             android:title="Offers" />
         <item
+            android:id="@+id/newbies"
             android:icon="@drawable/ic_baseline_star_border_24"
             android:title="Newbies" />
     </group>
@@ -53,11 +54,12 @@
             android:icon="@drawable/ic_baseline_library_books_24"
             android:title="Terms and Conditions" />
         <item
+            android:id="@+id/feedback"
             android:icon="@drawable/ic_baseline_message_24"
             android:title="Feedback" />
         <item
             android:id="@+id/aboutAppFragment"
             android:icon="@drawable/ic_baseline_info_24"
-            android:title="About Affetta" />
+            android:title="About Affetta Mart" />
     </group>
 </menu>

@@ -8,20 +8,20 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="245dp"
         android:layout_margin="8dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="6dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/categConstraintAll"
+            android:id="@+id/constraintBrandsProd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center">
 
             <ImageView
-                android:id="@+id/categoprodimg"
+                android:id="@+id/brandsprodimg"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_marginTop="2dp"
@@ -31,26 +31,28 @@
                 app:srcCompat="@drawable/nail" />
 
             <TextView
-                android:id="@+id/categoprodfirst"
+                android:id="@+id/brandsprodfirst"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="2dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="3dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/gilroy_semibold"
                 android:gravity="center"
+                android:maxLines="2"
                 android:padding="2dp"
                 android:text="NY Bae pretty pastels nail paint | Glossy Finish | Chip Resistant Cruelity free"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 android:textStyle="normal"
-                app:layout_constraintBottom_toTopOf="@+id/categoprodsecond"
+                app:layout_constraintBottom_toTopOf="@+id/brandsprodsecond"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/categoprodimg" />
+                app:layout_constraintTop_toBottomOf="@+id/brandsprodimg" />
 
             <TextView
-                android:id="@+id/categoprodsecond"
+                android:id="@+id/brandsprodsecond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -60,12 +62,41 @@
                 android:textColor="#000000"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/openProduct"
+                app:layout_constraintBottom_toTopOf="@+id/textView4com"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/brandstextView105"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/ratings_back"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="4.3 ★"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/brandsprodsecond" />
+
+            <TextView
+                android:id="@+id/brandstextView106"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="3512 Ratings"
+                android:textColor="#4CAF50"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/brandstextView105"
+                app:layout_constraintStart_toEndOf="@+id/brandstextView105"
+                app:layout_constraintTop_toBottomOf="@+id/brandsprodsecond" />
 
 
             <Button
-                android:id="@+id/openProduct"
+                android:id="@+id/textView4com"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -77,19 +108,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:strokeColor="#F78195" />
 
-
             <TextView
                 android:id="@+id/newArrivalThirdscad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:fontFamily="@font/gilroy_semibold"
+                android:fontFamily="@font/gilroy_medium"
                 android:text="₹399"
                 android:textColor="#4C4C4C"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/categoprodsecond"
-                app:layout_constraintStart_toEndOf="@+id/categoprodsecond"
-                app:layout_constraintTop_toTopOf="@+id/categoprodsecond" />
+                app:layout_constraintBottom_toBottomOf="@+id/brandsprodsecond"
+                app:layout_constraintStart_toEndOf="@+id/brandsprodsecond"
+                app:layout_constraintTop_toTopOf="@+id/brandsprodsecond" />
 
             <View
                 android:id="@+id/view4"

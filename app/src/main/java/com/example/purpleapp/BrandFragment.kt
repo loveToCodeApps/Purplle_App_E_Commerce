@@ -1,10 +1,12 @@
 package com.example.purpleapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.android.volley.Request
@@ -16,29 +18,45 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class BrandFragment : Fragment() {
-  
-lateinit var binding:FragmentBrandBinding
+
+    lateinit var binding:FragmentBrandBinding
+    var searchList =  arrayListOf<BrandNameData>()
+    lateinit var adapter : BrandNameAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-     binding = DataBindingUtil.inflate(inflater,R.layout.fragment_brand,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_brand, container, false)
 
-
+        //get all brands
         getBrands()
-        val brandNameList = mutableListOf<BrandNameData>()
-//        brandNameList.add(BrandNameData("All Brands"))
-//        brandNameList.add(BrandNameData("   A      Albion  "))
-//        brandNameList.add(BrandNameData("          Anastasia"))
-//        brandNameList.add(BrandNameData("          Aqua"))
-//        brandNameList.add(BrandNameData("   B      Balmshell"))
+       binding.searchBrands.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
 
-       binding.brandNameList.adapter = BrandNameAdapter(brandNameList)
-    
-    
-    return binding.root
+            override fun onQueryTextChange(newText: String?): Boolean {
+               activitiesFilter(newText)
+                return true
+            }
+        })
+
+        return binding.root
+    }
+
+    private fun activitiesFilter(newText: String?) {
+        Log.i("@@@@@@@@@@@@@@@@@@@@","$newText")
+        var newFilteredList = arrayListOf<BrandNameData>()
+
+        for (i in searchList)
+        {
+            if (i.brand.contains(newText!!.uppercase()) || i.brand.contains(newText!!.lowercase())){
+                newFilteredList.add(i)
+            }
+        }
+        adapter.filtering(newFilteredList)
     }
 
     private fun getBrands() {
@@ -52,14 +70,15 @@ lateinit var binding:FragmentBrandBinding
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 1 .. array.length()) {
+                        for (i in 1..array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BrandNameData(
                                 objectArtist.getString("heading")
                             )
 
                             brandProductList.add(banners)
-                            val adapter = BrandNameAdapter(brandProductList)
+                             adapter = BrandNameAdapter(brandProductList)
+                            searchList = brandProductList as ArrayList<BrandNameData>
                             binding.brandNameList.adapter = adapter
                         }
                     } else {
@@ -87,3 +106,8 @@ lateinit var binding:FragmentBrandBinding
 
 
 }
+
+
+
+
+

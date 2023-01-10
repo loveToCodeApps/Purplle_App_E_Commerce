@@ -34,6 +34,11 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_all_produc
 
 
 
+        val args = CategoryAllProductsFragmentArgs.fromBundle(requireArguments())
+        val category = args.categName
+        binding.textView137CategName.text= category
+
+
 
         getParticularCategoryProducts()
 

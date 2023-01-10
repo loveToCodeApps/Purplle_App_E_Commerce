@@ -30,7 +30,7 @@
             app:destination="@id/viewAllFragment" />
     </fragment>
     <fragment
-        android:id="@+id/myCartFragment"
+        android:id="@+id/myOrdersFragment"
         android:name="com.example.purpleapp.MyCartFragment"
         android:label="My Cart"
         tools:layout="@layout/fragment_my_cart" />
@@ -73,6 +73,12 @@
         <argument
             android:name="prodId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_productDescriptionFragment_self"
+            app:destination="@id/productDescriptionFragment" />
+        <action
+            android:id="@+id/action_productDescriptionFragment_to_categoryAllProductsFragment"
+            app:destination="@id/categoryAllProductsFragment" />
     </fragment>
     <fragment
         android:id="@+id/privacyPolicyFragment"
@@ -82,7 +88,7 @@
     <fragment
         android:id="@+id/aboutAppFragment"
         android:name="com.example.purpleapp.AboutAppFragment"
-        android:label="About Affetta"
+        android:label="About Affetta Mart"
         tools:layout="@layout/fragment_about_app" />
     <fragment
         android:id="@+id/termsAndConditionsFragment"
@@ -191,5 +197,40 @@
             android:id="@+id/action_viewAllFragment_to_productDescriptionFragment"
             app:destination="@id/productDescriptionFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/offersFragment"
+        android:name="com.example.purpleapp.OffersFragment"
+        android:label="Offers"
+        tools:layout="@layout/fragment_offers" >
+        <action
+            android:id="@+id/action_offersFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newbiesFragment"
+        android:name="com.example.purpleapp.NewbiesFragment"
+        android:label="Newbies"
+        tools:layout="@layout/fragment_newbies" >
+        <action
+            android:id="@+id/action_newbiesFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedbackFragment"
+        android:name="com.example.purpleapp.FeedbackFragment"
+        android:label="fragment_feedback"
+        tools:layout="@layout/fragment_feedback" />
 </navigation>
+
+
+
+
+
+
+
+
+
+
+
+
 

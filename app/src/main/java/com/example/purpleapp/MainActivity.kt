@@ -2,14 +2,14 @@ package com.example.purpleapp
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -32,9 +32,6 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(binding.myNavView, navController)
         binding.bottomNavigationView.setupWithNavController(navController)
-
-
-
 
 
         if (SharedPrefManager.getInstance(this).isLoggedIn) {
@@ -76,7 +73,8 @@ class MainActivity : AppCompatActivity() {
                     .navigate(R.id.categoryFragment)
                 R.id.brandFragment -> findNavController(R.id.purplleNavHost)
                     .navigate(R.id.brandFragment)
-              R.id.offerFragment -> findNavController(R.id.purplleNavHost).navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("hotDeals"))
+              R.id.offerFragment -> findNavController(R.id.purplleNavHost)
+                  .navigate(R.id.offersFragment)
 
             }
             true
@@ -100,6 +98,7 @@ class MainActivity : AppCompatActivity() {
             R.id.homeFragment-> {
                 findNavController(R.id.purplleNavHost)
                     .navigate(R.id.homeFragment)
+                Log.i("@@@@","${it.itemId}")
                 binding.myDrawer.closeDrawer(GravityCompat.START, true)
             }
 
@@ -112,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                     binding.myDrawer.closeDrawer(GravityCompat.START, true)
                 }
                 R.id.offerFragment-> {findNavController(R.id.purplleNavHost)
-                    .navigate(R.id.offerFragment)
+                    .navigate(R.id.offersFragment)
                     binding.myDrawer.closeDrawer(GravityCompat.START, true)
                 }
                 R.id.myOrdersFragment->{
@@ -166,10 +165,50 @@ class MainActivity : AppCompatActivity() {
                     .navigate(R.id.aboutAppFragment)
                     binding.myDrawer.closeDrawer(GravityCompat.START, true)
                 }
-//                else->
-//                {
+               R.id.newbies->
+               {
+                   findNavController(R.id.purplleNavHost)
+                       .navigate(R.id.newbiesFragment)
+                       binding.myDrawer.closeDrawer(GravityCompat.START, true)
+               }
+                R.id.feedback->
+                {
+//                    val emailIntent = Intent(
+//                        Intent.ACTION_SENDTO, Uri.fromParts(
+//                            "mailto", "crazybikkers@gmail.com", null
+//                        )
+//                    )
+//                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Please describe your complaint here ..!")
+//                    startActivity(Intent.createChooser(emailIntent, null))
+            var mail = "crazybikkers@gmail.com"
+
 //
-//                }
+//                    val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$mail"))
+//                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback of Affetta App")
+//                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Please share your experience of using affetta app here in detail , Thank you !!")
+////emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, body); //If you are using HTML in your body text
+//
+////emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, body); //If you are using HTML in your body text
+//                    startActivity(Intent.createChooser(emailIntent, "Choose app for mail"))
+
+
+                    val selectorIntent = Intent(Intent.ACTION_SENDTO)
+                    selectorIntent.data = Uri.parse("mailto:")
+
+                    val emailIntent = Intent(Intent.ACTION_SEND)
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("crazybikkers@gmail.com"))
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "feedback for Affetta App")
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Please share your experience of using affetta app here in detail , Thank you !!")
+                    emailIntent.selector = selectorIntent
+
+                    startActivity(Intent.createChooser(emailIntent, "Send email..."))
+
+                    binding.myDrawer.closeDrawer(GravityCompat.START, true)
+
+
+
+                }
+
 
             }
             true
@@ -189,17 +228,25 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
-            R.id.myCartFragment->{
-                findNavController(R.id.purplleNavHost)
-                    .navigate(R.id.myCartFragment)
-            }
             R.id.myProfileFragment->{
+                if (SharedPrefManager.getInstance(this).isLoggedIn) {
+                    findNavController(R.id.purplleNavHost)
+                        .navigate(R.id.myProfileFragment)
+                } else {
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            R.id.myOrdersFragment->{
                 findNavController(R.id.purplleNavHost)
-                    .navigate(R.id.myProfileFragment)
+                    .navigate(R.id.myOrdersFragment)
             }
-            android.R.id.home->{
-                binding.myDrawer.openDrawer(Gravity.LEFT)
-            }
+//           // *********************************************************************
+            //**********************************************************************
+            // vvvvvvvviiiiiiiiiiimmmmmmmmmmpppppppppppppppppp    line
+            // most imp line for up button and navigation drawer icon to work
+            else -> {return super.onOptionsItemSelected(item)}
+
 
 
         }

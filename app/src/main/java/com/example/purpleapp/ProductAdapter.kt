@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.denzcoskun.imageslider.ImageSlider
 import com.example.purpleapp.api.ImageDownloaderTask
 import com.squareup.picasso.Picasso
 
@@ -16,7 +17,6 @@ import com.squareup.picasso.Picasso
 class ProductAdapter(val data:List<ProductData>,val context: Context) : Adapter<MyProductViewHolder>()
 {
 
-    lateinit var bitmap:Bitmap
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyProductViewHolder {
       val inflater = LayoutInflater.from(parent.context)
       val view = inflater.inflate(R.layout.product_item_view,parent,false)
@@ -47,6 +47,7 @@ Picasso.get().load(item.url).into(holder.img)
 class MyProductViewHolder(itemView: View):ViewHolder(itemView)
 {
     val img:ImageView = itemView.findViewById(R.id.offerForYouImg)
+
 
 }
 
