@@ -30,7 +30,7 @@
             app:destination="@id/viewAllFragment" />
     </fragment>
     <fragment
-        android:id="@+id/myOrdersFragment"
+        android:id="@+id/myCartFragment"
         android:name="com.example.purpleapp.MyCartFragment"
         android:label="My Cart"
         tools:layout="@layout/fragment_my_cart" />
@@ -125,7 +125,10 @@
             android:id="@+id/action_myProfileFragment_to_customerSupportFragment"
             app:destination="@id/customerSupportFragment" />
         <action
-            android:id="@+id/action_myProfileFragment_to_myOrdersFragment"
+            android:id="@+id/action_myProfileFragment_to_myOrdersFragment4"
+            app:destination="@id/myOrdersFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_myOrdersFragment5"
             app:destination="@id/myOrdersFragment" />
     </fragment>
     <fragment

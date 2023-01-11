@@ -5,5 +5,6 @@ data class MyCartData(
     val myCartProdNewPrice:String,
     val myCartProdOrgPrice:String,
     val myCartProdHeading:String,
-    val myCartTotalPrice:String
+    val myCartTotalPrice:String,
+    val myCartProdId:String
     )

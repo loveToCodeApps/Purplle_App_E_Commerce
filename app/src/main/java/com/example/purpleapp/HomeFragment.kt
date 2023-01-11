@@ -13,6 +13,8 @@ import androidx.navigation.ui.NavigationUI
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.models.SlideModel
 import com.example.purpleapp.api.URLs
 import com.example.purpleapp.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
@@ -79,6 +81,9 @@ class HomeFragment : Fragment() {
 
              //New Arrivals here
              getNewArrivals()
+
+            // last random list banners are here
+            getRandomBanners()
 
 
              }
@@ -187,6 +192,54 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
         return binding.root
 
+    }
+
+    private fun getRandomBanners() {
+        val slideModels = mutableListOf<SlideModel>()
+        val stringRequest = StringRequest(
+            Request.Method.GET,
+            URLs.URL_GET_BANNER,
+            { s ->
+                try {
+                    val obj = JSONObject(s)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        for (i in 0 .. array.length()) {
+                            val objectArtist = array.getJSONObject(i)
+                            val banners = ProductData(
+                                objectArtist.getString("url")
+                            )
+                            // productLists.add(banners)
+
+                            //   val adapter = ProductAdapter(productLists, requireContext())
+                            //   binding.productList.adapter = adapter
+
+                            slideModels.add(SlideModel(banners.url))
+                            binding.randomList.setImageList(slideModels, ScaleTypes.FIT);
+
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            { volleyError ->
+                Toast.makeText(
+                    requireContext(),
+                    volleyError.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
     }
 
     override fun onPause() {
@@ -427,7 +480,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun getOfferBanners() {
-        val bannerDiscountList = mutableListOf<BannerDiscountData>()
+      //  val bannerDiscountList = mutableListOf<BannerDiscountData>()
+        val slideModels = mutableListOf<SlideModel>()
         val stringRequest = StringRequest(
             Request.Method.GET,
             URLs.URL_GET_OFFER_BANNER,
@@ -442,9 +496,12 @@ class HomeFragment : Fragment() {
                             val banners = BannerDiscountData(
                                 objectArtist.getString("url")
                             )
-                            bannerDiscountList.add(banners)
-                            val adapter = BannerDiscountAdapter(bannerDiscountList)
-                            binding.dicountbannerList.adapter = adapter
+//                            bannerDiscountList.add(banners)
+                           // val adapter = BannerDiscountAdapter(bannerDiscountList)
+//                            binding.dicountbannerList.adapter = adapter
+
+                            slideModels.add(SlideModel(banners.banner))
+                            binding.dicountbannerList.setImageList(slideModels, ScaleTypes.FIT);
                         }
                     } else {
                         Toast.makeText(
@@ -568,7 +625,8 @@ class HomeFragment : Fragment() {
 
     //    // volley request for banners
     private fun getProducts() {
-        var productLists = mutableListOf<ProductData>()
+      //  var productLists = mutableListOf<ProductData>()
+        val slideModels = mutableListOf<SlideModel>()
         val stringRequest = StringRequest(
             Request.Method.GET,
             URLs.URL_GET_BANNER,
@@ -583,9 +641,14 @@ class HomeFragment : Fragment() {
                             val banners = ProductData(
                                 objectArtist.getString("url")
                             )
-                            productLists.add(banners)
-                            val adapter = ProductAdapter(productLists, requireContext())
-                            binding.productList.adapter = adapter
+                           // productLists.add(banners)
+
+                         //   val adapter = ProductAdapter(productLists, requireContext())
+                         //   binding.productList.adapter = adapter
+
+                            slideModels.add(SlideModel(banners.url))
+                            binding.productList.setImageList(slideModels, ScaleTypes.FIT);
+
                         }
                     } else {
                         Toast.makeText(

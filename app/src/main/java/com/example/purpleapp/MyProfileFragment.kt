@@ -28,7 +28,7 @@ val binding : FragmentMyProfileBinding = DataBindingUtil.inflate(inflater,R.layo
    }
 
         binding.cardView5.setOnClickListener {
-            it.findNavController().navigate(R.id.action_myProfileFragment_to_myOrdersFragment)
+            it.findNavController().navigate(R.id.action_myProfileFragment_to_myOrdersFragment5)
         }
         binding.cardView13.setOnClickListener {
             it.findNavController().navigate(R.id.action_myProfileFragment_to_wishlistFragment)

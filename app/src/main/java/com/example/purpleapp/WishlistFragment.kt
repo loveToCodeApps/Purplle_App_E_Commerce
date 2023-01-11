@@ -28,13 +28,6 @@ lateinit var binding : FragmentWishlistBinding
         // Inflate the layout for this fragment
  binding = DataBindingUtil.inflate(inflater,R.layout.fragment_wishlist,container,false)
 
-
-
-
-
-
-
-
         getWishlistData()
 
 
@@ -62,10 +55,16 @@ lateinit var binding : FragmentWishlistBinding
                                 objectArtist.optString("image"),
                                 objectArtist.optString("sale"),
                                 objectArtist.optString("mrp"),
-                                objectArtist.optString("heading")
-                            )
+                                objectArtist.optString("heading"),
+                                objectArtist.optString("id"),
+                                objectArtist.optString("desc_id")
+
+
+
+
+                                )
                             myWishlist.add(banners)
-                            val adapter = MyWishlistProductAdapter(myWishlist)
+                            val adapter = MyWishlistProductAdapter(myWishlist,requireActivity().applicationContext)
                             binding.prodRcv.adapter=adapter
                         }
                     } else {

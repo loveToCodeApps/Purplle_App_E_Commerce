@@ -52,17 +52,18 @@ class MyCartFragment : Fragment() {
 //
 
                         //   for (i in (array.length()-1) until  1) {
-                        for (i in (array.length() - 1) downTo 0) {
+                        for (i in (array.length()-1) downTo 0) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = MyCartData(
                                 objectArtist.optString("image"),
                                 objectArtist.optString("sale"),
                                 objectArtist.optString("mrp"),
                                 objectArtist.optString("heading"),
-                                objectArtist.optString("sum")
+                                objectArtist.optString("sum"),
+                                objectArtist.optString("id")
                             )
                             myCartProdList.add(banners)
-                            val adapter = MyCartAdapter(myCartProdList)
+                            val adapter = MyCartAdapter(myCartProdList,requireActivity().applicationContext)
                             binding.myCartProdList.adapter = adapter
                             //   binding.textView89.text = banners.myCartTotalPrice
 

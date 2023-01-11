@@ -4,24 +4,29 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.interfaces.ItemClickListener
+import com.denzcoskun.imageslider.models.SlideModel
 import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.api.URLs
-import com.example.purpleapp.api.User
 import com.example.purpleapp.api.VolleySingleton
 import com.example.purpleapp.databinding.FragmentProductDescriptionBinding
+import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
+
 
 class ProductDescriptionFragment : Fragment() {
 lateinit var binding : FragmentProductDescriptionBinding
@@ -81,6 +86,7 @@ binding.addToCartBtn.setOnClickListener {
         binding.wishlistBtn.setOnClickListener {
             if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
                 addToWishlist()
+//                it.findNavController().navigate(R.id.wishlistFragment)
             }
             else{
                 Toast.makeText(requireContext(),"only Logged In users can add to wish list !!",Toast.LENGTH_SHORT).show()
@@ -207,6 +213,8 @@ binding.addToCartBtn.setOnClickListener {
                     if (!obj.getBoolean("error")) {
                         Snackbar.make(requireActivity().findViewById(android.R.id.content),obj.getString("message")
                             , Snackbar.LENGTH_LONG).show();
+                        findNavController().navigate(R.id.wishlistFragment)
+
                     } else {
                         Snackbar.make(requireActivity().findViewById(android.R.id.content),obj.getString("message")
                             , Snackbar.LENGTH_LONG).show();                    }
@@ -219,7 +227,12 @@ binding.addToCartBtn.setOnClickListener {
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
                 params["prod_id"] = prod_id
+                params["prod_desc_id"] = prod_desc_id
                 params["user_id"] = userId
+                params["unit_price"] = prod_newp
+                params["total_price"] = prod_newp
+                params["confirm_mobile"] = SharedPrefManager.getInstance(requireActivity().applicationContext).user.phone
+                params["number_of_items"] = "1"
                 return params
             }
         }
@@ -232,7 +245,7 @@ binding.addToCartBtn.setOnClickListener {
     private fun getProductDescriptionDetails() {
         var args = ProductDescriptionFragmentArgs.fromBundle(requireArguments())
         var product_id = args.prodId
-        val prodDescriptionImgList = mutableListOf<ProductImageData>()
+        val slideModels = mutableListOf<SlideModel>()
         val smallProdImgList = mutableListOf<SmallProductData>()
 
         val stringRequest = object : StringRequest(
@@ -346,28 +359,44 @@ binding.addToCartBtn.setOnClickListener {
 
                         if (img1.length!=0)
                         {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image1")))
+                            slideModels.add(SlideModel(userJson.getString("image1")))
                         }
                         if (img2.length!=0)
                         {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image2")))
+                            slideModels.add(SlideModel(userJson.getString("image2")))
                         }
                         if (img3.length!=0)
                         {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image3")))
+                            slideModels.add(SlideModel(userJson.getString("image3")))
                         }
                         if (img4.length!=0)
                         {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image4")))
+                            slideModels.add(SlideModel(userJson.getString("image4")))
                         }
                         if (img5.length!=0)
-                        {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image5")))
+                                                        {
+                            slideModels.add(SlideModel(userJson.getString("image5")))
                         }
                         if (img6.length!=0)
                         {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image6")))
+                            slideModels.add(SlideModel(userJson.getString("image6")))
                         }
+
+                        binding.prodImgList.setImageList(slideModels,ScaleTypes.FIT);
+                        binding.prodImgList.setItemClickListener(object : ItemClickListener {
+                            override fun onItemSelected(position: Int) {
+                                Toast.makeText(requireContext(), "Pinch image to zoom-in or zoom-out", Toast.LENGTH_SHORT).show();
+                                val mBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+                                val mView: View =LayoutInflater.from(requireContext()).inflate(R.layout.dialog_custom_layout,null)
+//            inflate(R.layout.dialog_custom_layout, null)
+                                val photoView: PhotoView = mView.findViewById(R.id.imageView)
+                                Picasso.get().load(slideModels.get(position).imageUrl).into(photoView)
+                                mBuilder.setView(mView)
+                                val mDialog: AlertDialog = mBuilder.create()
+                                mDialog.show()
+                            }
+                        })
+
 
 
                         prod_id = userJson.getString("id")
@@ -377,7 +406,7 @@ binding.addToCartBtn.setOnClickListener {
                         prod_ogp = userJson.getString("mrp")
                         prod_newp = userJson.getString("sale")
 
-                        binding.prodImgList.adapter = ProductDescriptionAdapter(prodDescriptionImgList)
+                      //  binding.prodImgList.adapter = ProductDescriptionAdapter(prodDescriptionImgList)
 
 
                         if (img1.length!=0)
@@ -450,7 +479,6 @@ binding.addToCartBtn.setOnClickListener {
                     //if no error in response
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
-
                     } else {
                         Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
                     }
@@ -466,14 +494,17 @@ binding.addToCartBtn.setOnClickListener {
                 params["prod_desc_id"] = prod_desc_id
                 params["user_id"] = userId
                 params["unit_price"] = prod_newp
-                params["total_price"] = (prod_newp.toInt() * 1).toString()
+                params["total_price"] = prod_newp
                 params["confirm_mobile"] = SharedPrefManager.getInstance(requireActivity().applicationContext).user.phone
+                params["number_of_items"] = "1"
+
 
                 return params
             }
         }
 
         VolleySingleton.getInstance(requireActivity().applicationContext).addToRequestQueue(stringRequest)
+        findNavController().navigate(R.id.myCartFragment)
 
     }
 
