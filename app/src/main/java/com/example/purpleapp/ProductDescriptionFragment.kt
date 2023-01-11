@@ -4,24 +4,28 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.interfaces.ItemClickListener
+import com.denzcoskun.imageslider.models.SlideModel
 import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.api.URLs
-import com.example.purpleapp.api.User
 import com.example.purpleapp.api.VolleySingleton
 import com.example.purpleapp.databinding.FragmentProductDescriptionBinding
+import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
+
 
 class ProductDescriptionFragment : Fragment() {
 lateinit var binding : FragmentProductDescriptionBinding
@@ -232,7 +236,7 @@ binding.addToCartBtn.setOnClickListener {
     private fun getProductDescriptionDetails() {
         var args = ProductDescriptionFragmentArgs.fromBundle(requireArguments())
         var product_id = args.prodId
-        val prodDescriptionImgList = mutableListOf<ProductImageData>()
+        val slideModels = mutableListOf<SlideModel>()
         val smallProdImgList = mutableListOf<SmallProductData>()
 
         val stringRequest = object : StringRequest(
@@ -346,28 +350,44 @@ binding.addToCartBtn.setOnClickListener {
 
                         if (img1.length!=0)
                         {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image1")))
+                            slideModels.add(SlideModel(userJson.getString("image1")))
                         }
                         if (img2.length!=0)
                         {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image2")))
+                            slideModels.add(SlideModel(userJson.getString("image2")))
                         }
                         if (img3.length!=0)
                         {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image3")))
+                            slideModels.add(SlideModel(userJson.getString("image3")))
                         }
                         if (img4.length!=0)
                         {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image4")))
+                            slideModels.add(SlideModel(userJson.getString("image4")))
                         }
                         if (img5.length!=0)
-                        {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image5")))
+                                                        {
+                            slideModels.add(SlideModel(userJson.getString("image5")))
                         }
                         if (img6.length!=0)
                         {
-                            prodDescriptionImgList.add(ProductImageData(userJson.getString("image6")))
+                            slideModels.add(SlideModel(userJson.getString("image6")))
                         }
+
+                        binding.prodImgList.setImageList(slideModels,ScaleTypes.FIT);
+                        binding.prodImgList.setItemClickListener(object : ItemClickListener {
+                            override fun onItemSelected(position: Int) {
+                                Toast.makeText(requireContext(), "Pinch image to zoom-in or zoom-out", Toast.LENGTH_SHORT).show();
+                                val mBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+                                val mView: View =LayoutInflater.from(requireContext()).inflate(R.layout.dialog_custom_layout,null)
+//            inflate(R.layout.dialog_custom_layout, null)
+                                val photoView: PhotoView = mView.findViewById(R.id.imageView)
+                                Picasso.get().load(slideModels.get(position).imageUrl).into(photoView)
+                                mBuilder.setView(mView)
+                                val mDialog: AlertDialog = mBuilder.create()
+                                mDialog.show()
+                            }
+                        })
+
 
 
                         prod_id = userJson.getString("id")
@@ -377,7 +397,7 @@ binding.addToCartBtn.setOnClickListener {
                         prod_ogp = userJson.getString("mrp")
                         prod_newp = userJson.getString("sale")
 
-                        binding.prodImgList.adapter = ProductDescriptionAdapter(prodDescriptionImgList)
+                      //  binding.prodImgList.adapter = ProductDescriptionAdapter(prodDescriptionImgList)
 
 
                         if (img1.length!=0)
