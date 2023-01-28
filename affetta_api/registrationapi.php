@@ -66,13 +66,13 @@ if(isset($_GET['apicall'])){
         $phone = $_POST['phone'];  
 
 
-        $stmt = $conn->prepare("SELECT id, firstname,middlename,lastname, email, phone , address , state , city , zipcode FROM register WHERE phone = ?");  
+        $stmt = $conn->prepare("SELECT id, firstname,middlename,lastname, email, phone , address , state , city , zipcode, shipping_whatsappno,billing_whatsappno FROM register WHERE phone = ?");  
         $stmt->bind_param("s",$phone);  
         $stmt->execute();  
         $stmt->store_result(); 
 
         if($stmt->num_rows > 0){  
-            $stmt->bind_result($id, $firstname,$middlename,$lastname, $email, $phone , $address,$city,$state,$zipcode);  
+            $stmt->bind_result($id, $firstname,$middlename,$lastname, $email, $phone , $address,$city,$state,$zipcode,$shipping_whatsappno,$billing_whatsappno);  
             $stmt->fetch();  
             $user = array(  
                 'id'=>$id,   
@@ -84,7 +84,13 @@ if(isset($_GET['apicall'])){
                 'address'=>$address ,
                 'city'=>$city ,
                 'state'=>$state ,
-                'zipcode'=>$zipcode 
+                'zipcode'=>$zipcode,
+                'shipping_whatsappno'=>$shipping_whatsappno,
+                'billing_whatsappno'=>$billing_whatsappno,
+                'shipping_city'=>$shipping_city,
+                'shipping_state'=>$shipping_state,
+                'shipping_zipcode'=>$shipping_zipcode
+
             );  
 
             $response['error'] = false;   
@@ -1549,7 +1555,61 @@ else{
 break; 
  
 //-------------------------------------------------------------------------------------------- 
+case 'updateProfilePicture':  
 
+if(isTheseParametersAvailable(array('id','picture'))){ 
+    $id = $_POST['id'];    
+    $picture = $_POST['picture']; 
+    $file_path = "profile/" . $id . ".jpg";
+    file_put_contents($file_path, base64_decode($picture));
+
+
+    $stmt = $conn->prepare("UPDATE register SET picture=? where id = ? ");
+    $stmt->bind_param("ss", $file_path,$id);  
+    $stmt->execute();  
+
+    $stmt->close();   
+
+    $response['error'] = false;   
+    $response['message'] = 'Your Profile picture updated successfully';   
+
+}  
+
+else
+{  
+    $response['error'] = true;   
+    $response['message'] = 'required parameters are not available';   
+}  
+break; 
+//------------------------------------------------------------------------------------------------
+ case 'getProfilepicture':  
+
+    if(isTheseParametersAvailable(array('id'))){  
+        $id = $_POST['id'];  
+
+        $stmt = $conn->prepare("SELECT picture FROM register WHERE id = ?");  
+        $stmt->bind_param("s",$id);  
+        $stmt->execute();  
+        $stmt->store_result(); 
+
+        if($stmt->num_rows > 0){  
+            $stmt->bind_result($picture);  
+            $stmt->fetch();  
+            $user = array(  
+                'picture'=>UPLOADPATH.$picture  
+            );  
+
+            $response['error'] = false;   
+            $response['message'] = 'Picture got successful !!';   
+            $response['user'] = $user;   
+        }  
+        else{  
+            $response['error'] = false;   
+            $response['message'] = 'something wrong happened!';  
+        }  
+    }  
+    break; 
+//-----------------------------------------------------------------------------------------------------
 
 
 default:   
