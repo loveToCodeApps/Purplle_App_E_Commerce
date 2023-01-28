@@ -28,16 +28,25 @@ import java.util.*
 
 class EditProfileFragment : Fragment() {
 
-lateinit var binding : FragmentEditProfileBinding
-    lateinit var birthDate:String
+    lateinit var binding: FragmentEditProfileBinding
+    lateinit var birthDate: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
- binding  = DataBindingUtil.inflate(inflater,R.layout.fragment_edit_profile,container,false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_edit_profile, container, false)
 
+        val activity: MainActivity = requireActivity() as MainActivity
+        activity.binding.bottomNavigationView.visibility = View.GONE
+
+        binding.userFirstName.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.firstName.toString())
+        binding.userLastName.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.lastName.toString())
+        binding.userEmail.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.email.toString())
+binding.userShippingWhatsappNumber.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.shipping_whatsappno)
+        binding.userShippingBillingNumber.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.billing_whatsappno)
         binding.button8.setOnClickListener {
             editMyProfile()
 
@@ -45,20 +54,18 @@ lateinit var binding : FragmentEditProfileBinding
 
 
         }
-    return binding.root
+        return binding.root
 
     }
-
-
 
 
     private fun editMyProfile() {
 
         val first = binding.userFirstName.text
         val last = binding.userLastName.text
-        val phone = binding.userPhone.text
         val email = binding.userEmail.text
-        var id = SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString()
+        var id =
+            SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString()
         val shipping_state = binding.userShippingState.text
         val shipping_city = binding.userShippingCity.text
         val shipping_zipcode = binding.userShippingZipcode.text
@@ -92,9 +99,6 @@ lateinit var binding : FragmentEditProfileBinding
         }
 
 
-
-
-
         val stringRequest = object : StringRequest(
             Request.Method.POST, URLs.URL_EDIT_PROFILE,
             Response.Listener { response ->
@@ -110,9 +114,9 @@ lateinit var binding : FragmentEditProfileBinding
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn)
-                        {
-                            SharedPrefManager.getInstance(requireActivity().applicationContext).logout()
+                        if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
+                            SharedPrefManager.getInstance(requireActivity().applicationContext)
+                                .logout()
                             requireActivity().finish()
                         }
                     } else {
@@ -138,38 +142,22 @@ lateinit var binding : FragmentEditProfileBinding
                 val params = HashMap<String, String>()
                 params["first_name"] = first.toString()
                 params["last_name"] = last.toString()
-                params["full_name"] = first.toString()+" "+last.toString()
+                params["full_name"] = first.toString() + " " + last.toString()
                 params["email"] = email.toString()
-               params["user_id"]= id
-                params["shipping_state"]= shipping_state.toString()
-                params["shipping_city"]= shipping_city.toString()
-                params["shipping_zipcode"]= shipping_zipcode.toString()
-                params["shipping_whatsappno"]= shipping_whatsappno.toString()
-                params["billing_whatsappno"]= billing_whatsappno.toString()
-
-//                params["state"] = state.toString()
-//                params["city"] = city.toString()
-//                params["pincode"] = pincode.toString()
-//                params["reminderDate"] = reminderDate.toString()
-//                params["assignTo"] = assignTo.toString()
-//                params["id"] = id.toString()
-                //   params["images"] = img_name.toString()
-//                params["videos"] = vid_name.toString()
-
-
-
+                params["user_id"] = id
+                params["shipping_state"] = shipping_state.toString()
+                params["shipping_city"] = shipping_city.toString()
+                params["shipping_zipcode"] = shipping_zipcode.toString()
+                params["shipping_whatsappno"] = shipping_whatsappno.toString()
+                params["billing_whatsappno"] = billing_whatsappno.toString()
 
                 return params
             }
         }
 
-        VolleySingleton.getInstance(requireActivity().applicationContext).addToRequestQueue(stringRequest)
+        VolleySingleton.getInstance(requireActivity().applicationContext)
+            .addToRequestQueue(stringRequest)
     }
-
-
-
-
-
 
 
 }

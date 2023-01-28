@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -27,6 +28,10 @@ var listType=" "
         // Inflate the layout for this fragment
 
     binding = DataBindingUtil.inflate(inflater,R.layout.fragment_view_all,container,false)
+
+        val activity:MainActivity = requireActivity() as MainActivity
+        activity.binding.bottomNavigationView.visibility = View.GONE
+
        var args = ViewAllFragmentArgs.fromBundle(requireArguments())
             listType = args.typeOfList.toString()
 
@@ -78,8 +83,10 @@ var listType=" "
                                 objectArtist.getString("sale"),
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
-                                objectArtist.getString("id")
-                            )
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name")
+
+                                )
                             dealsList.add(banners)
                             val adapter = ViewAllProductsAdapter(dealsList)
                             binding.typeOfList.adapter = adapter
@@ -105,6 +112,12 @@ var listType=" "
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+        stringRequest.retryPolicy =
+            DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
 
     }
 
@@ -126,8 +139,10 @@ var listType=" "
                                 objectArtist.getString("sale"),
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
-                                objectArtist.getString("id")
-                            )
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name"),
+
+                                )
                             newArrivalsList.add(banners)
                             val adapter = ViewAllProductsAdapter(newArrivalsList)
                             binding.typeOfList.adapter = adapter
@@ -153,6 +168,12 @@ var listType=" "
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+        stringRequest.retryPolicy =
+            DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
 
     }
 
@@ -174,8 +195,10 @@ var listType=" "
                                 objectArtist.getString("sale"),
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
-                                objectArtist.getString("id")
-                            )
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name")
+
+                                )
 
                             offerProductList.add(banners)
                             val adapter = ViewAllProductsAdapter(offerProductList)
@@ -202,6 +225,12 @@ var listType=" "
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+        stringRequest.retryPolicy =
+            DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
     }
 
     private fun getComboOffers() {
@@ -222,10 +251,12 @@ var listType=" "
                                 objectArtist.getString("sale"),
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
-                                objectArtist.getString("id")
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name")
 
 
-                            )
+
+                                )
                             comboOffersList.add(banners)
                             val adapter = ViewAllProductsAdapter(comboOffersList)
                             binding.typeOfList.adapter = adapter
@@ -251,6 +282,13 @@ var listType=" "
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+
+        stringRequest.retryPolicy =
+            DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
     }
 
 

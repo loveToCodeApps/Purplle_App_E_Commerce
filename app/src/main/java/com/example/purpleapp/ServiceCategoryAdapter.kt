@@ -1,5 +1,6 @@
 package com.example.purpleapp
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,9 +33,19 @@ class ServiceCategoryAdapter(val data : List<ServiceCategoryData> , val data2 : 
 
     override fun onBindViewHolder(holder: ServiceCategoryViewHolder, position: Int) {
         val item = data[position]
-
         Picasso.get().load(item.serviceCategoryImg).into(holder.img)
-        holder.title.text = item.serviceCategoryHeading + " ⬇"
+
+        if (item.serviceCategoryImgName=="0" || item.serviceCategoryImgName=="null")
+        {
+            holder.title.text = item.serviceCategoryHeading
+            holder.ogLayout.setBackgroundColor(Color.parseColor("#ff4646"))
+            holder.title.visibility=View.VISIBLE
+        }
+        else
+        {
+            holder.title.visibility=View.GONE
+        }
+       // holder.title.text = item.serviceCategoryHeading + " ⬇"
 
        // val Expandable:Boolean = item.isExpandable
    //     holder.expandableLayout.visibility = if (Expandable) View.VISIBLE else View.GONE

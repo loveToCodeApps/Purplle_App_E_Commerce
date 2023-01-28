@@ -87,7 +87,7 @@ class ServiceSubCategoryAdapter(val data : List<ServiceSubCategoryData>):Adapter
 class ServiceSubCategoryViewHolder(itemView: android.view.View):ViewHolder(itemView)
 {
     val img:ImageView = itemView.findViewById(R.id.serviceCategoryImg)
-    val title:TextView = itemView.findViewById(R.id.serviceCategoryTitle)
+    //val title:TextView = itemView.findViewById(R.id.serviceCategoryTitle)
     //val linearLayout:LinearLayout = itemView.findViewById(R.id.LinearLayout)
     //val expandableLayout:ConstraintLayout = itemView.findViewById(R.id.expandable_layout)
     val ogLayout:ConstraintLayout = itemView.findViewById(R.id.ogLayout)

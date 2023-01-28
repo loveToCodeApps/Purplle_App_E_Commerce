@@ -12,8 +12,10 @@ import androidx.databinding.DataBindingUtil
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.purpleapp.api.Internet
 import com.example.purpleapp.api.URLs
 import com.example.purpleapp.databinding.FragmentBrandBinding
+import com.google.android.material.snackbar.Snackbar
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -30,8 +32,25 @@ class BrandFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_brand, container, false)
 
-        //get all brands
-        getBrands()
+        val i1 = Internet()
+        if (i1.checkConnection(requireContext()))
+        {
+            //get all brands
+            getBrands()
+            binding.animationView.visibility = View.GONE
+            binding.brandNameList.visibility = View.VISIBLE
+            binding.searchBrands.visibility = View.VISIBLE
+        }
+        else
+        {
+
+            binding.animationView.visibility = View.VISIBLE
+            binding.brandNameList.visibility = View.GONE
+            binding.searchBrands.visibility = View.GONE
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),
+                "Poor internet connection!!", Snackbar.LENGTH_LONG).show();
+        }
+
        binding.searchBrands.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
@@ -70,7 +89,7 @@ class BrandFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 1..array.length()) {
+                        for (i in 0..array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BrandNameData(
                                 objectArtist.getString("heading")

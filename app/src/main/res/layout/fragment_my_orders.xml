@@ -16,38 +16,59 @@
             android:id="@+id/myOrdersList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView70" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView70"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Showing all"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/no_internet" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view_empty"
+            android:layout_width="600dp"
+            android:layout_height="600dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerCrop"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/empty_cart" />
 
         <TextView
-            android:id="@+id/textView110"
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="'Orders'"
-            android:textColor="#F78195"
-            android:textSize="16sp"
+            android:layout_marginBottom="150dp"
+            android:text="you don't have any orders now!!"
+            android:textColor="#000000"
+            android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/textView70"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/animation_view_empty"
+            app:layout_constraintEnd_toEndOf="@+id/animation_view_empty"
+            app:layout_constraintStart_toStartOf="@+id/animation_view_empty" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

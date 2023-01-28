@@ -5,5 +5,6 @@ data class BrandAllProductData(
     var sale:String,
     var mrp:String,
     var image1: String,
-    var id : String
+    var id : String,
+    var name:String
 )

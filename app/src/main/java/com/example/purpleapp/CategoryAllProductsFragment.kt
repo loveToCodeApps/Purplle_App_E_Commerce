@@ -31,7 +31,8 @@ class CategoryAllProductsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_all_products,container,false)
-
+        val activity:MainActivity = requireActivity() as MainActivity
+        activity.binding.bottomNavigationView.visibility = View.GONE
 
 
         val args = CategoryAllProductsFragmentArgs.fromBundle(requireArguments())

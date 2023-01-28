@@ -54,15 +54,15 @@
 
                 <ImageView
                     android:id="@+id/imageView22"
-                    android:layout_width="21dp"
-                    android:layout_height="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:src="@drawable/ic_baseline_person_24"
-                    android:tint="#F78195"
                     app:layout_constraintBottom_toBottomOf="@+id/l1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/l1" />
+                    app:layout_constraintTop_toTopOf="@+id/l1"
+                    app:tint="#F78195" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -76,7 +76,6 @@
                     app:boxStrokeColor="#F78195"
                     app:boxStrokeWidth="1dp"
                     app:hintTextColor="#F78195"
-                    app:layout_constraintBottom_toTopOf="@+id/l4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/imageView23"
@@ -117,7 +116,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/imageView24"
-                    app:layout_constraintTop_toBottomOf="@+id/l4">
+                    app:layout_constraintTop_toBottomOf="@+id/l2">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/user_email"
@@ -139,45 +138,6 @@
                     app:layout_constraintBottom_toBottomOf="@+id/l3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/l3" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/l4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:hint="Phone (optional)"
-                    app:boxStrokeColor="#F78195"
-                    app:boxStrokeWidth="1dp"
-                    app:hintTextColor="#F78195"
-                    app:layout_constraintBottom_toTopOf="@+id/l3"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/imageView25"
-                    app:layout_constraintTop_toBottomOf="@+id/l2">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/user_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
-                        android:inputType="phone"
-                        android:textSize="14dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <ImageView
-                    android:id="@+id/imageView25"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="1dp"
-                    android:src="@drawable/ic_baseline_phone_24"
-                    android:tint="#F78195"
-                    app:layout_constraintBottom_toBottomOf="@+id/l4"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/l4" />
 
 
                 <!--  shipping and billing details-->

@@ -8,7 +8,9 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.android.volley.AuthFailureError
@@ -18,6 +20,7 @@ import com.android.volley.toolbox.StringRequest
 import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.api.URLs
 import com.example.purpleapp.api.VolleySingleton
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
@@ -36,8 +39,57 @@ class MyCartAdapter(val data : List<MyCartData> , var context: Context):Adapter<
         var quantity = 1
         Picasso.get().load(item.myCartProdImg).into(holder.img)
         holder.price.text="₹"+item.myCartProdNewPrice
+        holder.Qty.text = item.qty.toString()
         holder.cutPrice.text=item.myCartProdOrgPrice
         holder.heading.text=item.myCartProdHeading
+
+
+        // button to delete a item
+        holder.DeleteItem.setOnClickListener {
+            val myCartlist = mutableListOf<MyCartData>()
+            val stringRequest = object : StringRequest(
+                Request.Method.POST, URLs.URL_DELETE_FROM_MY_CART,
+                Response.Listener { response ->
+
+                    try {
+                        //converting response to json object
+                        val obj = JSONObject(response)
+                        //if no error in response
+                        if (!obj.getBoolean("error")) {
+                            Toast.makeText(context , obj.getString("message"), Toast.LENGTH_SHORT).show()
+                            it.findNavController().navigate(R.id.myCartFragment)
+
+                        } else {
+                            Toast.makeText(context , obj.getString("message"), Toast.LENGTH_SHORT).show()
+                        }
+
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+//                    binding.textView13.visibility=View.VISIBLE
+//                    binding.lottieAnimationView.visibility=View.VISIBLE
+//                    binding.progressBar1.visibility=View.GONE
+
+                    }
+
+                },
+                Response.ErrorListener { error -> Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show() }
+            ) {
+                @Throws(AuthFailureError::class)
+                override fun getParams(): Map<String, String> {
+                    val params = HashMap<String, String>()
+                    params["id"] = item.myCartProdId
+                    params["userid"] = SharedPrefManager.getInstance(context).user.id.toString()
+
+                    return params
+
+                }
+            }
+
+            VolleySingleton.getInstance(context).addToRequestQueue(stringRequest)
+          //  it.findNavController().navigate(R.id.homeFragment)
+           // Toast.makeText(it.context,"Deleted item successfully!!",Toast.LENGTH_SHORT).show()
+        }
+
 
         //plus button
         holder.plusBtn.setOnClickListener {
@@ -48,6 +100,7 @@ class MyCartAdapter(val data : List<MyCartData> , var context: Context):Adapter<
 
             }
         }
+
         //minus button
         holder.minusBtn.setOnClickListener {
           if(quantity>1) {
@@ -69,12 +122,14 @@ class MyCartAdapter(val data : List<MyCartData> , var context: Context):Adapter<
                     try {
                         val obj = JSONObject(response)
                         if (!obj.getBoolean("error")) {
-                            val array = obj.getJSONArray("user")
                             Toast.makeText(
                                 context,
                                 obj.getString("message"),
                                 Toast.LENGTH_SHORT
                             ).show()
+                            it.findNavController().navigate(R.id.myCartFragment)
+
+
                         }
                         else {
                             Toast.makeText(
@@ -104,12 +159,11 @@ class MyCartAdapter(val data : List<MyCartData> , var context: Context):Adapter<
                 @Throws(AuthFailureError::class)
                 override fun getParams(): Map<String, String> {
                     val params = HashMap<String, String>()
-                    params["id"] =
+                    params["user_id"] =
                         SharedPrefManager.getInstance(context).user.id.toString()
-                            .trim()
                     params["prod_id"] = item.myCartProdId
-                    params["quantity"] = holder.Qty.text.toString()
-                    params["unit_price"] = holder.price.toString()
+                    params["number_of_items"] = holder.Qty.text.toString()
+                    params["unit_price"] = item.myCartProdNewPrice
 
                     return params
 
@@ -119,8 +173,8 @@ class MyCartAdapter(val data : List<MyCartData> , var context: Context):Adapter<
             VolleySingleton.getInstance(context)
                 .addToRequestQueue(stringRequest)
 
-            it.visibility = View.GONE
-            it.findNavController().navigate(R.id.wishlistFragment)
+          //  it.visibility = View.GONE
+           // it.findNavController().navigate(R.id.homeFragment)
 
         }
 
@@ -144,6 +198,8 @@ class MyCartViewHolder(itemView: View):ViewHolder(itemView)
     val minusBtn: Button =itemView.findViewById(R.id.button15)
     val updateBtn: Button =itemView.findViewById(R.id.button5)
     val Qty: TextView =itemView.findViewById(R.id.textView23)
+    val DeleteItem:ImageView=itemView.findViewById(R.id.imageView42)
+
 //    val total_price: TextView =itemView.findViewById(R.id.textView89)
 
 

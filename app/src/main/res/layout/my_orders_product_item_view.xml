@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="13dp"
     app:cardBackgroundColor="#FFFFFF"
     app:cardCornerRadius="4dp"
     app:cardElevation="8dp">
@@ -12,15 +12,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/imageView35"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView12"
-            app:srcCompat="@drawable/offer_prod_four" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView12"
@@ -41,9 +32,10 @@
                     android:id="@+id/textView111"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="Order ID"
+                    app:layout_constraintEnd_toStartOf="@+id/textView112"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,11 +43,12 @@
                     android:id="@+id/textView112"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="Order Date"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView111"
-                    app:layout_constraintStart_toEndOf="@+id/textView113"
-                    app:layout_constraintTop_toTopOf="@+id/textView111" />
+                    app:layout_constraintEnd_toStartOf="@+id/button10"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/textView111"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/button10"
@@ -64,7 +57,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:text="View Order"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView114"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView112"
                     app:strokeColor="#F78195" />
@@ -73,8 +67,7 @@
                     android:id="@+id/textView113"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginBottom="8dp"
                     android:text="31049290"
                     android:textColor="#000000"
@@ -87,10 +80,9 @@
                     android:id="@+id/textView114"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="sat , 24 Dec 2022"
                     android:textColor="#000000"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView113"
                     app:layout_constraintStart_toStartOf="@+id/textView112"
                     app:layout_constraintTop_toBottomOf="@+id/textView112" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -100,21 +92,23 @@
             android:id="@+id/textView115"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Arriving by"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="13dp"
+            android:text="Total Price : "
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView35" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView12" />
 
         <TextView
             android:id="@+id/textView116"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="December 25 , 2022"
+            android:layout_marginStart="4dp"
+            android:text="₹0.00"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView115"
             app:layout_constraintStart_toEndOf="@+id/textView115"
@@ -127,11 +121,15 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:background="@drawable/pink_button_back"
-            android:padding="5dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="3dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
             android:text="Preparing"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/textView115"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView12" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

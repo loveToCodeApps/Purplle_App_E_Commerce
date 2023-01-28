@@ -22,13 +22,13 @@ class ProductDescriptionAdapter(val data : List<ProductImageData>):Adapter<Produ
 
     override fun onBindViewHolder(holder: ProductDescriptionViewHolder, position: Int) {
        val item = data[position]
-       if (item.producImage == null || item.producImage == "")
-       {
-           holder.img.setImageResource(R.drawable.not_available_picture)
-       }
-        else {
-           Picasso.get().load(item.producImage).into(holder.img)
-       }
+//       if (item.producImage == null || item.producImage == "" || item.producImage == "null")
+//       {
+//           holder.img.setImageResource(R.drawable.not_available_picture)
+//       }
+//        else {
+//           Picasso.get().load(item.producImage).into(holder.img)
+//       }
 
 
         holder.img.setOnClickListener {

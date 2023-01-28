@@ -10,8 +10,8 @@ import androidx.databinding.DataBindingUtil
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.purpleapp.api.Internet
 import com.example.purpleapp.api.URLs
-import com.example.purpleapp.databinding.FragmentOfferBinding
 import com.example.purpleapp.databinding.FragmentOffersBinding
 import org.json.JSONException
 import org.json.JSONObject
@@ -28,7 +28,23 @@ class OffersFragment : Fragment() {
         // Inflate the layout for this fragment
 binding = DataBindingUtil.inflate(inflater,R.layout.fragment_offers,container,false)
 
-        getHotDeals()
+        val i1 = Internet()
+        if (i1.checkConnection(requireContext()))
+        {
+            getHotDeals()
+            binding.animationView.visibility = View.GONE
+            binding.textView133.visibility = View.VISIBLE
+            binding.textView137.visibility = View.VISIBLE
+            binding.typeOfList.visibility = View.VISIBLE
+        }
+        else
+        {
+            binding.animationView.visibility = View.VISIBLE
+            binding.textView133.visibility = View.GONE
+            binding.textView137.visibility = View.GONE
+            binding.typeOfList.visibility = View.GONE
+        }
+
 
     return binding.root
 
@@ -51,8 +67,10 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_offers,container,fa
                                 objectArtist.getString("sale"),
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
-                                objectArtist.getString("id")
-                            )
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name")
+
+                                )
                             dealsList.add(banners)
                             val adapter = OffersAdapter(dealsList)
                             binding.typeOfList.adapter=adapter

@@ -12,13 +12,28 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_productDescriptionFragment"
-            app:destination="@id/productDescriptionFragment" />
+            app:destination="@id/productDescriptionFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/homeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_brandAllProductsFragment"
-            app:destination="@id/brandAllProductsFragment" />
+            app:destination="@id/brandAllProductsFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/homeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_categoryHomeAllProductsFragment"
-            app:destination="@id/categoryHomeAllProductsFragment" />
+            app:destination="@id/categoryHomeAllProductsFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/homeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_viewAllFragment"
             app:destination="@id/viewAllFragment" />
@@ -27,13 +42,30 @@
             app:destination="@id/viewAllFragment" />
         <action
             android:id="@+id/action_homeFragment_to_viewAllFragment4"
-            app:destination="@id/viewAllFragment" />
+            app:destination="@id/viewAllFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchedProductsFragment"
+            app:destination="@id/searchedProductsFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/myCartFragment"
         android:name="com.example.purpleapp.MyCartFragment"
         android:label="My Cart"
-        tools:layout="@layout/fragment_my_cart" />
+        tools:layout="@layout/fragment_my_cart" >
+        <action
+            android:id="@+id/action_myCartFragment_to_shipToAddressFragment"
+            app:destination="@id/shipToAddressFragment" />
+    </fragment>
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.purpleapp.CategoryFragment"
@@ -41,7 +73,12 @@
         tools:layout="@layout/fragment_category" >
         <action
             android:id="@+id/action_categoryFragment_to_categoryAllProductsFragment"
-            app:destination="@id/categoryAllProductsFragment" />
+            app:destination="@id/categoryAllProductsFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/brandFragment"
@@ -50,18 +87,18 @@
         tools:layout="@layout/fragment_brand" >
         <action
             android:id="@+id/action_brandFragment_to_brandAllProductsFragment"
-            app:destination="@id/brandAllProductsFragment" />
+            app:destination="@id/brandAllProductsFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/brandFragment" />
     </fragment>
     <fragment
         android:id="@+id/offerFragment"
         android:name="com.example.purpleapp.OfferFragment"
         android:label="Offers"
         tools:layout="@layout/fragment_offer" />
-    <dialog
-        android:id="@+id/myProfileFragment"
-        android:name="com.example.purpleapp.MyAccountFragment"
-        android:label="fragment_my_account"
-        tools:layout="@layout/fragment_my_account" />
     <fragment
         android:id="@+id/productDescriptionFragment"
         android:name="com.example.purpleapp.ProductDescriptionFragment"
@@ -75,10 +112,16 @@
             app:argType="string" />
         <action
             android:id="@+id/action_productDescriptionFragment_self"
-            app:destination="@id/productDescriptionFragment" />
+            app:destination="@id/productDescriptionFragment"
+            app:popUpTo="@id/homeFragment" />
         <action
             android:id="@+id/action_productDescriptionFragment_to_categoryAllProductsFragment"
-            app:destination="@id/categoryAllProductsFragment" />
+            app:destination="@id/categoryAllProductsFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/productDescriptionFragment" />
     </fragment>
     <fragment
         android:id="@+id/privacyPolicyFragment"
@@ -104,7 +147,16 @@
         android:id="@+id/wishlistFragment"
         android:name="com.example.purpleapp.WishlistFragment"
         android:label="Favourites"
-        tools:layout="@layout/fragment_wishlist" />
+        tools:layout="@layout/fragment_wishlist" >
+        <action
+            android:id="@+id/action_wishlistFragment_to_myCartFragment"
+            app:destination="@id/myCartFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/wishlistStoriesTabFragment"
         android:name="com.example.purpleapp.WishlistStoriesTabFragment"
@@ -117,19 +169,43 @@
         tools:layout="@layout/fragment_my_profile" >
         <action
             android:id="@+id/action_myProfileFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" />
+            app:destination="@id/editProfileFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/myProfileFragment" />
         <action
             android:id="@+id/action_myProfileFragment_to_wishlistFragment"
-            app:destination="@id/wishlistFragment" />
+            app:destination="@id/wishlistFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/myProfileFragment" />
         <action
             android:id="@+id/action_myProfileFragment_to_customerSupportFragment"
-            app:destination="@id/customerSupportFragment" />
+            app:destination="@id/customerSupportFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/myProfileFragment" />
         <action
             android:id="@+id/action_myProfileFragment_to_myOrdersFragment4"
             app:destination="@id/myOrdersFragment" />
         <action
             android:id="@+id/action_myProfileFragment_to_myOrdersFragment5"
-            app:destination="@id/myOrdersFragment" />
+            app:destination="@id/myOrdersFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/myProfileFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_self"
+            app:destination="@id/myProfileFragment"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -140,18 +216,32 @@
         android:id="@+id/myOrdersFragment"
         android:name="com.example.purpleapp.MyOrdersFragment"
         android:label="My Orders"
-        tools:layout="@layout/fragment_my_orders" />
+        tools:layout="@layout/fragment_my_orders" >
+        <action
+            android:id="@+id/action_myOrdersFragment_to_viewOrderFragment"
+            app:destination="@id/viewOrderFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/myOrdersFragment" />
+    </fragment>
     <fragment
         android:id="@+id/categoryAllProductsFragment"
         android:name="com.example.purpleapp.CategoryAllProductsFragment"
-        android:label="All Products  Of Category"
+        android:label="All Products"
         tools:layout="@layout/fragment_category_all_products" >
         <argument
             android:name="categ_name"
             app:argType="string" />
         <action
             android:id="@+id/action_categoryAllProductsFragment_to_productDescriptionFragment"
-            app:destination="@id/productDescriptionFragment" />
+            app:destination="@id/productDescriptionFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/categoryAllProductsFragment" />
     </fragment>
     <fragment
         android:id="@+id/brandAllProductsFragment"
@@ -163,7 +253,12 @@
             app:argType="string" />
         <action
             android:id="@+id/action_brandAllProductsFragment_to_productDescriptionFragment"
-            app:destination="@id/productDescriptionFragment" />
+            app:destination="@id/productDescriptionFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/brandAllProductsFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryHomeAllProductsFragment"
@@ -175,17 +270,45 @@
             app:argType="string" />
         <action
             android:id="@+id/action_categoryHomeAllProductsFragment_to_productDescriptionFragment"
-            app:destination="@id/productDescriptionFragment" />
+            app:destination="@id/productDescriptionFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/categoryHomeAllProductsFragment" />
     </fragment>
     <fragment
         android:id="@+id/shipToAddressFragment"
         android:name="com.example.purpleapp.ShipToAddressFragment"
-        android:label="Address"
-        tools:layout="@layout/fragment_ship_to_address" />
+        android:label="Shipping Address"
+        tools:layout="@layout/fragment_ship_to_address" >
+        <action
+            android:id="@+id/action_shipToAddressFragment_to_editAddressFragment"
+            app:destination="@id/editAddressFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/shipToAddressFragment" />
+        <argument
+            android:name="count"
+            app:argType="string" />
+        <argument
+            android:name="total"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_shipToAddressFragment_to_myOrdersFragment"
+            app:destination="@id/myOrdersFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editAddressFragment"
         android:name="com.example.purpleapp.EditAddressFragment"
-        android:label="fragment_edit_address"
+        android:label="Add address"
         tools:layout="@layout/fragment_edit_address" />
     <fragment
         android:id="@+id/viewAllFragment"
@@ -198,7 +321,12 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_viewAllFragment_to_productDescriptionFragment"
-            app:destination="@id/productDescriptionFragment" />
+            app:destination="@id/productDescriptionFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/viewAllFragment" />
     </fragment>
     <fragment
         android:id="@+id/offersFragment"
@@ -207,7 +335,12 @@
         tools:layout="@layout/fragment_offers" >
         <action
             android:id="@+id/action_offersFragment_to_productDescriptionFragment"
-            app:destination="@id/productDescriptionFragment" />
+            app:destination="@id/productDescriptionFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/offersFragment" />
     </fragment>
     <fragment
         android:id="@+id/newbiesFragment"
@@ -216,13 +349,55 @@
         tools:layout="@layout/fragment_newbies" >
         <action
             android:id="@+id/action_newbiesFragment_to_productDescriptionFragment"
-            app:destination="@id/productDescriptionFragment" />
+            app:destination="@id/productDescriptionFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/newbiesFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedbackFragment"
         android:name="com.example.purpleapp.FeedbackFragment"
         android:label="fragment_feedback"
         tools:layout="@layout/fragment_feedback" />
+    <fragment
+        android:id="@+id/searchAnything"
+        android:name="com.example.purpleapp.SearchAnything"
+        android:label="fragment_search_anything"
+        tools:layout="@layout/fragment_search_anything" />
+    <fragment
+        android:id="@+id/searchedProductsFragment"
+        android:name="com.example.purpleapp.SearchedProductsFragment"
+        android:label="Searched results"
+        tools:layout="@layout/fragment_searched_products">
+        <argument
+            android:name="search"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchedProductsFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/searchedProductsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewOrderFragment"
+        android:name="com.example.purpleapp.ViewOrderFragment"
+        android:label="Order Details"
+        tools:layout="@layout/fragment_view_order" >
+        <argument
+            android:name="orderId"
+            app:argType="string" />
+        <argument
+            android:name="orderDate"
+            app:argType="string" />
+        <argument
+            android:name="orderTotal"
+            app:argType="string" />
+    </fragment>
 </navigation>
 
 

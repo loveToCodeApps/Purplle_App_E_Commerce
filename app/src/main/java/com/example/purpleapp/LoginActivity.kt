@@ -21,19 +21,19 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var binding : ActivityLoginBinding
+    lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
         binding.textView79.setOnClickListener {
-           finish()
-            startActivity(Intent(this,RegistrationActivity::class.java))
+            finish()
+            startActivity(Intent(this, RegistrationActivity::class.java))
         }
 
         binding.textView139.setOnClickListener {
             finish()
-            startActivity(Intent(this,MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
 
@@ -44,23 +44,27 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-       binding.button2.setOnClickListener {
+        binding.button2.setOnClickListener {
 
 
-           userLogin()
+            userLogin()
 
-       }
+        }
 
     }
 
     private fun userLogin() {
         val number = binding.phoneBox.text.toString()
+        var address: String
+        var state: String
+        var city: String
+        var pincode: String
 
         if (TextUtils.isEmpty(number)) {
             binding.phoneBox.error = "Please enter your phone number"
             binding.phoneBox.requestFocus()
         }
-        if (TextUtils.getTrimmedLength(number) >= 1 && TextUtils.getTrimmedLength(number) <= 9 ) {
+        if (TextUtils.getTrimmedLength(number) >= 1 && TextUtils.getTrimmedLength(number) <= 9) {
             binding.phoneBox.error = "please enter 10 digits"
             binding.phoneBox.requestFocus()
         }
@@ -76,18 +80,42 @@ class LoginActivity : AppCompatActivity() {
 
                     //if no error in response
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
-                        Snackbar.make(findViewById(android.R.id.content),
+                        Toast.makeText(
+                            applicationContext,
                             obj.getString("message"),
-                            Snackbar.LENGTH_SHORT
+                            Toast.LENGTH_SHORT
                         ).show()
-
-
-
-
+//
                         //getting the user from the response
                         val userJson = obj.getJSONObject("user")
+//                        var address =  userJson.getString("address")
+                        if (userJson.getString("address") == null || userJson.getString("address") == "null") {
+                            address = "Not available"
+                        } else {
+                            address = userJson.getString("address")
+                        }
+//----------------------------------------------------------------------------
+                        if (userJson.getString("state") == null || userJson.getString("state") == "null" || userJson.getString("state").length==0) {
+                            state = "Not available"
+                        }
+                        else
+                        {
+                            state = userJson.getString("state")
+                        }
 
+//------------------------------------------------------------------------------------
+                        if (userJson.getString("city") == null || userJson.getString("city") == "null") {
+                            city = "Not available"
+                        } else {
+                            city = userJson.getString("city")
+                        }
+//-------------------------------------------------------------------------------------
+                        if (userJson.getString("zipcode") == null || userJson.getString("zipcode") == "null") {
+                            pincode = "Not available"
+                        } else {
+                            pincode = userJson.getString("zipcode")
+                        }
+                        //--------------------------------------------------------------------------------
 
                         //creating a new user object
                         val user = User(
@@ -96,9 +124,14 @@ class LoginActivity : AppCompatActivity() {
                             userJson.getString("middlename"),
                             userJson.getString("lastname"),
                             userJson.getString("email"),
-                            userJson.getString("phone")
-
-                        )
+                            userJson.getString("phone"),
+                            address,
+                           state,
+                            city,
+                            pincode,
+                            userJson.getString("shipping_whatsappno"),
+                            userJson.getString("billing_whatsappno")
+                            )
 
                         //storing the user in shared preferences
                         SharedPrefManager.getInstance(applicationContext).userLogin(user)
@@ -106,14 +139,18 @@ class LoginActivity : AppCompatActivity() {
                         finish()
                         startActivity(Intent(applicationContext, MainActivity::class.java))
                     } else {
-                        Toast.makeText(applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            applicationContext,
+                            obj.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
             },
-            Response.ErrorListener {
-                    error -> Toast.makeText(applicationContext, error.message, Toast.LENGTH_SHORT).show()
+            Response.ErrorListener { error ->
+                Toast.makeText(applicationContext, error.message, Toast.LENGTH_SHORT).show()
             }) {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {

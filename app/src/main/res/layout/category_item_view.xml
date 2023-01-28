@@ -8,16 +8,16 @@
     android:layout_margin="8dp"
     app:cardBackgroundColor="#FFFFFF"
     app:cardCornerRadius="8dp"
-    app:cardElevation="10dp">
+    app:cardElevation="4dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/categoryItemViewConstraintLayout"
+        android:id="@+id/ogLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/category_img"
+            android:id="@+id/serviceCategoryImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"

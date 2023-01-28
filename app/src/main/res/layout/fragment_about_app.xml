@@ -88,7 +88,7 @@
                 android:id="@+id/animation_view"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="25dp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView14"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

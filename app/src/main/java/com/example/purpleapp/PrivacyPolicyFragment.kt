@@ -34,6 +34,10 @@ class PrivacyPolicyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
+        val activity:MainActivity = requireActivity() as MainActivity
+        activity.binding.bottomNavigationView.visibility = View.GONE
+
         return inflater.inflate(R.layout.fragment_privacy_policy, container, false)
     }
 

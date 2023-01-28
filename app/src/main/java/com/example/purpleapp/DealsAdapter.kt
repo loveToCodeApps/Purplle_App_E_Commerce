@@ -27,7 +27,14 @@ class DealsAdapter(val data: MutableList<DealsData>):
         holder.sale.text = "₹"+item.sale
      //   holder.mrp.text = "₹"+item.mrp
 //        holder.discount.text = item.disc
-        Picasso.get().load(item.image).into(holder.img)
+        if (item.name==null || item.name=="null" || item.name=="")
+        {
+            Picasso.get().load(R.drawable.not_available_picture).into(holder.img)
+        }
+        else {
+            Picasso.get().load(item.image).into(holder.img)
+        }
+
 holder.img.setOnClickListener {
     it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDescriptionFragment(item.id))
 

@@ -1,6 +1,8 @@
 package com.example.purpleapp
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,13 +15,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.databinding.ActivityMainBinding
+import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
+
     lateinit var binding: ActivityMainBinding
     lateinit var drawerLayout: DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +34,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // action bar title changed
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        //myAlarm()
         drawerLayout = binding.myDrawer
+
+        //---------------------------------------------------------------------------------
+
+
+        //----------------------------------------------------------------------------------------------------
+
         val navController = this.findNavController(R.id.purplleNavHost)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(binding.myNavView, navController)
@@ -90,6 +104,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // prevent nav gesture if not on start destination
+        navController.addOnDestinationChangedListener { nc: NavController, nd: NavDestination, args: Bundle? ->
+            if (nd.id == nc.graph.startDestinationId) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            } else {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            }
+        }
+
 
         //navigation drawer menu
         binding.myNavView.setNavigationItemSelectedListener {
@@ -124,6 +147,7 @@ class MainActivity : AppCompatActivity() {
                     {
                         val intent = Intent(this@MainActivity, LoginActivity::class.java)
                         startActivity(intent)
+                        finish()
                     }
                 }
                 R.id.wishlistFragment-> {
@@ -134,8 +158,10 @@ class MainActivity : AppCompatActivity() {
                     }
                     else
                     {
+                        Toast.makeText(this, "you will first need to login !!", Toast.LENGTH_SHORT).show();
                         val intent = Intent(this@MainActivity, LoginActivity::class.java)
                         startActivity(intent)
+                        finish()
                     }
                 }
                 R.id.myProfileFragment->{ if(SharedPrefManager.getInstance(this).isLoggedIn) {
@@ -145,17 +171,20 @@ class MainActivity : AppCompatActivity() {
                 }
                 else
                 {
+                    Toast.makeText(this, "you will first need to login !!", Toast.LENGTH_SHORT).show();
                     val intent = Intent(this@MainActivity, LoginActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
                 }
                 R.id.customerSupportFragment-> {findNavController(R.id.purplleNavHost)
                     .navigate(R.id.customerSupportFragment)
                     binding.myDrawer.closeDrawer(GravityCompat.START, true)
                 }
-                R.id.privacyPolicyFragment-> {findNavController(R.id.purplleNavHost)
+                R.id.privacyPolicyFragment-> {
+                    findNavController(R.id.purplleNavHost)
                 .navigate(R.id.privacyPolicyFragment)
-                    binding.myDrawer.closeDrawer(GravityCompat.START, true)
+
                 }
                 R.id.termsAndConditionsFragment-> {findNavController(R.id.purplleNavHost)
                     .navigate(R.id.termsAndConditionsFragment)
@@ -173,38 +202,28 @@ class MainActivity : AppCompatActivity() {
                }
                 R.id.feedback->
                 {
-//                    val emailIntent = Intent(
-//                        Intent.ACTION_SENDTO, Uri.fromParts(
-//                            "mailto", "crazybikkers@gmail.com", null
-//                        )
-//                    )
-//                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Please describe your complaint here ..!")
-//                    startActivity(Intent.createChooser(emailIntent, null))
-            var mail = "crazybikkers@gmail.com"
+                    if(SharedPrefManager.getInstance(this).isLoggedIn) {
+                        var mail = "@gmail.com"
 
-//
-//                    val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$mail"))
-//                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback of Affetta App")
-//                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Please share your experience of using affetta app here in detail , Thank you !!")
-////emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, body); //If you are using HTML in your body text
-//
-////emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, body); //If you are using HTML in your body text
-//                    startActivity(Intent.createChooser(emailIntent, "Choose app for mail"))
+                        val selectorIntent = Intent(Intent.ACTION_SENDTO)
+                        selectorIntent.data = Uri.parse("mailto:")
 
+                        val emailIntent = Intent(Intent.ACTION_SEND)
+                        emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("support@affetta.com"))
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "feedback for Affetta App")
+                        emailIntent.putExtra(Intent.EXTRA_TEXT, "Please share your experience of using affetta app here in detail , Thank you !!")
+                        emailIntent.selector = selectorIntent
+                        startActivity(Intent.createChooser(emailIntent, "Send email..."))
+                        binding.myDrawer.closeDrawer(GravityCompat.START, true)
 
-                    val selectorIntent = Intent(Intent.ACTION_SENDTO)
-                    selectorIntent.data = Uri.parse("mailto:")
-
-                    val emailIntent = Intent(Intent.ACTION_SEND)
-                    emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("crazybikkers@gmail.com"))
-                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "feedback for Affetta App")
-                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Please share your experience of using affetta app here in detail , Thank you !!")
-                    emailIntent.selector = selectorIntent
-
-                    startActivity(Intent.createChooser(emailIntent, "Send email..."))
-
-                    binding.myDrawer.closeDrawer(GravityCompat.START, true)
-
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "you will first need to login !!", Toast.LENGTH_SHORT).show();
+                        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
 
 
                 }
@@ -216,6 +235,28 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun myAlarm() {
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 16)
+        calendar.set(Calendar.MINUTE, 32)
+        calendar.set(Calendar.SECOND, 0)
+        if (calendar.getTime().compareTo(Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1)
+        val intent = Intent(this.applicationContext, NotificationReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager?.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.getTimeInMillis(),
+            60000L,
+            pendingIntent
+        )
+    }
+
     @SuppressLint("RtlHardcoded")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -224,8 +265,11 @@ class MainActivity : AppCompatActivity() {
                 if (SharedPrefManager.getInstance(this).isLoggedIn) {
                     Toast.makeText(this, "You are already logged in ", Toast.LENGTH_SHORT).show()
                 } else {
+                    Toast.makeText(this, "you will first need to login !!", Toast.LENGTH_SHORT).show();
                     val intent = Intent(this@MainActivity, LoginActivity::class.java)
                     startActivity(intent)
+                    finish()
+
                 }
             }
             R.id.myProfileFragment->{
@@ -233,19 +277,62 @@ class MainActivity : AppCompatActivity() {
                     findNavController(R.id.purplleNavHost)
                         .navigate(R.id.myProfileFragment)
                 } else {
+                    Toast.makeText(this, "you will first need to login !!", Toast.LENGTH_SHORT).show();
                     val intent = Intent(this@MainActivity, LoginActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
             }
             R.id.myOrdersFragment->{
-                findNavController(R.id.purplleNavHost)
-                    .navigate(R.id.myOrdersFragment)
+
+                if (SharedPrefManager.getInstance(this).isLoggedIn) {
+                    findNavController(R.id.purplleNavHost)
+                        .navigate(R.id.myOrdersFragment)
+                } else {
+                    Toast.makeText(this, "you will first need to login !!", Toast.LENGTH_SHORT).show();
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
+                }
+            }
+            R.id.wishlistFragment->{
+
+                if (SharedPrefManager.getInstance(this).isLoggedIn) {
+                    findNavController(R.id.purplleNavHost)
+                        .navigate(R.id.wishlistFragment)
+                } else {
+                    Toast.makeText(this, "you will first need to login !!", Toast.LENGTH_SHORT).show();
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
+                }
+            }
+            R.id.myCartFragment->{
+
+                if (SharedPrefManager.getInstance(this).isLoggedIn) {
+                    findNavController(R.id.purplleNavHost)
+                        .navigate(R.id.myCartFragment)
+                } else {
+                    Toast.makeText(this, "you will first need to login !!", Toast.LENGTH_SHORT).show();
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
+                }
+
             }
 //           // *********************************************************************
             //**********************************************************************
             // vvvvvvvviiiiiiiiiiimmmmmmmmmmpppppppppppppppppp    line
+
+
             // most imp line for up button and navigation drawer icon to work
-            else -> {return super.onOptionsItemSelected(item)}
+
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
 
 
 
@@ -260,7 +347,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-}
+
+    }
+
+
+
 
 
 

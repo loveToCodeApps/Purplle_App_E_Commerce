@@ -17,6 +17,10 @@ class CustomerSupportFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
     val binding : FragmentCustomerSupportBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_customer_support,container,false)
+
+        val activity:MainActivity = requireActivity() as MainActivity
+        activity.binding.bottomNavigationView.visibility = View.GONE
+
     return binding.root
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -14,21 +14,41 @@
         android:focusableInTouchMode="true"
         tools:context=".HomeFragment">
 
-        <androidx.appcompat.widget.SearchView
+        <!--        <androidx.appcompat.widget.SearchView-->
+        <!--            android:id="@+id/searchView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="43dp"-->
+        <!--            android:layout_marginStart="8dp"-->
+        <!--            android:layout_marginTop="8dp"-->
+        <!--            android:layout_marginEnd="8dp"-->
+        <!--            android:background="#FFFFFF"-->
+        <!--            android:elevation="5dp"-->
+        <!--            android:textSize="5dp"-->
+        <!--            app:iconifiedByDefault="false"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:queryHint="what are you looking for ?"/>-->
+        <AutoCompleteTextView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="43dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:background="#FFFFFF"
-            android:elevation="5dp"
-            android:textSize="5dp"
-            app:iconifiedByDefault="false"
+            android:background="@drawable/shape"
+            android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:elevation="4dp"
+            android:fontFamily="@font/gilroy_medium"
+            android:hint="  what are you looking for ?"
+            android:imeOptions="actionSearch"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:queryHint="what are you looking for ?" />
+            app:tint="#F78195" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view"
@@ -36,11 +56,14 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/no_internet" />
+
 
         <ScrollView
             android:id="@+id/scrollView2"
@@ -72,18 +95,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView103" />
 
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/productList"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:layout_marginTop="8dp"-->
-<!--                    android:layout_marginEnd="4dp"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/comboOffersList" />-->
+                <!--                <androidx.recyclerview.widget.RecyclerView-->
+                <!--                    android:id="@+id/productList"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="8dp"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    android:layout_marginEnd="4dp"-->
+                <!--                    android:orientation="horizontal"-->
+                <!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/comboOffersList" />-->
                 <com.denzcoskun.imageslider.ImageSlider
                     android:id="@+id/productList"
                     android:layout_width="match_parent"
@@ -275,18 +298,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView87" />
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/dicountbanner_list"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:layout_marginTop="8dp"-->
-<!--                    android:layout_marginEnd="4dp"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/liveProductList" />-->
+                <!--                <androidx.recyclerview.widget.RecyclerView-->
+                <!--                    android:id="@+id/dicountbanner_list"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:layout_marginStart="8dp"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    android:layout_marginEnd="4dp"-->
+                <!--                    android:orientation="horizontal"-->
+                <!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/liveProductList" />-->
 
                 <com.denzcoskun.imageslider.ImageSlider
                     android:id="@+id/random_list"
@@ -300,10 +323,7 @@
                     app:iss_period="1400"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/liveProductList"/>
-
-
-
+                    app:layout_constraintTop_toBottomOf="@+id/liveProductList" />
 
 
                 <androidx.recyclerview.widget.RecyclerView

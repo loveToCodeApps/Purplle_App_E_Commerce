@@ -3,6 +3,7 @@ package com.example.purpleapp
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
@@ -23,41 +24,52 @@ import com.example.purpleapp.api.VolleySingleton
 import com.example.purpleapp.databinding.FragmentProductDescriptionBinding
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.TextUtils
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
 
 
 class ProductDescriptionFragment : Fragment() {
-lateinit var binding : FragmentProductDescriptionBinding
-// lateinit var userId:String
-lateinit var prod_id:String
-    lateinit var prod_desc_id:String
-    lateinit var prod_im:String
-    lateinit var prod_head:String
-    lateinit var prod_ogp:String
-    lateinit var prod_newp:String
-     var quantitiesCounter:Int = 1
-    lateinit var categ:String
+    lateinit var binding: FragmentProductDescriptionBinding
+
+    // lateinit var userId:String
+    var counts = "0"
+    lateinit var prod_id: String
+    lateinit var prod_desc_id: String
+    lateinit var prod_im: String
+    lateinit var prod_head: String
+    lateinit var prod_ogp: String
+    lateinit var prod_newp: String
+    var quantitiesCounter: Int = 1
+    lateinit var categ: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-         binding   = DataBindingUtil.inflate(inflater,R.layout.fragment_product_description,container,false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_product_description,
+            container,
+            false
+        )
+        getCartItemsCount()
+        var showMoreDescription = "false"
 
-       var  showMoreDescription = "false"
 
+        //get item count of cart
 
-    getProductDescriptionDetails()
+        getProductDescriptionDetails()
+
 //    getSimilarProducts()
 
 //       prodDescriptionImgList.add(ProductImageData(R.drawable.demo_prod_one))
 //        prodDescriptionImgList.add(ProductImageData(R.drawable.demo_prod_two))
 //        prodDescriptionImgList.add(ProductImageData(R.drawable.demo_prod_three))
 //        prodDescriptionImgList.add(ProductImageData(R.drawable.demo_prod_four))
-
 
 
         val smallProdImgList = mutableListOf<SmallProductData>()
@@ -69,66 +81,70 @@ lateinit var prod_id:String
 //        smallProdImgList.add(SmallProductData(R.drawable.offer_prod_one))
 
 
+        binding.addToCartBtn.setOnClickListener {
+            if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
+                addToCart()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "only Logged In users can add to cart !!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                startActivity(Intent(requireContext(), LoginActivity::class.java))
+            }
+        }
 
-
-
-binding.addToCartBtn.setOnClickListener {
-  if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
-      addToCart()
-  }
-    else{
-        Toast.makeText(requireContext(),"only Logged In users can add to cart !!",Toast.LENGTH_SHORT).show()
-      startActivity(Intent(requireContext(), LoginActivity::class.java))
-    }
-}
 
 
         binding.wishlistBtn.setOnClickListener {
             if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
                 addToWishlist()
 //                it.findNavController().navigate(R.id.wishlistFragment)
-            }
-            else{
-                Toast.makeText(requireContext(),"only Logged In users can add to wish list !!",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "only Logged In users can add to wish list !!",
+                    Toast.LENGTH_SHORT
+                ).show()
                 startActivity(Intent(requireContext(), LoginActivity::class.java))
             }
         }
 
         // plus and minus button
         binding.button13.setOnClickListener {
-           if (quantitiesCounter>=1) {
-               quantitiesCounter += 1
-               binding.textView23.text = quantitiesCounter.toString()
-           }
-           }
-        binding.button15.setOnClickListener {
-            if (quantitiesCounter>1) {
-            quantitiesCounter-=1
-            binding.textView23.text = quantitiesCounter.toString()
+            if (quantitiesCounter >= 1) {
+                quantitiesCounter += 1
+                binding.textView23.text = quantitiesCounter.toString()
+            }
         }
+        binding.button15.setOnClickListener {
+            if (quantitiesCounter > 1) {
+                quantitiesCounter -= 1
+                binding.textView23.text = quantitiesCounter.toString()
+            }
         }
 
 
 
         binding.textView31.setOnClickListener {
-                it.findNavController().navigate(ProductDescriptionFragmentDirections.actionProductDescriptionFragmentToCategoryAllProductsFragment(categ))
+            it.findNavController().navigate(
+                ProductDescriptionFragmentDirections.actionProductDescriptionFragmentToCategoryAllProductsFragment(
+                    categ
+                )
+            )
         }
-
 
 
         //textview to show more description of product , bydefault it only shows 3 lines of description
         binding.textView24.setOnClickListener {
-            if (showMoreDescription.equals("false"))
-            {
-                binding.textView38.maxLines = 100
+            if (showMoreDescription.equals("false")) {
+                binding.textView38.maxLines = 25
                 binding.textView24.text = "Show less >"
-                showMoreDescription="true"
-            }
-            else if (showMoreDescription.equals("true"))
-            {
+                showMoreDescription = "true"
+            } else if (showMoreDescription.equals("true")) {
                 binding.textView38.maxLines = 3
                 binding.textView24.text = "Show more >"
-                showMoreDescription="false"
+                showMoreDescription = "false"
             }
 
         }
@@ -137,6 +153,51 @@ binding.addToCartBtn.setOnClickListener {
         return binding.root
 
     }
+
+    private fun getCartItemsCount() {
+        val stringRequest = object : StringRequest(
+            Request.Method.POST, URLs.URL_GET_CART_ITEMS_COUNT,
+            Response.Listener { response ->
+
+                try {
+                    //converting response to json object
+                    val obj = JSONObject(response)
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+                        counts = obj.getString("count")
+                    } else {
+                        Toast.makeText(
+                            requireActivity().applicationContext,
+                            obj.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(
+                    requireActivity().applicationContext,
+                    error.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params["id"] =
+                    SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString()
+                        .trim()
+                return params
+
+            }
+        }
+
+        VolleySingleton.getInstance(requireActivity().applicationContext)
+            .addToRequestQueue(stringRequest)
+    }
+
 
     private fun getSimilarProducts() {
         val brandsList = mutableListOf<BrandAllProductData>()
@@ -153,21 +214,27 @@ binding.addToCartBtn.setOnClickListener {
                         val array = obj.getJSONArray("user")
 
                         //   for (i in (array.length()-1) until  1) {
-                        for (i in 0 until array.length() + 1) {
+                        for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BrandAllProductData(
                                 objectArtist.optString("heading"),
                                 objectArtist.optString("sale"),
                                 objectArtist.optString("mrp"),
                                 objectArtist.optString("image"),
-                                objectArtist.optString("id")
+                                objectArtist.optString("id"),
+                                objectArtist.optString("name")
+
                             )
                             brandsList.add(banners)
                             val adapter = SimilarProductsAdapter(brandsList)
-                            binding.recyclerView2.adapter=adapter
+                            binding.recyclerView2.adapter = adapter
                         }
                     } else {
-                        Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireActivity().applicationContext,
+                            obj.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
 
 
                     }
@@ -181,7 +248,13 @@ binding.addToCartBtn.setOnClickListener {
                 }
 
             },
-            Response.ErrorListener { error -> Toast.makeText(requireActivity().applicationContext, error.message, Toast.LENGTH_SHORT).show() }
+            Response.ErrorListener { error ->
+                Toast.makeText(
+                    requireActivity().applicationContext,
+                    error.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         ) {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
@@ -192,14 +265,16 @@ binding.addToCartBtn.setOnClickListener {
             }
         }
 
-        VolleySingleton.getInstance(requireActivity().applicationContext).addToRequestQueue(stringRequest)
+        VolleySingleton.getInstance(requireActivity().applicationContext)
+            .addToRequestQueue(stringRequest)
 
     }
 
     private fun addToWishlist() {
         val args = ProductDescriptionFragmentArgs.fromBundle(requireArguments())
 
-        val userId = SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString()
+        val userId =
+            SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString()
 
 
         val stringRequest = object : StringRequest(
@@ -211,18 +286,30 @@ binding.addToCartBtn.setOnClickListener {
                     val obj = JSONObject(response)
                     //if no error in response
                     if (!obj.getBoolean("error")) {
-                        Snackbar.make(requireActivity().findViewById(android.R.id.content),obj.getString("message")
-                            , Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(
+                            requireActivity().findViewById(android.R.id.content),
+                            obj.getString("message"),
+                            Snackbar.LENGTH_LONG
+                        ).show();
                         findNavController().navigate(R.id.wishlistFragment)
 
                     } else {
-                        Snackbar.make(requireActivity().findViewById(android.R.id.content),obj.getString("message")
-                            , Snackbar.LENGTH_LONG).show();                    }
+                        Snackbar.make(
+                            requireActivity().findViewById(android.R.id.content),
+                            obj.getString("message"),
+                            Snackbar.LENGTH_LONG
+                        ).show(); }
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
             },
-            Response.ErrorListener { error -> Toast.makeText(requireActivity().applicationContext, error.message, Toast.LENGTH_SHORT).show() }) {
+            Response.ErrorListener { error ->
+                Toast.makeText(
+                    requireActivity().applicationContext,
+                    error.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }) {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
@@ -231,13 +318,15 @@ binding.addToCartBtn.setOnClickListener {
                 params["user_id"] = userId
                 params["unit_price"] = prod_newp
                 params["total_price"] = prod_newp
-                params["confirm_mobile"] = SharedPrefManager.getInstance(requireActivity().applicationContext).user.phone
+                params["confirm_mobile"] =
+                    SharedPrefManager.getInstance(requireActivity().applicationContext).user.phone
                 params["number_of_items"] = "1"
                 return params
             }
         }
 
-        VolleySingleton.getInstance(requireActivity().applicationContext).addToRequestQueue(stringRequest)
+        VolleySingleton.getInstance(requireActivity().applicationContext)
+            .addToRequestQueue(stringRequest)
 
 
     }
@@ -258,87 +347,69 @@ binding.addToCartBtn.setOnClickListener {
 
                     //if no error in response
                     if (!obj.getBoolean("error")) {
-                      //  Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                        //  Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
 
                         //getting the user from the response
                         val userJson = obj.getJSONObject("user")
 
                         binding.textView9.text = userJson.getString("heading")
                         binding.textView10.text = "₹" + userJson.getString("sale")
-                        binding.textView11.text = "₹" +userJson.getString("mrp")
+                        binding.textView11.text = "₹" + userJson.getString("mrp")
                         binding.textView38.text = userJson.getString("disc")
 
                         binding.textView22.text = userJson.getString("category")
 
-                        var one:String = userJson.getString("pt_one")
-                        var two:String = userJson.getString("pt_two")
-                        var three:String = userJson.getString("pt_three")
-                        var four:String = userJson.getString("pt_four")
-                        var five:String = userJson.getString("pt_five")
-                        var six:String  = userJson.getString("pt_six")
+                        var one: String = userJson.getString("pt_one")
+                        var two: String = userJson.getString("pt_two")
+                        var three: String = userJson.getString("pt_three")
+                        var four: String = userJson.getString("pt_four")
+                        var five: String = userJson.getString("pt_five")
+                        var six: String = userJson.getString("pt_six")
 
 
-                       if (one.length==0 || one == null)
-                        {
-                            binding.textView15.text ="Sorry , Key features of this product are not available right now."
+                        if (one.length == 0 || one == null) {
+                            binding.textView15.text =
+                                "Sorry , Key features of this product are not available right now."
 
-                        }
-                        else
-                        {
-                            binding.textView15.text = "• "+userJson.getString("pt_one")
+                        } else {
+                            binding.textView15.text = "• " + userJson.getString("pt_one")
 
                         }
-                        if (two.length==0 || two== null)
-                        {
+                        if (two.length == 0 || two == null) {
                             binding.textView16.visibility = View.GONE
-                        }
-                        else
-                        {
-                            binding.textView16.text = "• "+userJson.getString("pt_two")
+                        } else {
+                            binding.textView16.text = "• " + userJson.getString("pt_two")
                             binding.textView16.visibility = View.VISIBLE
                         }
-                        if (three.length==0 || three == null)
-                        {
+                        if (three.length == 0 || three == null) {
                             binding.textView17.visibility = View.GONE
-                        }
-                        else
-                        {
-                            binding.textView17.text = "• "+userJson.getString("pt_three")
+                        } else {
+                            binding.textView17.text = "• " + userJson.getString("pt_three")
                             binding.textView17.visibility = View.VISIBLE
                         }
 
-                        if (four.length==0 || four == null)
-                        {
+                        if (four.length == 0 || four == null) {
                             binding.textView18.visibility = View.GONE
 
-                        }
-                        else
-                        {
-                            binding.textView18.text = "• "+userJson.getString("pt_four")
+                        } else {
+                            binding.textView18.text = "• " + userJson.getString("pt_four")
                             binding.textView18.visibility = View.VISIBLE
                         }
 
-                        if (five.length==0 || five == null)
-                        {
+                        if (five.length == 0 || five == null) {
 
                             binding.textView19.visibility = View.GONE
 
 
-                        }
-                        else
-                        {
-                            binding.textView19.text = "• "+userJson.getString("pt_five")
+                        } else {
+                            binding.textView19.text = "• " + userJson.getString("pt_five")
                             binding.textView19.visibility = View.VISIBLE
                         }
 
-                        if (six.length==0 || six == null)
-                        {
+                        if (six.length == 0 || six == null) {
                             binding.textView21.visibility = View.GONE
-                        }
-
-                        else
-                        {
-                            binding.textView21.text = "• "+userJson.getString("pt_six")
+                        } else {
+                            binding.textView21.text = "• " + userJson.getString("pt_six")
                             binding.textView21.visibility = View.VISIBLE
                         }
 
@@ -350,47 +421,78 @@ binding.addToCartBtn.setOnClickListener {
 //                        binding.textView19.text =  "• "+userJson.getString("pt_five")
 //                        binding.textView21.text =  "• "+userJson.getString("pt_six")
 //
-                        var img1:String = userJson.getString("imageName1")
-                        var img2:String = userJson.getString("imageName2")
-                        var img3:String = userJson.getString("imageName3")
-                        var img4:String = userJson.getString("imageName4")
-                        var img5:String = userJson.getString("imageName5")
-                        var img6:String = userJson.getString("imageName6")
+                        var img1: String = userJson.getString("imageName1")
+                        var img2: String = userJson.getString("imageName2")
+                        var img3: String = userJson.getString("imageName3")
+                        var img4: String = userJson.getString("imageName4")
+                        var img5: String = userJson.getString("imageName5")
+                        var img6: String = userJson.getString("imageName6")
+                        var img7: String = userJson.getString("imageName7")
 
-                        if (img1.length!=0)
-                        {
+                        if (img1 != null && img1.length!=0) {
                             slideModels.add(SlideModel(userJson.getString("image1")))
                         }
-                        if (img2.length!=0)
-                        {
-                            slideModels.add(SlideModel(userJson.getString("image2")))
-                        }
-                        if (img3.length!=0)
-                        {
-                            slideModels.add(SlideModel(userJson.getString("image3")))
-                        }
-                        if (img4.length!=0)
-                        {
-                            slideModels.add(SlideModel(userJson.getString("image4")))
-                        }
-                        if (img5.length!=0)
-                                                        {
-                            slideModels.add(SlideModel(userJson.getString("image5")))
-                        }
-                        if (img6.length!=0)
-                        {
-                            slideModels.add(SlideModel(userJson.getString("image6")))
+                        else {
+                            slideModels.add(SlideModel("https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg"))
+
                         }
 
-                        binding.prodImgList.setImageList(slideModels,ScaleTypes.FIT);
+                        if (img2 != null && img2.length!=0) {
+                            slideModels.add(SlideModel(userJson.getString("image2")))
+                        }
+//                        else {
+//                            slideModels.add(SlideModel(R.drawable.not_available_picture))
+//
+//                        }
+                        if (img3 != null && img3.length!=0) {
+                            slideModels.add(SlideModel(userJson.getString("image3")))
+                        }
+//                        else {
+//                            slideModels.add(SlideModel(R.drawable.not_available_picture))
+//
+//                        }
+                        if (img4 != null && img4.length!=0) {
+                            slideModels.add(SlideModel(userJson.getString("image4")))
+                        }
+//                        else {
+//                            slideModels.add(SlideModel(R.drawable.not_available_picture))
+//
+//                        }
+                        if (img5 != null && img5.length!=0) {
+                            slideModels.add(SlideModel(userJson.getString("image5")))
+                        }
+//                        else {
+//                            slideModels.add(SlideModel(R.drawable.not_available_picture))
+//
+//                        }
+                        if (img6 != null && img6.length!=0) {
+                            slideModels.add(SlideModel(userJson.getString("image6")))
+                        }
+//                        else {
+//                            slideModels.add(SlideModel(R.drawable.not_available_picture))
+//
+                        if (img7 != null && img7.length!=0) {
+                            slideModels.add(SlideModel(userJson.getString("image7")))
+                        }
+
+//                        }
+
+                        binding.prodImgList.setImageList(slideModels, ScaleTypes.FIT);
                         binding.prodImgList.setItemClickListener(object : ItemClickListener {
                             override fun onItemSelected(position: Int) {
-                                Toast.makeText(requireContext(), "Pinch image to zoom-in or zoom-out", Toast.LENGTH_SHORT).show();
-                                val mBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
-                                val mView: View =LayoutInflater.from(requireContext()).inflate(R.layout.dialog_custom_layout,null)
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Pinch image to zoom-in or zoom-out",
+                                    Toast.LENGTH_SHORT
+                                ).show();
+                                val mBuilder: AlertDialog.Builder =
+                                    AlertDialog.Builder(requireContext())
+                                val mView: View = LayoutInflater.from(requireContext())
+                                    .inflate(R.layout.dialog_custom_layout, null)
 //            inflate(R.layout.dialog_custom_layout, null)
                                 val photoView: PhotoView = mView.findViewById(R.id.imageView)
-                                Picasso.get().load(slideModels.get(position).imageUrl).into(photoView)
+                                Picasso.get().load(slideModels.get(position).imageUrl)
+                                    .into(photoView)
                                 mBuilder.setView(mView)
                                 val mDialog: AlertDialog = mBuilder.create()
                                 mDialog.show()
@@ -406,32 +508,29 @@ binding.addToCartBtn.setOnClickListener {
                         prod_ogp = userJson.getString("mrp")
                         prod_newp = userJson.getString("sale")
 
-                      //  binding.prodImgList.adapter = ProductDescriptionAdapter(prodDescriptionImgList)
+                        //  binding.prodImgList.adapter = ProductDescriptionAdapter(prodDescriptionImgList)
 
 
-                        if (img1.length!=0)
-                        {
+                        if (img1.length != 0 && img1 != null) {
                             smallProdImgList.add(SmallProductData(userJson.getString("image1")))
                         }
-                        if (img2.length!=0)
-                        {
+                        if (img2.length != 0 && img2 != null) {
                             smallProdImgList.add(SmallProductData(userJson.getString("image2")))
                         }
-                        if (img3.length!=0)
-                        {
+                        if (img3.length != 0 && img3 != null) {
                             smallProdImgList.add(SmallProductData(userJson.getString("image3")))
                         }
-                        if (img4.length!=0)
-                        {
+                        if (img4.length != 0 && img4 != null) {
                             smallProdImgList.add(SmallProductData(userJson.getString("image4")))
                         }
-                        if (img5.length!=0)
-                        {
+                        if (img5.length != 0 && img5 != null) {
                             smallProdImgList.add(SmallProductData(userJson.getString("image5")))
                         }
-                        if (img6.length!=0)
-                        {
+                        if (img6.length != 0 && img6 != null) {
                             smallProdImgList.add(SmallProductData(userJson.getString("image6")))
+                        }
+                        if (img7.length != 0 && img7 != null) {
+                            smallProdImgList.add(SmallProductData(userJson.getString("image7")))
                         }
 
                         binding.smallprod.adapter = SmallProductAdapter(smallProdImgList)
@@ -439,16 +538,23 @@ binding.addToCartBtn.setOnClickListener {
                         getSimilarProducts()
 
 
-
                     } else {
-                        Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireActivity().applicationContext,
+                            obj.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
             },
-            Response.ErrorListener {
-                    error -> Toast.makeText(requireActivity().applicationContext, error.message, Toast.LENGTH_SHORT).show()
+            Response.ErrorListener { error ->
+                Toast.makeText(
+                    requireActivity().applicationContext,
+                    error.message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }) {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
@@ -459,14 +565,16 @@ binding.addToCartBtn.setOnClickListener {
             }
         }
 
-        VolleySingleton.getInstance(requireActivity().applicationContext).addToRequestQueue(stringRequest)
+        VolleySingleton.getInstance(requireActivity().applicationContext)
+            .addToRequestQueue(stringRequest)
     }
 
     private fun addToCart() {
 
-    val args = ProductDescriptionFragmentArgs.fromBundle(requireArguments())
+        val args = ProductDescriptionFragmentArgs.fromBundle(requireArguments())
 
-        val userId = SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString()
+        val userId =
+            SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString()
 
 
         val stringRequest = object : StringRequest(
@@ -478,15 +586,31 @@ binding.addToCartBtn.setOnClickListener {
                     val obj = JSONObject(response)
                     //if no error in response
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireActivity().applicationContext,
+                            obj.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        findNavController().navigate(R.id.myCartFragment)
+
                     } else {
-                        Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireActivity().applicationContext,
+                            obj.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
             },
-            Response.ErrorListener { error -> Toast.makeText(requireActivity().applicationContext, error.message, Toast.LENGTH_SHORT).show() }) {
+            Response.ErrorListener { error ->
+                Toast.makeText(
+                    requireActivity().applicationContext,
+                    error.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }) {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
@@ -495,7 +619,8 @@ binding.addToCartBtn.setOnClickListener {
                 params["user_id"] = userId
                 params["unit_price"] = prod_newp
                 params["total_price"] = prod_newp
-                params["confirm_mobile"] = SharedPrefManager.getInstance(requireActivity().applicationContext).user.phone
+                params["confirm_mobile"] =
+                    SharedPrefManager.getInstance(requireActivity().applicationContext).user.phone
                 params["number_of_items"] = "1"
 
 
@@ -503,28 +628,52 @@ binding.addToCartBtn.setOnClickListener {
             }
         }
 
-        VolleySingleton.getInstance(requireActivity().applicationContext).addToRequestQueue(stringRequest)
-        findNavController().navigate(R.id.myCartFragment)
+        VolleySingleton.getInstance(requireActivity().applicationContext)
+            .addToRequestQueue(stringRequest)
+
+
+        //  findNavController().navigate(R.id.myCartFragment)
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.product_description_menu,menu)
+        inflater.inflate(R.menu.product_description_menu, menu)
+        val menuItem: MenuItem = menu.findItem(R.id.myCartFragment)
+        val actionView: View = menuItem.actionView
+        var cartBadgeTextview: TextView = actionView.findViewById(R.id.cart_badge_text_view_new)
+
+        cartBadgeTextview.setText(counts)
+
+//        if (counts == null || counts == "null") {
+//            cartBadgeTextview.setText("0")
+//        } else {
+//            cartBadgeTextview.setText(counts)
+//        }
+
+
+        actionView.setOnClickListener {
+            onOptionsItemSelected(menuItem)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-      when(item.itemId)
-      {
-          R.id.shareProduct->   startActivity(getShareIntent())
-      }
-        return NavigationUI.onNavDestinationSelected(item!!,requireView().findNavController()) || super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.shareProduct -> startActivity(getShareIntent())
+        }
+
+        return NavigationUI.onNavDestinationSelected(
+            item!!,
+            requireView().findNavController()
+        ) || super.onOptionsItemSelected(item)
     }
 
     // Creating our Share Intent
-    private fun getShareIntent() : Intent {
+    private fun getShareIntent(): Intent {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain")
-            .putExtra(Intent.EXTRA_TEXT,"https://www.afeta.com/prod")
+            .putExtra(Intent.EXTRA_TEXT, "https://www.afeta.com/prod")
         return shareIntent
     }
 }
+
+

@@ -27,7 +27,18 @@ class ViewAllProductsAdapter(val data: MutableList<ViewAllProductsData>):Adapter
         holder.mrp.text = "₹"+item.sale
         holder.sale.text = "₹"+item.mrp
 //        holder.discount.text = item.disc
-        Picasso.get().load(item.image1).into(holder.img)
+        if (item.name == null || item.name == "" || item.name=="null")
+        {
+            holder.img.setImageResource(R.drawable.not_available_picture)
+        }
+        else {
+            Picasso.get().load(item.image1).into(holder.img)
+        }
+
+
+
+
+
 
 
         holder.openProd.setOnClickListener {

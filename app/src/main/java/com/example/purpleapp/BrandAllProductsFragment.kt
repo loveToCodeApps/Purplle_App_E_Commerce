@@ -27,7 +27,8 @@ lateinit var binding : FragmentBrandAllProductsBinding
     ): View? {
         // Inflate the layout for this fragment
 binding = DataBindingUtil.inflate(inflater,R.layout.fragment_brand_all_products,container,false)
-
+        val activity:MainActivity = requireActivity() as MainActivity
+        activity.binding.bottomNavigationView.visibility = View.GONE
 
         getParticularBrandProducts()
 
@@ -53,19 +54,40 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_brand_all_products,
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        //   for (i in (array.length()-1) until  1) {
-                        for (i in 0 until array.length() + 1) {
+
+                        if (array.length()>0)
+                        {
+                            binding.brandsAllProductsList.visibility = View.VISIBLE
+                            binding.textView130.visibility = View.VISIBLE
+                        binding.textView131.visibility = View.VISIBLE
+                        binding.animationViewNotAvailable.visibility = View.GONE
+                            binding.textView42.visibility = View.GONE
+
+                            //   for (i in (array.length()-1) until  1) {
+                        for (i in 0..array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BrandAllProductData(
                                 objectArtist.optString("heading"),
                                 objectArtist.optString("sale"),
                                 objectArtist.optString("mrp"),
                                 objectArtist.optString("image"),
-                                objectArtist.optString("id")
+                                objectArtist.optString("id"),
+                                objectArtist.optString("name")
+
                             )
                             brandsList.add(banners)
                             val adapter = BrandAllProductAdapter(brandsList)
-                            binding.brandsAllProductsList.adapter=adapter
+                            binding.brandsAllProductsList.adapter = adapter
+                        }
+
+                        }
+                        else if (array.length()<=0)
+                        {
+                            binding.brandsAllProductsList.visibility = View.GONE
+                            binding.textView130.visibility = View.GONE
+                            binding.textView131.visibility = View.GONE
+                            binding.textView42.visibility = View.VISIBLE
+                            binding.animationViewNotAvailable.visibility = View.VISIBLE
                         }
                     } else {
                         Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()

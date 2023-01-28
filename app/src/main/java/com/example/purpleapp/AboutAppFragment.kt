@@ -19,7 +19,10 @@ class AboutAppFragment : Fragment() {
         // Inflate the layout for this fragment
 val binding : FragmentAboutAppBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_about_app,container,false)
 
-        val logo = AnimationUtils.loadAnimation(requireContext(),R.anim.left_to_center)
+        val activity:MainActivity = requireActivity() as MainActivity
+        activity.binding.bottomNavigationView.visibility = View.GONE
+
+        val logo = AnimationUtils.loadAnimation(requireContext(),R.anim.left_to_center_logo)
         binding.imageView19.animation= logo
 
         val heading = AnimationUtils.loadAnimation(requireContext(),R.anim.fade)

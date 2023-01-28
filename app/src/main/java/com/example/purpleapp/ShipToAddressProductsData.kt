@@ -1,6 +1,11 @@
 package com.example.purpleapp
 
 data class ShipToAddressProductsData(
-    var heading:String,
-    var img:String
+    val myCartProdImg:String,
+    val myCartProdNewPrice:String,
+    val myCartProdOrgPrice:String,
+    val myCartProdHeading:String,
+    val myCartTotalPrice:String,
+    val myCartProdId:String,
+    val qty:String
 )

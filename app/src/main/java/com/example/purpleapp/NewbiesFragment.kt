@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.purpleapp.api.Internet
 import com.example.purpleapp.api.URLs
 import com.example.purpleapp.databinding.FragmentNewbiesBinding
 import com.example.purpleapp.databinding.FragmentOffersBinding
@@ -28,7 +29,22 @@ class NewbiesFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_newbies,container,false)
 
-        getNewArrivals()
+        val i1 = Internet()
+        if (i1.checkConnection(requireContext()))
+        {
+            getNewArrivals()
+            binding.animationView.visibility = View.GONE
+            binding.textView133.visibility = View.VISIBLE
+            binding.textView137.visibility = View.VISIBLE
+            binding.typeOfList.visibility = View.VISIBLE
+        }
+        else
+        {
+            binding.animationView.visibility = View.VISIBLE
+            binding.textView133.visibility = View.GONE
+            binding.textView137.visibility = View.GONE
+            binding.typeOfList.visibility = View.GONE
+        }
 
 
 return binding.root
@@ -53,8 +69,10 @@ return binding.root
                                 objectArtist.getString("sale"),
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
-                                objectArtist.getString("id")
-                            )
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name")
+
+                                )
                             newArrivalsList.add(banners)
                             val adapter = NewbiesAdapter(newArrivalsList)
                             binding.typeOfList.adapter = adapter

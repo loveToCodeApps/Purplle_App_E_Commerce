@@ -10,8 +10,10 @@ import androidx.databinding.DataBindingUtil
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.purpleapp.api.Internet
 import com.example.purpleapp.api.URLs
 import com.example.purpleapp.databinding.FragmentCategoryBinding
+import com.google.android.material.snackbar.Snackbar
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -27,9 +29,23 @@ class CategoryFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category, container, false)
 
-        //Main category list on page
-        getServiceCategoryList()
-        getServiceSubCategoryList()
+        val i1 = Internet()
+if (i1.checkConnection(requireContext()))
+{
+    //Main category list on page
+    getServiceCategoryList()
+    binding.serviceCategoryList.visibility = View.VISIBLE
+    binding.animationView.visibility=View.GONE
+}
+else
+{
+    binding.animationView.visibility=View.VISIBLE
+    binding.serviceCategoryList.visibility = View.GONE
+    Snackbar.make(requireActivity().findViewById(android.R.id.content),
+        "Poor internet connection!!", Snackbar.LENGTH_LONG).show();
+}
+
+      //  getServiceSubCategoryList()
 
 //        val serviceCategoryList = mutableListOf<ServiceCategoryData>()
 //        serviceCategoryList.add(ServiceCategoryData(R.drawable.girl_one,"MakeUp V"))
@@ -107,7 +123,11 @@ class CategoryFragment : Fragment() {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ServiceCategoryData(
                                 objectArtist.getString("url"),
-                                objectArtist.getString("heading")
+                                objectArtist.getString("heading"),
+                                objectArtist.getString("img_name")
+
+
+
                                 // here i have given default value of false to the expandable layout
                             )
 
@@ -137,6 +157,9 @@ class CategoryFragment : Fragment() {
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
+
     }
 
 }

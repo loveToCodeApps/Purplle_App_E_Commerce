@@ -80,7 +80,7 @@ class MyWishlistProductAdapter (val data : List<MyWishlistProductData> , var con
             }
 
             VolleySingleton.getInstance(context).addToRequestQueue(stringRequest)
-            it.findNavController().navigate(R.id.myCartFragment)
+            it.findNavController().navigate(R.id.action_wishlistFragment_to_myCartFragment)
 
         }
         holder.DeleteItem.setOnClickListener {

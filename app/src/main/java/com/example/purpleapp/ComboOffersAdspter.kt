@@ -27,7 +27,13 @@ class ComboOffersAdspter(val data : MutableList<ComboOffersData>):Adapter<ComboO
         holder.title.text = item.heading
         holder.price.text = "₹"+item.mrp
         holder.sale.text = "₹"+item.sale
-        Picasso.get().load(item.image).into(holder.image)
+        if (item.img_name==null || item.img_name=="null" || item.img_name=="")
+        {
+            Picasso.get().load(R.drawable.not_available_picture).into(holder.image)
+        }
+        else {
+            Picasso.get().load(item.image).into(holder.image)
+        }
         holder.layout.setOnClickListener {
             it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDescriptionFragment(item.id))
         }

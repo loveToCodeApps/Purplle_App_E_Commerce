@@ -1,29 +1,44 @@
 package com.example.purpleapp
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.android.volley.AuthFailureError
 import com.android.volley.Request
+import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
+import com.example.purpleapp.api.Internet
+import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.api.URLs
+import com.example.purpleapp.api.VolleySingleton
 import com.example.purpleapp.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import org.json.JSONException
 import org.json.JSONObject
 
+
 class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     var activityAlreadyCreated:Boolean = false
+    var searchList =  arrayListOf<BrandNameData>()
+    lateinit var adapter : BrandNameAdapter
+    lateinit var adapters : ArrayAdapter<String>
+    var count = "0"
+
+
+
 
 
     override fun onCreateView(
@@ -32,9 +47,44 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        Log.i("@@@@","onCreateView() called")
+        val i1 = Internet()
 
-        if (checkConnection(requireContext())) {
+
+        Log.i("@@@@","onCreateView() called")
+//    if (b)
+//    {
+//        binding.categoryNamesList.visibility = View.VISIBLE
+//    }
+//    else
+//    {
+//        binding.categoryNamesList.visibility = View.GONE
+//    }
+//
+//}
+//
+//        binding.searchView.setOnClickListener {
+//            it.findNavController().navigate(R.id.searchAnything)
+//        }
+
+        binding.searchView.setOnEditorActionListener { v, actionId, event ->
+           if (binding.searchView.length()!=0) {
+               if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                   Toast.makeText(requireContext(), "searched your query", Toast.LENGTH_SHORT)
+                       .show() // you can do anything
+                   findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchedProductsFragment(v.text.toString()))
+                   return@setOnEditorActionListener true
+               }
+               false
+           }
+            else
+           {
+               Toast.makeText(requireContext(), "please enter something first!!", Toast.LENGTH_SHORT).show()
+           }
+            false
+           }
+
+
+        if (i1.checkConnection(requireContext())) {
             binding.animationView.visibility = View.GONE
             binding.textView103.visibility=View.VISIBLE
             binding.categoryList.visibility = View.VISIBLE
@@ -57,6 +107,7 @@ class HomeFragment : Fragment() {
             binding.textView136.visibility= View.VISIBLE
             binding.textView138.visibility= View.VISIBLE
             binding.searchView.visibility = View.VISIBLE
+            binding.randomList.visibility= View.VISIBLE
 
             //categories here
              getCategories()
@@ -85,12 +136,17 @@ class HomeFragment : Fragment() {
             // last random list banners are here
             getRandomBanners()
 
+            //get category names for searchview
+            getCategoryNames()
+
+            //get item count of cart
+            getCartItemsCount()
 
              }
         else
         {
             Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                "Bad internet connection!!", Snackbar.LENGTH_LONG).show();
+                "Poor internet connection!!", Snackbar.LENGTH_LONG).show();
             binding.animationView.visibility = View.VISIBLE
             binding.textView103.visibility=View.GONE
           binding.categoryList.visibility = View.GONE
@@ -113,6 +169,7 @@ class HomeFragment : Fragment() {
             binding.textView136.visibility= View.GONE
             binding.searchView.visibility = View.GONE
             binding.textView138.visibility= View.GONE
+            binding.randomList.visibility= View.GONE
 
 
 
@@ -123,6 +180,11 @@ class HomeFragment : Fragment() {
         }
 
 
+        // searchview item onclick listners
+        binding.searchView.setOnItemClickListener { adapterAdapterView, view, i, l ->
+         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchedProductsFragment(adapters.getItem(i).toString()))
+
+        }
 
 
 //
@@ -157,15 +219,30 @@ class HomeFragment : Fragment() {
 //
 //        binding.brandProductCategoryList.adapter = BrandProductAdapter(brandProductList)
 
+//--------------------------   search categories of all types here
+//        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+//            override fun onQueryTextSubmit(p0: String?): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                activitiesFilter(newText)
+//                return true
+//            }
+//        })
 
-        val verticalBannerList = mutableListOf<VerticalBannerData>()
-        verticalBannerList.add(VerticalBannerData(R.drawable.product_four))
-        verticalBannerList.add(VerticalBannerData(R.drawable.product_five))
-        verticalBannerList.add(VerticalBannerData(R.drawable.product_three))
-        verticalBannerList.add(VerticalBannerData(R.drawable.product_one))
-        verticalBannerList.add(VerticalBannerData(R.drawable.product_two))
 
-        binding.vertcalBannerList.adapter = VerticalBannerAdapter(verticalBannerList)
+
+//---------------------------
+        // do uncomment -   vertical banners
+//        val verticalBannerList = mutableListOf<VerticalBannerData>()
+//        verticalBannerList.add(VerticalBannerData(R.drawable.product_four))
+//        verticalBannerList.add(VerticalBannerData(R.drawable.product_five))
+//        verticalBannerList.add(VerticalBannerData(R.drawable.product_three))
+//        verticalBannerList.add(VerticalBannerData(R.drawable.product_one))
+//        verticalBannerList.add(VerticalBannerData(R.drawable.product_two))
+//
+//        binding.vertcalBannerList.adapter = VerticalBannerAdapter(verticalBannerList)
 
 
         // to open a page where we can see all of the combo offers product
@@ -194,6 +271,132 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun getCartItemsCount() {
+        val stringRequest = object : StringRequest(
+            Request.Method.POST, URLs.URL_GET_CART_ITEMS_COUNT,
+            Response.Listener { response ->
+
+                try {
+                    //converting response to json object
+                    val obj = JSONObject(response)
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+
+                         count = obj.getString("count")
+
+
+                    } else {
+                        Toast.makeText(
+                            requireActivity().applicationContext,
+                            obj.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(
+                    requireActivity().applicationContext,
+                    error.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params = HashMap<String, String>()
+                params["id"] =
+                    SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString()
+                        .trim()
+                return params
+
+            }
+        }
+
+//        VolleySingleton.getInstance(requireActivity().applicationContext)
+//            .addToRequestQueue(stringRequest)
+
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+
+      requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
+
+
+    }
+
+    private fun activitiesFilter(newText: String?) {
+        Log.i("@@@@@@@@@@@@@@@@@@@@","$newText")
+        var newFilteredList = arrayListOf<BrandNameData>()
+
+        for (i in searchList)
+        {
+            if (i.brand.contains(newText!!.uppercase()) || i.brand.contains(newText!!.lowercase())){
+                newFilteredList.add(i)
+            }
+        }
+        adapter.filtering(newFilteredList)
+    }
+
+
+
+    // for searchview
+    private fun getCategoryNames() {
+        val brandProductList = mutableListOf<BrandNameData>()
+        val newlist = ArrayList<String>()
+
+        val stringRequest = StringRequest(
+            Request.Method.GET,
+            URLs.URL_GET_CATEGORY_NAMES_ALL,
+            { s ->
+                try {
+                    val obj = JSONObject(s)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        for (i in 0..array.length()-1) {
+                            val objectArtist = array.getJSONObject(i)
+                         newlist.add(objectArtist.getString("category"))
+                            adapters = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1,newlist)
+                            binding.searchView.setAdapter(adapters)
+
+
+                           // binding.searchView.adapter = adapter
+
+
+                        //    binding.categoryNamesList.adapter = adapter
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            { volleyError ->
+                Toast.makeText(
+                    requireContext(),
+                    volleyError.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+
+       val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
+
+    }
+
+
+    //when you search something in searchview
+
+
     private fun getRandomBanners() {
         val slideModels = mutableListOf<SlideModel>()
         val stringRequest = StringRequest(
@@ -205,7 +408,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 .. array.length()) {
+                        for (i in 0 .. array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ProductData(
                                 objectArtist.getString("url")
@@ -240,6 +443,9 @@ class HomeFragment : Fragment() {
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
+
     }
 
     override fun onPause() {
@@ -283,7 +489,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 .. array.length()) {
+                        for (i in 0 .. array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = NewArrivalsData(
                                 objectArtist.getString("heading"),
@@ -291,7 +497,8 @@ class HomeFragment : Fragment() {
                                 objectArtist.getString("disc"),
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
-                                objectArtist.getString("id")
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name")
 
 
 
@@ -321,6 +528,7 @@ class HomeFragment : Fragment() {
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
 
 
     }
@@ -336,7 +544,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 .. array.length()) {
+                        for (i in 0 .. array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = DealsData(
                                 objectArtist.getString("heading"),
@@ -344,8 +552,8 @@ class HomeFragment : Fragment() {
                                 objectArtist.getString("disc"),
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
-                                objectArtist.getString("id")
-
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name")
 
                             )
                             dealsList.add(banners)
@@ -374,6 +582,7 @@ class HomeFragment : Fragment() {
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
 
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
 
 
 
@@ -392,7 +601,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0..array.length()) {
+                        for (i in 0..array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ComboOffersData(
                                 objectArtist.getString("heading"),
@@ -400,9 +609,8 @@ class HomeFragment : Fragment() {
                                 objectArtist.getString("disc"),
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
-                                objectArtist.getString("id")
-
-
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name")
                                 )
                             comboOffersList.add(banners)
                             val adapter = ComboOffersAdspter(comboOffersList)
@@ -430,7 +638,7 @@ class HomeFragment : Fragment() {
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
 
-
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
 
     }
 
@@ -445,7 +653,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 .. array.length()) {
+                        for (i in 0 .. array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BrandProductData(
                                 objectArtist.getString("url"),
@@ -477,6 +685,9 @@ class HomeFragment : Fragment() {
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
+
     }
 
     private fun getOfferBanners() {
@@ -491,7 +702,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 ..array.length()) {
+                        for (i in 0 ..array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BannerDiscountData(
                                 objectArtist.getString("url")
@@ -524,6 +735,9 @@ class HomeFragment : Fragment() {
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
+
     }
 
 
@@ -538,7 +752,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0.. array.length()) {
+                        for (i in 0.. array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = OfferProductData(
                                 objectArtist.getString("id"),
@@ -546,7 +760,8 @@ class HomeFragment : Fragment() {
                                 objectArtist.getString("sale"),
                                 objectArtist.getString("disc"),
                                 objectArtist.getString("mrp"),
-                                objectArtist.getString("image")
+                                objectArtist.getString("image"),
+                                objectArtist.getString("name")
                             )
 
                             offerProductList.add(banners)
@@ -574,6 +789,9 @@ class HomeFragment : Fragment() {
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
+
     }
 
     private fun getCategories() {
@@ -589,7 +807,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0..array.length()) {
+                        for (i in 0..array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = CategoryData(
                                 objectArtist.getString("url"),
@@ -621,6 +839,9 @@ class HomeFragment : Fragment() {
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
+
     }
 
     //    // volley request for banners
@@ -636,7 +857,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 .. array.length()) {
+                        for (i in 0 .. array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ProductData(
                                 objectArtist.getString("url")
@@ -672,6 +893,8 @@ class HomeFragment : Fragment() {
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
 
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
+
     }
 
 
@@ -679,6 +902,20 @@ class HomeFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.overflow_menu, menu)
+        val menuItem:MenuItem = menu.findItem(R.id.myCartFragment)
+        val actionView:View = menuItem.actionView
+        var cartBadgeTextview:TextView = actionView.findViewById(R.id.cart_badge_text_view)
+
+        if (count==null || count=="null") {
+            cartBadgeTextview.setText("0")
+        }
+        else
+        {
+            cartBadgeTextview.setText(count)
+        }
+        actionView.setOnClickListener {
+            onOptionsItemSelected(menuItem)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -687,22 +924,4 @@ class HomeFragment : Fragment() {
             requireView().findNavController()
         ) || super.onOptionsItemSelected(item)
     }
-    //---------------------------------------------------------------------------------
-
-// Check internet connectivity
-fun checkConnection(context: Context): Boolean {
-    val connMgr = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    if (connMgr != null) {
-        val activeNetworkInfo = connMgr.activeNetworkInfo
-        if (activeNetworkInfo != null) { // connected to the internet
-            // connected to the mobile provider's data plan
-            return if (activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI) {
-                // connected to wifi
-                true
-            } else activeNetworkInfo.type == ConnectivityManager.TYPE_MOBILE
-        }
-    }
-    return false
-}
-
 }

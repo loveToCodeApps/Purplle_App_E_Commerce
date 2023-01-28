@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.graphics.drawable.toDrawable
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.squareup.picasso.Picasso
@@ -49,9 +47,9 @@ class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>
 
 class MyCategoryViewHolder(itemView: View) : ViewHolder(itemView)
 {
-val headImg:ImageView = itemView.findViewById(R.id.category_img)
+val headImg:ImageView = itemView.findViewById(R.id.serviceCategoryImg)
 val img_name:TextView = itemView.findViewById(R.id.textView128)
-val background:ConstraintLayout = itemView.findViewById(R.id.categoryItemViewConstraintLayout)
+val background:ConstraintLayout = itemView.findViewById(R.id.ogLayout)
 
 
 

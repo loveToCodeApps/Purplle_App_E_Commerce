@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.android.volley.AuthFailureError
@@ -27,6 +28,8 @@ class CategoryHomeAllProductsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_home_all_products,container,false)
+        val activity:MainActivity = requireActivity() as MainActivity
+        activity.binding.bottomNavigationView.visibility = View.GONE
 
         getParticularCategoryProducts()
 
@@ -51,18 +54,36 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_home_all_p
                         val array = obj.getJSONArray("user")
 
                         //   for (i in (array.length()-1) until  1) {
-                        for (i in 0 until array.length() + 1) {
-                            val objectArtist = array.getJSONObject(i)
-                            val banners = CategoryHomeAllProductsData(
-                                objectArtist.optString("heading"),
-                                objectArtist.optString("sale"),
-                                objectArtist.optString("mrp"),
-                                objectArtist.optString("image"),
-                                objectArtist.optString("id")
-                            )
-                            categoryList.add(banners)
-                            val adapter = CategoryHomeAllProductsAdapter(categoryList)
-                            binding.categoryHomeAllProductsList.adapter=adapter
+
+                        if (array.length()>0) {
+                            binding.textView129.visibility = View.VISIBLE
+                            binding.textView132.visibility = View.VISIBLE
+                            binding.categoryHomeAllProductsList.visibility=View.VISIBLE
+                            binding.animationViewNotAvailable.visibility = View.GONE
+                            binding.textView42.visibility = View.GONE
+
+                            for (i in 0..array.length() - 1) {
+                                val objectArtist = array.getJSONObject(i)
+                                val banners = CategoryHomeAllProductsData(
+                                    objectArtist.optString("heading"),
+                                    objectArtist.optString("sale"),
+                                    objectArtist.optString("mrp"),
+                                    objectArtist.optString("image"),
+                                    objectArtist.optString("id")
+                                )
+                                categoryList.add(banners)
+                                val adapter = CategoryHomeAllProductsAdapter(categoryList)
+                                binding.categoryHomeAllProductsList.adapter = adapter
+                            }
+                        }
+                        else if (array.length()<=0)
+                        {
+                            binding.textView129.visibility = View.GONE
+                            binding.textView132.visibility = View.GONE
+                            binding.categoryHomeAllProductsList.visibility=View.GONE
+                            binding.animationViewNotAvailable.visibility = View.VISIBLE
+                            binding.textView42.visibility = View.VISIBLE
+
                         }
                     } else {
                         Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()

@@ -24,8 +24,21 @@ class SharedPrefManager private constructor(context: Context) {
                 sharedPreferences.getString(KEY_LAST_NAME, null)!!,
                 sharedPreferences.getString(KEY_EMAIL, null)!!,
                 sharedPreferences.getString(KEY_PHONE, null)!!,
+                sharedPreferences.getString(KEY_ADDRESS, null)!!,
+                sharedPreferences.getString(KEY_STATE, null)!!,
+                sharedPreferences.getString(KEY_CITY, null)!!,
+                sharedPreferences.getString(KEY_ZIPCODE, null)!!,
+                sharedPreferences.getString(KEY_SHIPPING_WHATSAPP, null)!!,
+                sharedPreferences.getString(KEY_BILLING_WHATSAPP, null)!!,
+                sharedPreferences.getString(KEY_SHIPPING_CITY, null)!!,
+                sharedPreferences.getString(KEY_SHIPPING_STATE, null)!!,
+                sharedPreferences.getString(KEY_SHIPPING_ZIPCODE, null)!!,
 
-            )
+
+
+
+
+                )
         }
 
     init {
@@ -42,6 +55,18 @@ class SharedPrefManager private constructor(context: Context) {
         editor?.putString(KEY_LAST_NAME, user.lastName)
         editor?.putString(KEY_EMAIL, user.email)
         editor?.putString(KEY_PHONE, user.phone)
+        editor?.putString(KEY_ADDRESS, user.address)
+        editor?.putString(KEY_STATE, user.state)
+        editor?.putString(KEY_CITY, user.city)
+        editor?.putString(KEY_ZIPCODE, user.zipcode)
+        editor?.putString(KEY_SHIPPING_WHATSAPP, user.shipping_whatsappno)
+        editor?.putString(KEY_BILLING_WHATSAPP, user.billing_whatsappno)
+        editor?.putString(KEY_SHIPPING_CITY, user.shipping_city)
+        editor?.putString(KEY_SHIPPING_STATE, user.shipping_state)
+        editor?.putString(KEY_SHIPPING_ZIPCODE, user.shipping_zipcode)
+
+
+
         editor?.apply()
     }
 
@@ -62,6 +87,15 @@ class SharedPrefManager private constructor(context: Context) {
         private val KEY_MIDDLE_NAME = "keymiddlename"
         private val KEY_LAST_NAME = "keylastname"
         private val KEY_PHONE = "keyphone"
+        private val KEY_ADDRESS = "keyaddress"
+        private val KEY_STATE = "keystate"
+        private val KEY_CITY = "keycity"
+        private val KEY_ZIPCODE = "keyzipcode"
+        private val KEY_SHIPPING_WHATSAPP = "keyshipping"
+        private val KEY_BILLING_WHATSAPP = "keybilling"
+        private val KEY_SHIPPING_CITY = "keyshippingcity"
+        private val KEY_SHIPPING_STATE = "keyshippingstate"
+        private val KEY_SHIPPING_ZIPCODE = "keyshippingzipcode"
         private val KEY_ID = "keyid"
         private var mInstance: SharedPrefManager? = null
         private var ctx: Context? = null
