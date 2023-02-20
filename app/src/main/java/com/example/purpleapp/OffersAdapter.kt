@@ -28,6 +28,8 @@ class OffersAdapter(val data: MutableList<ViewAllProductsData>):Adapter<OffersVi
         // holder.sale.text = "₹"+item.sale
         holder.mrp.text = "₹"+item.sale
         holder.sale.text = "₹"+item.mrp
+        holder.disc.text = (item.disc).take(2)+"%off"
+
 //        holder.discount.text = item.disc
         Picasso.get().load(item.image1).into(holder.img)
 
@@ -53,6 +55,7 @@ class OffersViewHolder(itemView: View):ViewHolder(itemView)
     val sale:TextView = itemView.findViewById(R.id.offerProdThir)
     val openProd:TextView = itemView.findViewById(R.id.textView4com)
     val constraint:ConstraintLayout = itemView.findViewById(R.id.myConstraint)
+    val disc:TextView = itemView.findViewById(R.id.viewAllDisc)
 
 
     //  val sale:TextView = itemView.findViewById(R.id.categprodsecond)

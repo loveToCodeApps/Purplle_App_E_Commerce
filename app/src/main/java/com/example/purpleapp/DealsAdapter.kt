@@ -7,6 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.squareup.picasso.Picasso
 
 class DealsAdapter(val data: MutableList<DealsData>):
@@ -29,10 +32,32 @@ class DealsAdapter(val data: MutableList<DealsData>):
 //        holder.discount.text = item.disc
         if (item.name==null || item.name=="null" || item.name=="")
         {
-            Picasso.get().load(R.drawable.not_available_picture).into(holder.img)
+         //   Picasso.get().load(R.drawable.not_available_picture).into(holder.img)
+            val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+            Glide.with(holder.img.context).load(R.drawable.not_available_picture)
+                .thumbnail(Glide.with(holder.img.context).load("https://www.pngfind.com/pngs/m/360-3604777_waiting-png-transparent-background-waiting-icon-transparent-png.png"))
+                .apply(requestOptions).into(holder.img)
+
+            Glide.get(holder.img.context).clearMemory()
+
+            Thread(Runnable {
+                // This method must be called on a background thread.
+                Glide.get(holder.img.context).clearDiskCache()
+            }).start()
         }
         else {
-            Picasso.get().load(item.image).into(holder.img)
+         //   Picasso.get().load(item.image).into(holder.img)
+            val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+            Glide.with(holder.img.context).load(item.image)
+                .thumbnail(Glide.with(holder.img.context).load("https://www.pngfind.com/pngs/m/360-3604777_waiting-png-transparent-background-waiting-icon-transparent-png.png"))
+                .apply(requestOptions).into(holder.img)
+
+            Glide.get(holder.img.context).clearMemory()
+
+            Thread(Runnable {
+                // This method must be called on a background thread.
+                Glide.get(holder.img.context).clearDiskCache()
+            }).start()
         }
 
 holder.img.setOnClickListener {

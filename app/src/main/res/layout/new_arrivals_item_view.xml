@@ -63,20 +63,33 @@
             android:id="@+id/newArrivalThirdscad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="3dp"
             android:fontFamily="@font/gilroy_medium"
             android:text="₹399"
-            android:textColor="#4C4C4C"
+            android:textColor="#9A9595"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/newArrivalsecond"
             app:layout_constraintStart_toEndOf="@+id/newArrivalsecond"
             app:layout_constraintTop_toTopOf="@+id/newArrivalsecond" />
 
+        <TextView
+            android:id="@+id/disc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:fontFamily="@font/gilroy_medium"
+            android:text="10%off"
+            android:textColor="#F38B07"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/newArrivalThirdscad"
+            app:layout_constraintStart_toEndOf="@+id/newArrivalThirdscad"
+            app:layout_constraintTop_toTopOf="@+id/newArrivalThirdscad" />
+
         <View
             android:id="@+id/view4"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="#4C4C4C"
+            android:background="#9A9595"
             app:layout_constraintBottom_toBottomOf="@+id/newArrivalThirdscad"
             app:layout_constraintEnd_toEndOf="@+id/newArrivalThirdscad"
             app:layout_constraintStart_toStartOf="@+id/newArrivalThirdscad"

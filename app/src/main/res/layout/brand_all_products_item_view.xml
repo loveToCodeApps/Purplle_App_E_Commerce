@@ -46,13 +46,13 @@
                 android:textColor="#000000"
                 android:textSize="14sp"
                 android:textStyle="normal"
-                app:layout_constraintBottom_toTopOf="@+id/brandsprodsecond"
+                app:layout_constraintBottom_toTopOf="@+id/salesimilrs"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brandsprodimg" />
 
             <TextView
-                android:id="@+id/brandsprodsecond"
+                android:id="@+id/salesimilrs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -78,7 +78,7 @@
                 android:textSize="10sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brandsprodsecond" />
+                app:layout_constraintTop_toBottomOf="@+id/salesimilrs" />
 
             <TextView
                 android:id="@+id/brandstextView106"
@@ -92,7 +92,7 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/brandstextView105"
                 app:layout_constraintStart_toEndOf="@+id/brandstextView105"
-                app:layout_constraintTop_toBottomOf="@+id/brandsprodsecond" />
+                app:layout_constraintTop_toBottomOf="@+id/salesimilrs" />
 
 
             <Button
@@ -112,20 +112,33 @@
                 android:id="@+id/newArrivalThirdscad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="3dp"
                 android:fontFamily="@font/gilroy_medium"
                 android:text="₹399"
-                android:textColor="#4C4C4C"
+                android:textColor="#808080"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/brandsprodsecond"
-                app:layout_constraintStart_toEndOf="@+id/brandsprodsecond"
-                app:layout_constraintTop_toTopOf="@+id/brandsprodsecond" />
+                app:layout_constraintBottom_toBottomOf="@+id/salesimilrs"
+                app:layout_constraintStart_toEndOf="@+id/salesimilrs"
+                app:layout_constraintTop_toTopOf="@+id/salesimilrs" />
+
+            <TextView
+                android:id="@+id/brandDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:fontFamily="@font/gilroy_medium"
+                android:text="2%off"
+                android:textColor="#F38B07"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/salesimilrs"
+                app:layout_constraintStart_toEndOf="@+id/newArrivalThirdscad"
+                app:layout_constraintTop_toTopOf="@+id/salesimilrs" />
 
             <View
                 android:id="@+id/view4"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="#4C4C4C"
+                android:background="#808080"
                 app:layout_constraintBottom_toBottomOf="@+id/newArrivalThirdscad"
                 app:layout_constraintEnd_toEndOf="@+id/newArrivalThirdscad"
                 app:layout_constraintStart_toStartOf="@+id/newArrivalThirdscad"

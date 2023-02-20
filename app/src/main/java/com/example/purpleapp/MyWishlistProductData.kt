@@ -6,5 +6,7 @@ data class MyWishlistProductData(
     val wislistProdCutPrice:String,
    val wishlistProdHeading:String,
    val idOfProd:String,
-   val idOfProdDescription:String
+   val idOfProdDescription:String,
+   val disc:String,
+
    )

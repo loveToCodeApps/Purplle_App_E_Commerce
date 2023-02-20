@@ -24,7 +24,6 @@ import com.example.purpleapp.api.VolleySingleton
 import com.example.purpleapp.databinding.FragmentProductDescriptionBinding
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.TextUtils
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
@@ -56,7 +55,7 @@ class ProductDescriptionFragment : Fragment() {
             container,
             false
         )
-        getCartItemsCount()
+
         var showMoreDescription = "false"
 
 
@@ -154,54 +153,13 @@ class ProductDescriptionFragment : Fragment() {
 
     }
 
-    private fun getCartItemsCount() {
-        val stringRequest = object : StringRequest(
-            Request.Method.POST, URLs.URL_GET_CART_ITEMS_COUNT,
-            Response.Listener { response ->
-
-                try {
-                    //converting response to json object
-                    val obj = JSONObject(response)
-                    //if no error in response
-                    if (!obj.getBoolean("error")) {
-                        counts = obj.getString("count")
-                    } else {
-                        Toast.makeText(
-                            requireActivity().applicationContext,
-                            obj.getString("message"),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            },
-            Response.ErrorListener { error ->
-                Toast.makeText(
-                    requireActivity().applicationContext,
-                    error.message,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }) {
-            @Throws(AuthFailureError::class)
-            override fun getParams(): Map<String, String> {
-                val params = java.util.HashMap<String, String>()
-                params["id"] =
-                    SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString()
-                        .trim()
-                return params
-
-            }
-        }
-
-        VolleySingleton.getInstance(requireActivity().applicationContext)
-            .addToRequestQueue(stringRequest)
-    }
 
 
     private fun getSimilarProducts() {
         val brandsList = mutableListOf<BrandAllProductData>()
 //        binding.22.text = brand
+        var args = ProductDescriptionFragmentArgs.fromBundle(requireArguments())
+        var id = args.prodId
         categ = binding.textView22.text.toString()
 
         val stringRequest = object : StringRequest(
@@ -213,21 +171,28 @@ class ProductDescriptionFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        //   for (i in (array.length()-1) until  1) {
-                        for (i in 0..array.length() - 1) {
-                            val objectArtist = array.getJSONObject(i)
-                            val banners = BrandAllProductData(
-                                objectArtist.optString("heading"),
-                                objectArtist.optString("sale"),
-                                objectArtist.optString("mrp"),
-                                objectArtist.optString("image"),
-                                objectArtist.optString("id"),
-                                objectArtist.optString("name")
+                        if(array.length()==0)
+                        {
+                            binding.cardView6.visibility = View.GONE
+                        }
+                        else {
+                            //   for (i in (array.length()-1) until  1) {
+                            for (i in 0..array.length() - 1) {
+                                val objectArtist = array.getJSONObject(i)
+                                val banners = BrandAllProductData(
+                                    objectArtist.optString("heading"),
+                                    objectArtist.optString("sale"),
+                                    objectArtist.optString("mrp"),
+                                    objectArtist.optString("image"),
+                                    objectArtist.optString("id"),
+                                    objectArtist.optString("name"),
+                                    objectArtist.optString("disc")
 
-                            )
-                            brandsList.add(banners)
-                            val adapter = SimilarProductsAdapter(brandsList)
-                            binding.recyclerView2.adapter = adapter
+                                )
+                                brandsList.add(banners)
+                                val adapter = SimilarProductsAdapter(brandsList)
+                                binding.recyclerView2.adapter = adapter
+                            }
                         }
                     } else {
                         Toast.makeText(
@@ -260,6 +225,8 @@ class ProductDescriptionFragment : Fragment() {
             override fun getParams(): Map<String, String> {
                 val params = java.util.HashMap<String, String>()
                 params["category"] = binding.textView22.text.toString()
+                params["id"] = id
+
                 return params
 
             }
@@ -353,9 +320,28 @@ class ProductDescriptionFragment : Fragment() {
                         val userJson = obj.getJSONObject("user")
 
                         binding.textView9.text = userJson.getString("heading")
-                        binding.textView10.text = "₹" + userJson.getString("sale")
-                        binding.textView11.text = "₹" + userJson.getString("mrp")
-                        binding.textView38.text = userJson.getString("disc")
+                        if (userJson.getString("sale")==userJson.getString("mrp"))
+                        {
+                            binding.textView11.visibility = View.GONE
+                            binding.textView12.visibility = View.GONE
+                            binding.view9.visibility = View.GONE
+                            binding.textView10.text = "₹" + userJson.getString("sale")
+                        }
+                        else {
+                            binding.textView10.text = "₹" + userJson.getString("sale")
+                            binding.textView11.text = "₹" + userJson.getString("mrp")
+                            binding.textView38.text = userJson.getString("disc")
+                            binding.textView12.text =
+                                userJson.getString("discount")+ "%off"
+                        }
+                        if (userJson.getString("gst_type")=="inc")
+                        {
+                            binding.textView13.text = "Inclusive of all taxes"
+                        }
+                        else
+                        {
+                            binding.textView13.text = "Exclusive of all taxes"
+                        }
 
                         binding.textView22.text = userJson.getString("category")
 
@@ -591,7 +577,8 @@ class ProductDescriptionFragment : Fragment() {
                             obj.getString("message"),
                             Toast.LENGTH_SHORT
                         ).show()
-                        findNavController().navigate(R.id.myCartFragment)
+
+                     findNavController().navigate(R.id.myCartFragment)
 
                     } else {
                         Toast.makeText(
@@ -639,27 +626,13 @@ class ProductDescriptionFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.product_description_menu, menu)
         val menuItem: MenuItem = menu.findItem(R.id.myCartFragment)
-        val actionView: View = menuItem.actionView
-        var cartBadgeTextview: TextView = actionView.findViewById(R.id.cart_badge_text_view_new)
 
-        cartBadgeTextview.setText(counts)
-
-//        if (counts == null || counts == "null") {
-//            cartBadgeTextview.setText("0")
-//        } else {
-//            cartBadgeTextview.setText(counts)
-//        }
-
-
-        actionView.setOnClickListener {
-            onOptionsItemSelected(menuItem)
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.shareProduct -> startActivity(getShareIntent())
-        }
+//        when (item.itemId) {
+//            R.id.shareProduct -> startActivity(getShareIntent())
+//        }
 
         return NavigationUI.onNavDestinationSelected(
             item!!,
@@ -671,7 +644,7 @@ class ProductDescriptionFragment : Fragment() {
     private fun getShareIntent(): Intent {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain")
-            .putExtra(Intent.EXTRA_TEXT, "https://www.afeta.com/prod")
+            .putExtra(Intent.EXTRA_TEXT, "pjfpejgpoejvpoj")
         return shareIntent
     }
 }

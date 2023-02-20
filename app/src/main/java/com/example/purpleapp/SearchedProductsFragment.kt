@@ -73,7 +73,8 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_searched_products,c
                                     objectArtist.optString("mrp"),
                                     objectArtist.optString("image"),
                                     objectArtist.optString("id"),
-                                    objectArtist.optString("name")
+                                    objectArtist.optString("name"),
+                                    objectArtist.optString("disc")
                                 )
                                 brandsList.add(banners)
                                 val adapter = SearchedProductsAdapter(brandsList)

@@ -1,5 +1,7 @@
 package com.example.purpleapp
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -13,16 +15,17 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.purpleapp.api.Internet
 import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.api.URLs
-import com.example.purpleapp.api.VolleySingleton
 import com.example.purpleapp.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import org.json.JSONException
@@ -109,6 +112,15 @@ class HomeFragment : Fragment() {
             binding.searchView.visibility = View.VISIBLE
             binding.randomList.visibility= View.VISIBLE
 
+            //get item count of cart
+            if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
+                getCartItemsCount()
+            }
+            else
+            {
+                count = "0"
+            }
+
             //categories here
              getCategories()
 
@@ -138,9 +150,6 @@ class HomeFragment : Fragment() {
 
             //get category names for searchview
             getCategoryNames()
-
-            //get item count of cart
-            getCartItemsCount()
 
              }
         else
@@ -411,8 +420,9 @@ class HomeFragment : Fragment() {
                         for (i in 0 .. array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ProductData(
+                                objectArtist.getString("image"),
                                 objectArtist.getString("url")
-                            )
+                                )
                             // productLists.add(banners)
 
                             //   val adapter = ProductAdapter(productLists, requireContext())
@@ -420,6 +430,20 @@ class HomeFragment : Fragment() {
 
                             slideModels.add(SlideModel(banners.url))
                             binding.randomList.setImageList(slideModels, ScaleTypes.FIT);
+
+                            binding.randomList.setItemClickListener(object : ItemClickListener {
+                                override fun onItemSelected(position: Int) {
+//                                    Toast.makeText(
+//                                        requireContext(),
+//                                        "it got clicked",
+//                                        Toast.LENGTH_SHORT
+//                                    ).show();
+                                    val onc = array.getJSONObject(position)
+                                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWebviewFragment( onc.getString("url")))
+
+
+                                }
+                            })
 
                         }
                     } else {
@@ -601,6 +625,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
+
                         for (i in 0..array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ComboOffersData(
@@ -638,6 +663,13 @@ class HomeFragment : Fragment() {
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
 
+        stringRequest.retryPolicy =
+            DefaultRetryPolicy(
+                80000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+
         requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
 
     }
@@ -657,7 +689,8 @@ class HomeFragment : Fragment() {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BrandProductData(
                                 objectArtist.getString("url"),
-                                objectArtist.getString("heading")
+                                objectArtist.getString("heading"),
+                                objectArtist.getString("name")
                             )
 
                             brandProductList.add(banners)
@@ -705,6 +738,7 @@ class HomeFragment : Fragment() {
                         for (i in 0 ..array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BannerDiscountData(
+                                objectArtist.getString("image"),
                                 objectArtist.getString("url")
                             )
 //                            bannerDiscountList.add(banners)
@@ -713,6 +747,15 @@ class HomeFragment : Fragment() {
 
                             slideModels.add(SlideModel(banners.banner))
                             binding.dicountbannerList.setImageList(slideModels, ScaleTypes.FIT);
+                            binding.dicountbannerList.setItemClickListener(object : ItemClickListener {
+                                override fun onItemSelected(position: Int) {
+//
+                                    val onc = array.getJSONObject(position)
+                                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWebviewFragment( onc.getString("url")))
+
+
+                                }
+                            })
                         }
                     } else {
                         Toast.makeText(
@@ -860,8 +903,10 @@ class HomeFragment : Fragment() {
                         for (i in 0 .. array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ProductData(
+                                objectArtist.getString("image"),
                                 objectArtist.getString("url")
-                            )
+
+                                )
                            // productLists.add(banners)
 
                          //   val adapter = ProductAdapter(productLists, requireContext())
@@ -869,7 +914,13 @@ class HomeFragment : Fragment() {
 
                             slideModels.add(SlideModel(banners.url))
                             binding.productList.setImageList(slideModels, ScaleTypes.FIT);
+                            binding.productList.setItemClickListener(object : ItemClickListener {
+                                override fun onItemSelected(position: Int) {
+                                    val onc = array.getJSONObject(position)
+                                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWebviewFragment( onc.getString("url")))
 
+                                }
+                            })
                         }
                     } else {
                         Toast.makeText(
@@ -903,10 +954,20 @@ class HomeFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.overflow_menu, menu)
         val menuItem:MenuItem = menu.findItem(R.id.myCartFragment)
+        val loginStatus:MenuItem = menu.findItem(R.id.loginBtn)
         val actionView:View = menuItem.actionView
+        if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn)
+        {
+            loginStatus.title = "Logout"
+        }
+        else
+        {
+            loginStatus.title = "Login or Register"
+        }
+
         var cartBadgeTextview:TextView = actionView.findViewById(R.id.cart_badge_text_view)
 
-        if (count==null || count=="null") {
+        if (count==null || count=="null" || count=="") {
             cartBadgeTextview.setText("0")
         }
         else
@@ -914,8 +975,16 @@ class HomeFragment : Fragment() {
             cartBadgeTextview.setText(count)
         }
         actionView.setOnClickListener {
-            onOptionsItemSelected(menuItem)
-        }
+          if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
+              onOptionsItemSelected(menuItem)
+          }
+            else
+          {
+              val intent = Intent(requireContext(), LoginActivity::class.java)
+              startActivity(intent)
+              requireActivity().finish()
+          }
+          }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

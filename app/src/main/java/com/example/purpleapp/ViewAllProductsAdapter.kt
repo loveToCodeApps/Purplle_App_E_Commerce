@@ -24,8 +24,26 @@ class ViewAllProductsAdapter(val data: MutableList<ViewAllProductsData>):Adapter
         val item = data[position]
         holder.title.text = item.heading
         // holder.sale.text = "₹"+item.sale
-        holder.mrp.text = "₹"+item.sale
-        holder.sale.text = "₹"+item.mrp
+        if (item.mrp==item.sale)
+        {
+            holder.mrp.visibility = View.VISIBLE
+            holder.mrp.text = "₹"+item.sale
+            holder.sale.visibility = View.GONE
+            holder.disc.visibility = View.GONE
+            holder.line.visibility = View.GONE
+        }
+
+        else
+        {
+
+            holder.mrp.text = "₹"+item.sale
+            holder.sale.text = "₹"+item.mrp
+            holder.disc.text = (item.disc)+"%off"
+        }
+
+
+
+
 //        holder.discount.text = item.disc
         if (item.name == null || item.name == "" || item.name=="null")
         {
@@ -61,8 +79,10 @@ class ViewAllProductsViewHolder(itemView: View):ViewHolder(itemView)
     val title:TextView = itemView.findViewById(R.id.viewAllHomeprodfirst)
     val mrp:TextView = itemView.findViewById(R.id.viewAllHomeprodsecond)
     val sale:TextView = itemView.findViewById(R.id.offerProdThir)
+    val disc:TextView = itemView.findViewById(R.id.viewAllDisc)
     val openProd:TextView = itemView.findViewById(R.id.textView4com)
     val constraint:ConstraintLayout = itemView.findViewById(R.id.myConstraint)
+    val line:View = itemView.findViewById(R.id.view4)
 
 
     //  val sale:TextView = itemView.findViewById(R.id.categprodsecond)

@@ -9,6 +9,7 @@
     app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/myCons"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -59,12 +60,24 @@
             android:id="@+id/textView104"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="3dp"
             android:fontFamily="@font/gilroy_medium"
             android:text="₹249"
             android:textColor="#9E9B9B"
             app:layout_constraintBottom_toBottomOf="@+id/textView97"
             app:layout_constraintStart_toEndOf="@+id/textView97"
+            app:layout_constraintTop_toTopOf="@+id/textView97" />
+
+        <TextView
+            android:id="@+id/myCartDiscount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:fontFamily="@font/gilroy_medium"
+            android:text="5%off"
+            android:textColor="#F38B07"
+            app:layout_constraintBottom_toBottomOf="@+id/textView97"
+            app:layout_constraintStart_toEndOf="@+id/textView104"
             app:layout_constraintTop_toTopOf="@+id/textView97" />
 
         <ImageView

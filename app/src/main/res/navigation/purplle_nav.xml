@@ -56,6 +56,14 @@
             app:popEnterAnim="@anim/left_to_center"
             app:popExitAnim="@anim/center_to_right"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_webviewFragment"
+            app:destination="@id/webviewFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/myCartFragment"
@@ -64,7 +72,20 @@
         tools:layout="@layout/fragment_my_cart" >
         <action
             android:id="@+id/action_myCartFragment_to_shipToAddressFragment"
-            app:destination="@id/shipToAddressFragment" />
+            app:destination="@id/shipToAddressFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/myCartFragment" />
+        <action
+            android:id="@+id/action_myCartFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/myCartFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -156,6 +177,14 @@
             app:popEnterAnim="@anim/left_to_center"
             app:popExitAnim="@anim/center_to_right"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_wishlistFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/wishlistFragment" />
     </fragment>
     <fragment
         android:id="@+id/wishlistStoriesTabFragment"
@@ -304,6 +333,14 @@
             app:popEnterAnim="@anim/left_to_center"
             app:popExitAnim="@anim/center_to_right"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_shipToAddressFragment_to_viewOrderFragment"
+            app:destination="@id/viewOrderFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/editAddressFragment"
@@ -396,6 +433,15 @@
             app:argType="string" />
         <argument
             android:name="orderTotal"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/webviewFragment"
+        android:name="com.example.purpleapp.WebviewFragment"
+        android:label="Browser"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="link"
             app:argType="string" />
     </fragment>
 </navigation>

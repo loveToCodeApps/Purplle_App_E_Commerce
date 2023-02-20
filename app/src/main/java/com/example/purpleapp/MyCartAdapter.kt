@@ -8,9 +8,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.navigation.Navigation.findNavController
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.android.volley.AuthFailureError
@@ -20,7 +19,6 @@ import com.android.volley.toolbox.StringRequest
 import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.api.URLs
 import com.example.purpleapp.api.VolleySingleton
-import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
@@ -36,12 +34,35 @@ class MyCartAdapter(val data : List<MyCartData> , var context: Context):Adapter<
 
     override fun onBindViewHolder(holder: MyCartViewHolder, position: Int) {
         val item = data[position]
-        var quantity = 1
+        var quantity = item.qty.toInt()
         Picasso.get().load(item.myCartProdImg).into(holder.img)
-        holder.price.text="₹"+item.myCartProdNewPrice
-        holder.Qty.text = item.qty.toString()
-        holder.cutPrice.text=item.myCartProdOrgPrice
-        holder.heading.text=item.myCartProdHeading
+        if (item.myCartProdNewPrice==item.myCartProdOrgPrice)
+        {
+            holder.price.visibility = View.VISIBLE
+            holder.price.text = "₹"+item.myCartProdNewPrice
+            holder.cutPrice.visibility = View.GONE
+            holder.disc.visibility = View.GONE
+            holder.line.visibility = View.GONE
+            holder.Qty.text = item.qty.toString()
+
+        }
+        else
+        {
+            holder.price.text="₹"+item.myCartProdNewPrice
+            holder.Qty.text = item.qty.toString()
+            holder.cutPrice.text=item.myCartProdOrgPrice
+            holder.heading.text=item.myCartProdHeading
+            holder.disc.text = (item.disc)+"%off"
+        }
+
+
+        holder.layout.setOnClickListener {
+            it.findNavController().navigate(MyCartFragmentDirections.actionMyCartFragmentToProductDescriptionFragment(item.myCartProdId))
+        }
+
+
+
+
 
 
         // button to delete a item
@@ -199,6 +220,10 @@ class MyCartViewHolder(itemView: View):ViewHolder(itemView)
     val updateBtn: Button =itemView.findViewById(R.id.button5)
     val Qty: TextView =itemView.findViewById(R.id.textView23)
     val DeleteItem:ImageView=itemView.findViewById(R.id.imageView42)
+    val disc: TextView =itemView.findViewById(R.id.myCartDiscount)
+    val line: View =itemView.findViewById(R.id.view)
+    val layout: ConstraintLayout =itemView.findViewById(R.id.myCons)
+
 
 //    val total_price: TextView =itemView.findViewById(R.id.textView89)
 

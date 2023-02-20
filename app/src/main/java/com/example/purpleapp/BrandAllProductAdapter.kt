@@ -12,24 +12,24 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.squareup.picasso.Picasso
 
-class BrandAllProductAdapter(val data: MutableList<BrandAllProductData>):Adapter<BrandAllProductsViewHolder>()
-{
+class BrandAllProductAdapter(val data: MutableList<BrandAllProductData>) :
+    Adapter<BrandAllProductsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandAllProductsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.brand_all_products_item_view,parent,false)
+        val view = inflater.inflate(R.layout.brand_all_products_item_view, parent, false)
         return BrandAllProductsViewHolder(view)
     }
 
 
-
-    override fun getItemCount()=data.size
+    override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: BrandAllProductsViewHolder, position: Int) {
         val item = data[position]
         holder.title.text = item.heading
         // holder.sale.text = "₹"+item.sale
-        holder.mrp.text = "₹"+item.sale
-        holder.sale.text = "₹"+item.mrp
+        holder.mrp.text = "₹" + item.sale
+        holder.sale.text = "₹" + item.mrp
+        holder.disc.text = (item.disc).take(2)+"%off"
 
 //        if (item.name == null || item.name == "" || item.name == "null")
 //        {
@@ -40,20 +40,28 @@ class BrandAllProductAdapter(val data: MutableList<BrandAllProductData>):Adapter
 //        }
 
 
-           Picasso.get().load(item.image1).into(holder.img)
+        Picasso.get().load(item.image1).into(holder.img)
 
 
 
 
 
         holder.openProd.setOnClickListener {
-            it.findNavController().navigate(BrandAllProductsFragmentDirections.actionBrandAllProductsFragmentToProductDescriptionFragment(item.id))
+            it.findNavController().navigate(
+                BrandAllProductsFragmentDirections.actionBrandAllProductsFragmentToProductDescriptionFragment(
+                    item.id
+                )
+            )
 
         }
 
 
         holder.constraint.setOnClickListener {
-            it.findNavController().navigate(BrandAllProductsFragmentDirections.actionBrandAllProductsFragmentToProductDescriptionFragment(item.id))
+            it.findNavController().navigate(
+                BrandAllProductsFragmentDirections.actionBrandAllProductsFragmentToProductDescriptionFragment(
+                    item.id
+                )
+            )
 
         }
 
@@ -62,15 +70,14 @@ class BrandAllProductAdapter(val data: MutableList<BrandAllProductData>):Adapter
 
 }
 
-class BrandAllProductsViewHolder(itemView: View):ViewHolder(itemView)
-{
-    val img:ImageView = itemView.findViewById(R.id.brandsprodimg)
-    val title:TextView = itemView.findViewById(R.id.brandsprodfirst)
-    val mrp:TextView = itemView.findViewById(R.id.brandsprodsecond)
-    val sale:TextView = itemView.findViewById(R.id.newArrivalThirdscad)
-    val openProd:Button = itemView.findViewById(R.id.textView4com)
-    val constraint:ConstraintLayout = itemView.findViewById(R.id.constraintBrandsProd)
-
+class BrandAllProductsViewHolder(itemView: View) : ViewHolder(itemView) {
+    val img: ImageView = itemView.findViewById(R.id.brandsprodimg)
+    val title: TextView = itemView.findViewById(R.id.brandsprodfirst)
+    val mrp: TextView = itemView.findViewById(R.id.salesimilrs)
+    val sale: TextView = itemView.findViewById(R.id.newArrivalThirdscad)
+    val openProd: Button = itemView.findViewById(R.id.textView4com)
+    val constraint: ConstraintLayout = itemView.findViewById(R.id.constraintBrandsProd)
+    val disc:TextView = itemView.findViewById(R.id.brandDiscount)
 
 
     //  val sale:TextView = itemView.findViewById(R.id.categprodsecond)

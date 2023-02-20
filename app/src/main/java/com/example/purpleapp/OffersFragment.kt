@@ -60,7 +60,7 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_offers,container,fa
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 .. array.length()) {
+                        for (i in 0 .. array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ViewAllProductsData(
                                 objectArtist.getString("heading"),
@@ -68,7 +68,8 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_offers,container,fa
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
                                 objectArtist.getString("id"),
-                                objectArtist.getString("name")
+                                objectArtist.getString("name"),
+                                objectArtist.getString("disc")
 
                                 )
                             dealsList.add(banners)

@@ -27,8 +27,23 @@ class CategoryAllProductsAdapter(val data: MutableList<CategoryAllProductsData>)
     override fun onBindViewHolder(holder: CategoryAllProductsViewHolder, position: Int) {
         val item = data[position]
         holder.title.text = item.heading
-       // holder.sale.text = "₹"+item.sale
-       holder.mrp.text = "₹"+item.sale
+        if (item.mrp==item.sale)
+        {
+            holder.mrp.visibility = View.VISIBLE
+            holder.mrp.text = "₹"+item.sale
+            holder.sale.visibility = View.GONE
+            holder.disc.visibility = View.GONE
+            holder.line.visibility = View.GONE
+        }
+
+        else
+        {
+            holder.sale.text = "₹"+item.mrp
+            holder.mrp.text = "₹"+item.sale
+            holder.disc.text = (item.disc)+"%off"
+        }
+
+
 //        holder.discount.text = item.disc
         Picasso.get().load(item.image1).into(holder.img)
 
@@ -53,8 +68,13 @@ class CategoryAllProductsViewHolder(itemView: View):ViewHolder(itemView)
     val img:ImageView = itemView.findViewById(R.id.categoprodimg)
     val title:TextView = itemView.findViewById(R.id.categoprodfirst)
     val mrp:TextView = itemView.findViewById(R.id.categoprodsecond)
+    val disc:TextView = itemView.findViewById(R.id.catediscount)
+    val line:View = itemView.findViewById(R.id.view4)
+    val sale:TextView = itemView.findViewById(R.id.newArrivalThirdscad)
     val openProd: Button = itemView.findViewById(R.id.openProduct)
     val constraint:ConstraintLayout = itemView.findViewById(R.id.categConstraintAll)
+
+
 
     //  val sale:TextView = itemView.findViewById(R.id.categprodsecond)
 //    val discount:TextView = itemView.findViewById(R.id.offerProdFourth)

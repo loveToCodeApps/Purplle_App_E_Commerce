@@ -2,11 +2,15 @@ package com.example.purpleapp
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -20,6 +24,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.example.purpleapp.api.MemoBroadcast
 import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.databinding.ActivityMainBinding
 import java.util.*
@@ -29,25 +34,62 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     lateinit var drawerLayout: DrawerLayout
+    lateinit var menu:Menu
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         // action bar title changed
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         //myAlarm()
+
+      //09-02-2023  code for notification
+        NotificationChannels()
+
+
+        val calendar = Calendar.getInstance()
+        val currentHourIn24Format: Int =calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinuteIn24Format: Int =calendar.get(Calendar.MINUTE)+1
+        calendar[Calendar.HOUR_OF_DAY] = currentHourIn24Format
+        calendar[Calendar.MINUTE] = currentMinuteIn24Format
+        calendar[Calendar.SECOND] = 0
+
+        if (Calendar.getInstance().after(calendar)) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        val intent = Intent(this@MainActivity, MemoBroadcast::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            120000L,
+            pendingIntent
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
+        }
+
+//--------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------
         drawerLayout = binding.myDrawer
-
-        //---------------------------------------------------------------------------------
-
-
-        //----------------------------------------------------------------------------------------------------
 
         val navController = this.findNavController(R.id.purplleNavHost)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(binding.myNavView, navController)
         binding.bottomNavigationView.setupWithNavController(navController)
 
-
+        //---------------------------------------------------------------------------------
         if (SharedPrefManager.getInstance(this).isLoggedIn) {
             val user = SharedPrefManager.getInstance(this).user
        //     binding.textView87.text = user.firstName.toString()
@@ -235,6 +277,21 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun NotificationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name: CharSequence = "PASTICCINO"
+            val description = "PASTICCINO`S CHANNEL"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("Notification", name, importance)
+            channel.description = description
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+
     private fun myAlarm() {
         val calendar: Calendar = Calendar.getInstance()
         calendar.set(Calendar.HOUR_OF_DAY, 16)
@@ -263,7 +320,8 @@ class MainActivity : AppCompatActivity() {
 
             R.id.loginBtn -> {
                 if (SharedPrefManager.getInstance(this).isLoggedIn) {
-                    Toast.makeText(this, "You are already logged in ", Toast.LENGTH_SHORT).show()
+                 SharedPrefManager.getInstance(applicationContext).logout()
+                    Toast.makeText(this, "Logout successfully !!", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "you will first need to login !!", Toast.LENGTH_SHORT).show();
                     val intent = Intent(this@MainActivity, LoginActivity::class.java)

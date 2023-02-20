@@ -28,8 +28,23 @@ class SimilarProductsAdapter(val data: MutableList<BrandAllProductData>):Adapter
         val item = data[position]
         holder.title.text = item.heading
         // holder.sale.text = "₹"+item.sale
-        holder.mrp.text = "₹"+item.sale
-        holder.sale.text = "₹"+item.mrp
+        if (item.mrp==item.sale)
+        {
+            holder.sale.visibility = View.VISIBLE
+            holder.sale.text = "₹"+item.sale
+            holder.mrp.visibility = View.GONE
+            holder.disc.visibility = View.GONE
+            holder.line.visibility = View.GONE
+        }
+
+        else
+        {
+
+            holder.mrp.text = "₹"+item.mrp
+            holder.sale.text = "₹"+item.sale
+            holder.disc.text = (item.disc).take(2)+"%off"
+        }
+
 
 //        holder.discount.text = item.disc
         Picasso.get().load(item.image1).into(holder.img)
@@ -57,10 +72,13 @@ class SimilarProductsViewHolder(itemView: View):ViewHolder(itemView)
 {
     val img:ImageView = itemView.findViewById(R.id.brandsprodimg)
     val title:TextView = itemView.findViewById(R.id.brandsprodfirst)
-    val mrp:TextView = itemView.findViewById(R.id.brandsprodsecond)
-    val sale:TextView = itemView.findViewById(R.id.newArrivalThirdscad)
+    val mrp:TextView = itemView.findViewById(R.id.newArrivalThirdscad)
+    val sale:TextView = itemView.findViewById(R.id.salesimilrs)
     val openProd:Button = itemView.findViewById(R.id.textView4com)
+    val disc:TextView = itemView.findViewById(R.id.discountOfSimilar)
     val constraint:ConstraintLayout = itemView.findViewById(R.id.constraintBrandsProd)
+    val line:View = itemView.findViewById(R.id.view4)
+
 
 
 

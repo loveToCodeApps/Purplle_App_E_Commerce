@@ -47,6 +47,11 @@ class EditProfileFragment : Fragment() {
         binding.userEmail.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.email.toString())
 binding.userShippingWhatsappNumber.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.shipping_whatsappno)
         binding.userShippingBillingNumber.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.billing_whatsappno)
+
+        binding.userShippingCity.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.shipping_city)
+        binding.userShippingState.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.shipping_state)
+        binding.userShippingZipcode.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.shipping_zipcode)
+
         binding.button8.setOnClickListener {
             editMyProfile()
 

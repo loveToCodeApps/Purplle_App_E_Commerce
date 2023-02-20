@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -35,8 +36,29 @@ class MyWishlistProductAdapter (val data : List<MyWishlistProductData> , var con
 
         val item = data[position]
         Picasso.get().load(item.wishlistProdImg).into(holder.img)
-        holder.price.text="₹"+item.wishlistProdPrice
-        holder.cutPrice.text="₹"+item.wislistProdCutPrice
+        if (item.wishlistProdPrice==item.wislistProdCutPrice)
+        {
+            holder.price.visibility = View.VISIBLE
+            holder.price.text = "₹"+item.wishlistProdPrice
+            holder.cutPrice.visibility = View.GONE
+           holder.disc.visibility = View.GONE
+            holder.line.visibility = View.GONE
+        }
+
+        else
+        {
+
+            holder.price.text = "₹"+item.wishlistProdPrice
+            holder.cutPrice.text = "₹"+item.wislistProdCutPrice
+            holder.disc.text = (item.disc)+"%off"
+        }
+
+        holder.layout.setOnClickListener {
+            it.findNavController().navigate(WishlistFragmentDirections.actionWishlistFragmentToProductDescriptionFragment(item.idOfProd))
+        }
+
+
+
         holder.heading.text=item.wishlistProdHeading
 //        holder.discount.text=item.wishlistProdDiscount
 //        holder.rate.text=item.wishlistProdRating
@@ -95,8 +117,7 @@ class MyWishlistProductAdapter (val data : List<MyWishlistProductData> , var con
                         //if no error in response
                         if (!obj.getBoolean("error")) {
                             val array = obj.getJSONArray("user")
-
-
+                            Toast.makeText(it.context,"Deleted item successfully",Toast.LENGTH_SHORT).show()
 
                         } else {
                             Toast.makeText(context , obj.getString("message"), Toast.LENGTH_SHORT).show()
@@ -147,6 +168,9 @@ class MyWishlistProductViewHolder(itemView: View):ViewHolder(itemView)
    val cutPrice:TextView=itemView.findViewById(R.id.textView81)
     val addToCart:TextView=itemView.findViewById(R.id.textView84)
     val DeleteItem:TextView=itemView.findViewById(R.id.textView)
+    val line:View=itemView.findViewById(R.id.view2)
+    val disc:TextView=itemView.findViewById(R.id.wishlistDiscount)
+    val layout:ConstraintLayout=itemView.findViewById(R.id.wishlistCons)
 
 //       val discount:TextView=itemView.findViewById(R.id.textView82)
 //        val rate : Button=itemView.findViewById(R.id.button9)

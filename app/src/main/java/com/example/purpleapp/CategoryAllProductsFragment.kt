@@ -64,20 +64,27 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_all_produc
                         val array = obj.getJSONArray("user")
 
 //
-
-                        //   for (i in (array.length()-1) until  1) {
-                        for (i in 0 until array.length() + 1) {
-                            val objectArtist = array.getJSONObject(i)
-                            val banners = CategoryAllProductsData(
-                                objectArtist.optString("heading"),
-                                objectArtist.optString("sale"),
-                                objectArtist.optString("mrp"),
-                                objectArtist.optString("image"),
-                                objectArtist.optString("id")
-                            )
-                            categorList.add(banners)
-                            val adapter = CategoryAllProductsAdapter(categorList)
-                            binding.categoryAllProductsList.adapter=adapter
+                        if (array.length()>0) {
+                            binding.textView133.visibility = View.VISIBLE
+                            binding.textView137CategName.visibility = View.VISIBLE
+                            binding.categoryAllProductsList.visibility = View.VISIBLE
+                            binding.animationViewNotAvailable.visibility = View.GONE
+                            binding.textView42.visibility = View.GONE
+                            //   for (i in (array.length()-1) until  1) {
+                            for (i in 0..array.length() - 1) {
+                                val objectArtist = array.getJSONObject(i)
+                                val banners = CategoryAllProductsData(
+                                    objectArtist.optString("heading"),
+                                    objectArtist.optString("sale"),
+                                    objectArtist.optString("mrp"),
+                                    objectArtist.optString("image"),
+                                    objectArtist.optString("id"),
+                                    objectArtist.optString("disc")
+                                )
+                                categorList.add(banners)
+                                val adapter = CategoryAllProductsAdapter(categorList)
+                                binding.categoryAllProductsList.adapter = adapter
+                            }
                         }
                     } else {
                         Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
@@ -87,10 +94,11 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_all_produc
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
-//                    binding.textView13.visibility=View.VISIBLE
-//                    binding.lottieAnimationView.visibility=View.VISIBLE
-//                    binding.progressBar1.visibility=View.GONE
-
+                    binding.textView133.visibility = View.GONE
+                            binding.textView137CategName.visibility = View.GONE
+                            binding.categoryAllProductsList.visibility = View.GONE
+                            binding.animationViewNotAvailable.visibility = View.VISIBLE
+                            binding.textView42.visibility = View.VISIBLE
                 }
 
             },

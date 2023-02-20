@@ -72,7 +72,8 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_brand_all_products,
                                 objectArtist.optString("mrp"),
                                 objectArtist.optString("image"),
                                 objectArtist.optString("id"),
-                                objectArtist.optString("name")
+                                objectArtist.optString("name"),
+                                objectArtist.optString("disc")
 
                             )
                             brandsList.add(banners)

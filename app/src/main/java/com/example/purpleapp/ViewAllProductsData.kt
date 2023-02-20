@@ -6,5 +6,6 @@ data class ViewAllProductsData(
     var mrp:String,
     var image1: String,
     var id : String,
-    var name:String
+    var name:String,
+    var disc:String
 )

@@ -4,22 +4,27 @@
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_baseline_home_24"
-        android:title="Home" />
+        android:title="Home"
+       />
     <item
         android:id="@+id/categoryFragment"
         android:icon="@drawable/ic_baseline_sort_24"
-        android:title="Categories" />
+        android:title="Categories"
+    />
     <item
         android:id="@+id/brandFragment"
         android:icon="@drawable/ic_baseline_info_24"
-        android:title="Brand" />
+        android:title="Brand"
+      />
     <item
         android:id="@+id/offerFragment"
         android:icon="@drawable/ic_baseline_discount_24"
-        android:title="Offer" />
+        android:title="Offer"
+       />
     <item
         android:id="@+id/myProfile"
         android:checked="false"
         android:icon="@drawable/ic_baseline_person_24"
-        android:title="My Account" />
+        android:title="My Account"
+       />
 </menu>

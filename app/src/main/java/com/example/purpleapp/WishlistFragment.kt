@@ -83,8 +83,8 @@ class WishlistFragment : Fragment() {
                                 objectArtist.optString("mrp"),
                                 objectArtist.optString("heading"),
                                 objectArtist.optString("id"),
-                                objectArtist.optString("desc_id")
-
+                                objectArtist.optString("desc_id"),
+                                objectArtist.optString("disc")
 
                             )
                             myWishlist.add(banners)

@@ -62,6 +62,7 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_home_all_p
                             binding.animationViewNotAvailable.visibility = View.GONE
                             binding.textView42.visibility = View.GONE
 
+
                             for (i in 0..array.length() - 1) {
                                 val objectArtist = array.getJSONObject(i)
                                 val banners = CategoryHomeAllProductsData(
@@ -69,8 +70,10 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_home_all_p
                                     objectArtist.optString("sale"),
                                     objectArtist.optString("mrp"),
                                     objectArtist.optString("image"),
-                                    objectArtist.optString("id")
-                                )
+                                    objectArtist.optString("id"),
+                                    objectArtist.optString("disc")
+
+                                    )
                                 categoryList.add(banners)
                                 val adapter = CategoryHomeAllProductsAdapter(categoryList)
                                 binding.categoryHomeAllProductsList.adapter = adapter
@@ -93,9 +96,11 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_home_all_p
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
-//                    binding.textView13.visibility=View.VISIBLE
-//                    binding.lottieAnimationView.visibility=View.VISIBLE
-//                    binding.progressBar1.visibility=View.GONE
+                 binding.animationViewNotAvailable.visibility = View.VISIBLE
+                          binding.textView42.visibility = View.VISIBLE
+                    binding.textView129.visibility = View.GONE
+                    binding.textView132.visibility = View.GONE
+                    binding.categoryHomeAllProductsList.visibility=View.GONE
 
                 }
 

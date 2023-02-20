@@ -84,7 +84,8 @@ var listType=" "
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
                                 objectArtist.getString("id"),
-                                objectArtist.getString("name")
+                                objectArtist.getString("name"),
+                                        objectArtist.getString("disc")
 
                                 )
                             dealsList.add(banners)
@@ -141,6 +142,8 @@ var listType=" "
                                 objectArtist.getString("image"),
                                 objectArtist.getString("id"),
                                 objectArtist.getString("name"),
+                                objectArtist.getString("disc")
+
 
                                 )
                             newArrivalsList.add(banners)
@@ -196,9 +199,11 @@ var listType=" "
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
                                 objectArtist.getString("id"),
-                                objectArtist.getString("name")
+                                objectArtist.getString("name"),
+                                objectArtist.getString("disc")
 
-                                )
+
+                            )
 
                             offerProductList.add(banners)
                             val adapter = ViewAllProductsAdapter(offerProductList)
@@ -252,11 +257,10 @@ var listType=" "
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
                                 objectArtist.getString("id"),
-                                objectArtist.getString("name")
+                                objectArtist.getString("name"),
+                                objectArtist.getString("disc")
 
-
-
-                                )
+                            )
                             comboOffersList.add(banners)
                             val adapter = ViewAllProductsAdapter(comboOffersList)
                             binding.typeOfList.adapter = adapter

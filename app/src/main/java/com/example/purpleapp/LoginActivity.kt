@@ -11,10 +11,7 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
-import com.example.purpleapp.api.SharedPrefManager
-import com.example.purpleapp.api.URLs
-import com.example.purpleapp.api.User
-import com.example.purpleapp.api.VolleySingleton
+import com.example.purpleapp.api.*
 import com.example.purpleapp.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
 import org.json.JSONException
@@ -25,6 +22,9 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+
+
+        supportActionBar?.hide()
 
         binding.textView79.setOnClickListener {
             finish()
@@ -45,9 +45,17 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.button2.setOnClickListener {
+            var i1 = Internet()
+            if(i1.checkConnection(this))
+            {
+                userLogin()
+            }
+            else
+            {
+                Toast.makeText(this,"Please check internet connectivity",Toast.LENGTH_SHORT).show()
+            }
 
 
-            userLogin()
 
         }
 
@@ -130,7 +138,11 @@ class LoginActivity : AppCompatActivity() {
                             city,
                             pincode,
                             userJson.getString("shipping_whatsappno"),
-                            userJson.getString("billing_whatsappno")
+                            userJson.getString("billing_whatsappno"),
+                            userJson.getString("shipping_city"),
+                            userJson.getString("shipping_state"),
+                            userJson.getString("shipping_zipcode")
+
                             )
 
                         //storing the user in shared preferences

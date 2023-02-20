@@ -47,11 +47,11 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun registerUser() {
 
-        val firstname = binding.editTextTextPersonName.text.trim()
-        val middlename = binding.editTextTextPersonName2.text.trim()
-        val lastname = binding.editTextTextPersonName3.text.trim()
-        val phone = binding.editTextTextPersonName4.text.trim()
-        val email = binding.editTextTextPersonName5.text.trim()
+        val firstname = binding.editTextTextPersonName.text!!.trim()
+        val middlename = binding.editTextTextPersonName2.text!!.trim()
+        val lastname = binding.editTextTextPersonName3.text!!.trim()
+        val phone = binding.editTextTextPersonName4.text!!.trim()
+        val email = binding.editTextTextPersonName5.text!!.trim()
 
 
 

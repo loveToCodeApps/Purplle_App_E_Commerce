@@ -5,5 +5,6 @@ data class CategoryAllProductsData(
     var sale:String,
     var mrp:String,
     var image1: String,
-    var id : String
+    var id : String,
+    var disc : String
 )

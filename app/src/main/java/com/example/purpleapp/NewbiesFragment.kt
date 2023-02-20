@@ -70,8 +70,8 @@ return binding.root
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
                                 objectArtist.getString("id"),
-                                objectArtist.getString("name")
-
+                                objectArtist.getString("name"),
+                                objectArtist.getString("disc")
                                 )
                             newArrivalsList.add(banners)
                             val adapter = NewbiesAdapter(newArrivalsList)

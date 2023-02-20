@@ -5,7 +5,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.android.volley.AuthFailureError
@@ -18,7 +17,6 @@ import com.example.purpleapp.api.URLs
 import com.example.purpleapp.api.VolleySingleton
 import com.example.purpleapp.databinding.FragmentMyCartBinding
 import com.google.android.material.snackbar.Snackbar
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -158,7 +156,9 @@ else
                                 objectArtist.optString("heading"),
                                 objectArtist.optString("sum"),
                                 objectArtist.optString("id"),
-                                objectArtist.optString("quantity")
+                                objectArtist.optString("quantity"),
+                                objectArtist.optString("disc")
+
                             )
                             myCartProdList.add(banners)
                             val adapter = MyCartAdapter(myCartProdList,requireActivity().applicationContext)

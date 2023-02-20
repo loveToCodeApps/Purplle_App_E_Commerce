@@ -112,20 +112,34 @@
                 android:id="@+id/offerProdThir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="3dp"
                 android:fontFamily="@font/gilroy_medium"
                 android:text="₹399"
-                android:textColor="#4C4C4C"
+                android:textColor="#808080"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/viewAllHomeprodsecond"
                 app:layout_constraintStart_toEndOf="@+id/viewAllHomeprodsecond"
+                app:layout_constraintTop_toTopOf="@+id/viewAllHomeprodsecond" />
+
+            <TextView
+                android:id="@+id/viewAllDisc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:fontFamily="@font/gilroy_medium"
+                android:text="19%off"
+                android:textColor="#F38B07"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/viewAllHomeprodsecond"
+                app:layout_constraintStart_toEndOf="@+id/view4"
                 app:layout_constraintTop_toTopOf="@+id/viewAllHomeprodsecond" />
 
             <View
                 android:id="@+id/view4"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="#4C4C4C"
+                android:layout_marginStart="3dp"
+                android:background="#808080"
                 app:layout_constraintBottom_toBottomOf="@+id/offerProdThir"
                 app:layout_constraintEnd_toEndOf="@+id/offerProdThir"
                 app:layout_constraintStart_toStartOf="@+id/offerProdThir"

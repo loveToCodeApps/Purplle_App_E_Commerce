@@ -2,12 +2,12 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/shareProduct"
-        android:icon="@drawable/ic_baseline_share_24"
-        android:title="share"
-        app:iconTint="#ffffff"
-        app:showAsAction="ifRoom" />
+<!--    <item-->
+<!--        android:id="@+id/shareProduct"-->
+<!--        android:icon="@drawable/ic_baseline_share_24"-->
+<!--        android:title="share"-->
+<!--        app:iconTint="#ffffff"-->
+<!--        app:showAsAction="ifRoom" />-->
 <!--    <item-->
 <!--        android:id="@+id/app_bar_search"-->
 <!--        android:icon="@drawable/ic_baseline_search_24"-->
@@ -16,10 +16,8 @@
 <!--        app:showAsAction="ifRoom" />-->
     <item
         android:id="@+id/myCartFragment"
-        android:icon="@drawable/ic_baseline_shopping_cart_24"
         android:title="Item"
-        app:showAsAction="ifRoom"
         app:iconTint="#ffffff"
-        app:actionLayout="@layout/cart_action_item_new"
-        />
+        android:icon="@drawable/ic_baseline_shopping_cart_24"
+        app:showAsAction="ifRoom" />
 </menu>

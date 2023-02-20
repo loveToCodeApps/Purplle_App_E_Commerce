@@ -5,5 +5,6 @@ data class ProductData(
 
 //       var offer_first:String,
 //  var offer_second:String,
-       var url: String
+       var url: String,
+       var link:String
 )

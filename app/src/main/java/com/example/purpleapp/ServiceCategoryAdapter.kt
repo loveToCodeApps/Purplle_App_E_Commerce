@@ -35,7 +35,7 @@ class ServiceCategoryAdapter(val data : List<ServiceCategoryData> , val data2 : 
         val item = data[position]
         Picasso.get().load(item.serviceCategoryImg).into(holder.img)
 
-        if (item.serviceCategoryImgName=="0" || item.serviceCategoryImgName=="null")
+        if (item.serviceCategoryImgName=="0" || item.serviceCategoryImgName=="null" ||  item.serviceCategoryImgName=="")
         {
             holder.title.text = item.serviceCategoryHeading
             holder.ogLayout.setBackgroundColor(Color.parseColor("#ff4646"))

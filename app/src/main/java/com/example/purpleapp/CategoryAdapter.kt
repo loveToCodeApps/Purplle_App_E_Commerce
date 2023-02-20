@@ -10,6 +10,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.squareup.picasso.Picasso
 
 class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>() {
@@ -24,11 +28,7 @@ class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>
 
         val item = cate[position]
         Picasso.get().load(item.image).into(holder.headImg)
-        holder.headImg.setOnClickListener {
-            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCategoryHomeAllProductsFragment(item.heading))
-
-        }
-        if (item.img_name=="0" || item.img_name=="null")
+        if (item.img_name=="0" || item.img_name=="null" || item.img_name=="")
         {
             holder.img_name.text = item.heading
             holder.background.setBackgroundColor(Color.parseColor("#ff4646"))
@@ -39,6 +39,13 @@ class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>
         {
             holder.img_name.visibility=View.GONE
         }
+
+        holder.headImg.setOnClickListener {
+            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCategoryHomeAllProductsFragment(item.heading))
+
+        }
+
+
     }
 
     override fun getItemCount():Int = cate.size
