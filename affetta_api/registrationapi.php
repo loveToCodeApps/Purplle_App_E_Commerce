@@ -66,13 +66,13 @@ if(isset($_GET['apicall'])){
         $phone = $_POST['phone'];  
 
 
-        $stmt = $conn->prepare("SELECT id, firstname,middlename,lastname, email, phone , address , state , city , zipcode, shipping_whatsappno,billing_whatsappno FROM register WHERE phone = ?");  
+        $stmt = $conn->prepare("SELECT id, firstname,middlename,lastname, email, phone , address , state , city , zipcode, shipping_whatsappno,billing_whatsappno,shipping_city,shipping_state,shipping_zipcode FROM register WHERE phone = ?");  
         $stmt->bind_param("s",$phone);  
         $stmt->execute();  
         $stmt->store_result(); 
 
         if($stmt->num_rows > 0){  
-            $stmt->bind_result($id, $firstname,$middlename,$lastname, $email, $phone , $address,$city,$state,$zipcode,$shipping_whatsappno,$billing_whatsappno);  
+            $stmt->bind_result($id, $firstname,$middlename,$lastname, $email, $phone , $address,$city,$state,$zipcode,$shipping_whatsappno,$billing_whatsappno,$shipping_city,$shipping_state,$shipping_zipcode);  
             $stmt->fetch();  
             $user = array(  
                 'id'=>$id,   
@@ -144,13 +144,13 @@ if(isset($_GET['apicall'])){
 
 //active='0'
 // $id = $_GET['id'];  
-    $stmt = $conn->prepare("SELECT id, image as url  FROM banners WHERE active='0' ");  
+    $stmt = $conn->prepare("SELECT id, image , url  FROM banners WHERE active='0' ");  
 // $stmt->bind_param("s",$id);  
     $stmt->execute();  
     $stmt->store_result(); 
 
     if($stmt->num_rows > 0){  
-        $stmt->bind_result($id,$url);  
+        $stmt->bind_result($id,$image,$url);  
         $stmt->fetch();  
 
 
@@ -159,8 +159,8 @@ if(isset($_GET['apicall'])){
         while($stmt->fetch()){
          $temp = array(); 
          $temp['id'] = $id; 
-         $temp['url'] =IMGPATH.$url ;
-
+         $temp['image'] =IMGPATH.$image ;
+          $temp['url'] = $url; 
          array_push($banner_data, $temp);
      }
 
@@ -247,24 +247,26 @@ break;
 // //-------------------------------------------------------------------------------------------------- 
 case 'featured':  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.popular='1' order by rand() limit 8");  
-//$stmt->bind_param("s",$id);  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.popular='1' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' order by pd.productid DESC limit 7");  
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
      $temp['name'] =$image ;
 
@@ -272,7 +274,7 @@ if($stmt->num_rows > 0){
 
      array_push($banner_data, $temp);
  }
-
+ 
  $response['error'] = false;   
  $response['message'] = 'Featured products Fetch successfull';   
  $response['user'] = $banner_data;   
@@ -288,24 +290,26 @@ break;
 
 case 'featuredAll':  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.popular='1' order by rand() limit 20");  
-//$stmt->bind_param("s",$id);  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory  from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.popular='1' order by rand() limit 20");  
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
      $temp['name'] =$image ;
 
@@ -313,7 +317,7 @@ if($stmt->num_rows > 0){
 
      array_push($banner_data, $temp);
  }
-
+ 
  $response['error'] = false;   
  $response['message'] = 'Featured products Fetch successfull';   
  $response['user'] = $banner_data;   
@@ -328,13 +332,13 @@ break;
 // //-------------------------------------------------------------------------------------------------- 
 case 'offerBanners':  
 
-$stmt = $conn->prepare("SELECT id, image  FROM offerbanners WHERE active='0'");  
+$stmt = $conn->prepare("SELECT id, image,url  FROM offerbanners WHERE active='0'");  
 //$stmt->bind_param("s",$id);  
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$url);  
+    $stmt->bind_result($id,$image,$url);  
     $stmt->fetch();  
 
 
@@ -344,7 +348,8 @@ if($stmt->num_rows > 0){
     while($stmt->fetch()){
      $temp = array(); 
      $temp['id'] = $id; 
-     $temp['url'] =IMGPATH.$url ;
+     $temp['image'] =IMGPATH.$image ;
+     $temp['url'] = $url; 
 
      array_push($banner_data, $temp);
  }
@@ -362,9 +367,9 @@ break;
 // //-------------------------------------------------------------------------------------------------- 
 case 'brands':  
 
-$stmt = $conn->prepare("SELECT id, sch_name as heading , image  FROM school_name WHERE active='0' order by rand() limit 8");  
-//$stmt->bind_param("s",$id);  
-$stmt->execute();  
+$stmt = $conn->prepare("SELECT id, sch_name as heading , image  FROM school_name WHERE active='0' AND (LENGTH(image) > 0) AND image <> '' order by id DESC limit 8");  
+//$stmt->bind_param("s",$id);    
+$stmt->execute();    
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
@@ -379,7 +384,7 @@ if($stmt->num_rows > 0){
      $temp['id'] = $id; 
      $temp['heading']= $heading;
      $temp['url'] =IMGPATH.$url ;
-
+     $temp['name'] =$url ;
      array_push($banner_data, $temp);
  }
 
@@ -432,32 +437,36 @@ break;
 // //-------------------------------------------------------------------------------------------------- 
 case 'deals':  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.deals='1' limit 8");  
-//$stmt->bind_param("s",$id);  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.popular='1' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' order by pd.productid DESC limit 7");  
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
+     $temp['name'] =$image ;
+
 
 
      array_push($banner_data, $temp);
  }
-
+ 
  $response['error'] = false;   
- $response['message'] = ' Hot Deals Fetch successfull';   
+ $response['message'] = 'Hot deals Fetch successfull';   
  $response['user'] = $banner_data;   
 }  
 else{  
@@ -467,38 +476,40 @@ else{
 //}  
 //}  
 break; 
-
 // --------------------------------------------------------------------------------------------------  
 
 case 'dealsAll':  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.deals='1' limit 20");  
-//$stmt->bind_param("s",$id);  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.deals='1' limit 20");  
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
-     $temp['image'] = IMGPATH.$image ;
-     $temp['name'] = $image ;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
+     $temp['image'] =IMGPATH.$image ;
+     $temp['name'] =$image ;
+
 
 
      array_push($banner_data, $temp);
  }
-
+ 
  $response['error'] = false;   
- $response['message'] = ' Hot Deals Fetch successfull';   
+ $response['message'] = 'All hot deals Fetch successfull';   
  $response['user'] = $banner_data;   
 }  
 else{  
@@ -513,24 +524,27 @@ break;
 case 'comboOffers':  
 
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category='combo' order by rand() limit 8");  
-//$stmt->bind_param("s",$id);  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category='Combo' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' order by pd.productid DESC limit 7");  
+
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
-    $stmt->fetch();
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
+    
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
      $temp['name'] =$image ;
 
@@ -540,7 +554,7 @@ if($stmt->num_rows > 0){
  }
 
  $response['error'] = false;   
- $response['message'] = ' Combo Offers Fetch successfull';   
+ $response['message'] = ' Combo offers Fetch successfull';   
  $response['user'] = $banner_data;   
 }  
 else{  
@@ -550,29 +564,33 @@ else{
 //}  
 //}  
 break; 
+
 
 // //-------------------------------------------------------------------------------------------- 
 case 'comboOffersAll':  
 
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category='combo' order by rand() limit 20");  
-//$stmt->bind_param("s",$id);  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory  from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category='Combo' order by rand() limit 20");  
+
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
      $temp['name'] =$image ;
 
@@ -582,7 +600,7 @@ if($stmt->num_rows > 0){
  }
 
  $response['error'] = false;   
- $response['message'] = ' Combo Offers Fetch successfull';   
+ $response['message'] = ' Combo offers Fetch successfull';   
  $response['user'] = $banner_data;   
 }  
 else{  
@@ -592,28 +610,32 @@ else{
 //}  
 //}  
 break; 
+
 
 // //-------------------------------------------------------------------------------------------- 
 case 'newArrivals':  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.new_arrival='1' order by rand() limit 8");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.new_arrival='1' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' order by pd.productid DESC limit 7");  
 //$stmt->bind_param("s",$id);  
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+    // print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
      $temp['name'] =$image ;
 
@@ -639,28 +661,29 @@ break;
 
 
 
-// //-------------------------------------------------------------------------------------------- 
-
+// //----------------------------------------------------------------------------------------
 case 'newArrivalsAll':  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.new_arrival='1' order by rand() limit 20");  
-//$stmt->bind_param("s",$id);  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.new_arrival='1' order by rand() limit 20");  
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
      $temp['name'] =$image ;
 
@@ -668,9 +691,9 @@ if($stmt->num_rows > 0){
 
      array_push($banner_data, $temp);
  }
-
+ 
  $response['error'] = false;   
- $response['message'] = ' New Arrivals Fetch successfull';   
+ $response['message'] = 'New Arrivals Fetch successfull';   
  $response['user'] = $banner_data;   
 }  
 else{  
@@ -680,8 +703,6 @@ else{
 //}  
 //}  
 break; 
-
-
 
 
 
@@ -725,94 +746,105 @@ else{
 //}  
 break; 
 
-//-------------------------------------------------------------------------------------------- 
+//----------------------------------------------------------------------------------------- 
 
 case 'getMyCart':  
 $id = $_POST['id'];
 // $prod_desc_id = $_POST['prod_desc_id'];
 // $prod_id = $_POST['prod_id'];
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1,c.quantity from cart c left JOIN products pd on pd.productid=c.productid LEFT join product_detail_description pdd on pdd.id=c.product_desc_id where c.userid=? and c.status='Added in cart'");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1,c.quantity, pdd.id, pd.disc_type,
+ pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from cart c left JOIN products pd on pd.productid=c.productid LEFT join product_detail_description pdd on pdd.id=c.product_desc_id where c.userid=? and c.status='Added in cart'");  
 
-//, $prod_id,$prod_desc_id
-//and pd.productid=? and pdd.id = ?
-
-$stmt->bind_param("s",$id);  
-$stmt->execute();        
-$stmt->store_result(); 
-
-if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image,$quantity);  
-
-    $banner_data = array();
-
-    while($stmt->fetch()){
-     $temp = array(); 
-     $temp['id'] = $id; 
-     $temp['heading']= $name;   
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
-     $temp['image'] =IMGPATH.$image ;
-     $temp['quantity'] = $quantity;
-
-
-     array_push($banner_data, array_filter($temp));
- }
-
- $response['error'] = false;   
- $response['message'] = 'Cart Detail Fetch successfull';   
- $response['user'] = $banner_data;   
-}  
-else{  
-    $response['error'] = false;   
-    $response['message'] = 'No Record Found';  
-}  
-//}  
-//}  
-break; 
-
-//-------------------------------------------------------------------------------------------- 
-case 'getMyWishlist':
-$id = $_POST['id'];  
-
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1,c.quantity,pdd.id from wishlist c left JOIN products pd on pd.productid=c.productid LEFT join product_detail_description pdd on pdd.id=c.product_desc_id
-    where c.status='Created' and  c.userid=?");  
-$stmt->bind_param("s",$id);  
+$stmt->bind_param("s",$id);
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image,$quantity,$desc_id);  
-
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$quantity,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
+    
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
-     $temp['desc_id'] = $desc_id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
+     $temp['name'] =$image ;
+     $temp['quantity'] =$quantity ;
+
 
 
      array_push($banner_data, $temp);
  }
 
  $response['error'] = false;   
- $response['message'] = 'Wishlist Fetch successfull';   
+ $response['message'] = ' Combo offers Fetch successfull';   
  $response['user'] = $banner_data;   
 }  
 else{  
     $response['error'] = false;   
-    $response['message'] = 'No Record Found';  
+    $response['message'] = 'Invalid id';  
+}  
+//}  
+//}  
+break;   
+
+
+//-------------------------------------------------------------------------------------------- 
+case 'getMyWishlist':
+$id = $_POST['id'];  
+
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1,c.quantity, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from wishlist c left JOIN products pd on pd.productid=c.productid LEFT join product_detail_description pdd on pdd.id=c.product_desc_id
+    where c.status='Created' and  c.userid=?");  
+$stmt->bind_param("s",$id);  
+$stmt->execute();  
+$stmt->store_result(); 
+
+if($stmt->num_rows > 0){  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$quantity,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
+    
+
+    $banner_data = array();
+
+    while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
+     $temp = array(); 
+     $temp['id'] = $id; 
+     $temp['heading']= $name;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
+     $temp['image'] =IMGPATH.$image ;
+     $temp['desc_id'] =$desc_id ;
+
+
+
+     array_push($banner_data, $temp);
+ }
+
+ $response['error'] = false;   
+ $response['message'] = ' wishlist data Fetch successfull';   
+ $response['user'] = $banner_data;   
+}  
+else{  
+    $response['error'] = false;   
+    $response['message'] = 'Invalid id';  
 }  
 //}  
 //}  
 break; 
+
+
 //----------------------------------------------------------------------------- 
 case 'getMyOrders':  
 $id = $_POST['id'];
@@ -853,6 +885,47 @@ else{
 break; 
 
 //-------------------------------------------------------------------------------------
+
+case 'getCurrentOrder':  
+$id = $_POST['id'];
+
+$stmt = $conn->prepare("SELECT id,invoice_no,total_amount,created_on,status from bill_details where customer_id=? order by id DESC limit 1");  
+
+
+$stmt->bind_param("s",$id);  
+$stmt->execute();        
+$stmt->store_result(); 
+
+if($stmt->num_rows > 0){  
+    $stmt->bind_result($order_id,$order_no,$total_price,$created_on,$status);  
+
+    $banner_data = array();
+
+    while($stmt->fetch()){
+     $temp = array();
+     $temp['order_id'] = $order_id;  
+     $temp['order_no'] = $order_no; 
+     $temp['total_price']= $total_price;   
+     $temp['created_on'] =$created_on;
+     $temp['status'] =$status;
+
+
+     array_push($banner_data, array_filter($temp));
+ }
+
+ $response['error'] = false;   
+ $response['message'] = 'Current order Fetch successfull';   
+ $response['user'] = $banner_data;   
+}  
+else{  
+    $response['error'] = false;   
+    $response['message'] = 'No Record Found';  
+}  
+//}  
+//}  
+break; 
+
+//-------------------------------------------------------------------------------------
 case 'addToCart':  
 if(isTheseParametersAvailable(array('prod_id','user_id'))){ 
     date_default_timezone_set('Asia/Kolkata'); 
@@ -865,23 +938,23 @@ if(isTheseParametersAvailable(array('prod_id','user_id'))){
     $confirm_mobile = $_POST['confirm_mobile'];
     $created_on = date('Y-m-d H:i:s');
 
-
-// move_uploaded_file($ref_img['tmp_name'], UPLOAD_PATH . $ref_img['name']);
-    $stmt = $conn->prepare("INSERT INTO cart (productid, userid,product_desc_id,unit_price,total_price,quantity,confirm_mobile,ip_address,created_on) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");  
+ $stmt = $conn->prepare("INSERT INTO cart (productid, userid,product_desc_id,unit_price,total_price,quantity,confirm_mobile,ip_address,created_on) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");  
     $stmt->bind_param("sssssssss", $prod_id ,$user_id, $prod_desc_id,$unit_price,$total_price,$number_of_items,$confirm_mobile,$_SERVER['REMOTE_ADDR'],$created_on);  
 
     $stmt->execute();
     $stmt->close();      
 
-
-
-    $response['error'] = false;   
+$response['error'] = false;   
     $response['message'] = '1 item added to cart successfully!!';   
-    $response['user'] = "";   
+    $response['user'] = "";
+
+
+//  $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, 
+// $disc_end_date,$category,$subcategory,$conn);
+
+//  print_r($calculation);die(); 
 
 }  
-
-
 else{  
     $response['error'] = true;   
     $response['message'] = 'required parameters are not available';   
@@ -922,33 +995,38 @@ break;
 //-----------------------------------------------------------------------------------------------------------------------------------    
 case 'getParticularCategoryProducts' :  
 $category = $_POST['category'];   
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category=? order by rand() limit 20");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category=?  limit 7");  
 
 $stmt->bind_param("s",$category);  
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
+     $temp['name'] =$image ;
+
 
 
      array_push($banner_data, $temp);
  }
-
+ 
  $response['error'] = false;   
- $response['message'] = 'Particular category products Fetch successfull';   
+ $response['message'] = 'particular category products Fetch successfull';   
  $response['user'] = $banner_data;   
 }  
 else{  
@@ -959,42 +1037,48 @@ else{
 //}  
 break; 
 
+
 //---------------------------------------------------------------------------------
 
 case 'getParticularBrandProducts' :  
 $brand = $_POST['brand'];   
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.dressmadefor=? order by rand() limit 10");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.dressmadefor=? order by rand() limit 10");  
 
 $stmt->bind_param("s",$brand);  
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
+     $temp['name'] =$image ;
+
 
 
      array_push($banner_data, $temp);
  }
-
+ 
  $response['error'] = false;   
- $response['message'] = 'Particular Brand products Fetch successfull';   
+ $response['message'] = 'Featured products Fetch successfull';   
  $response['user'] = $banner_data;   
 }  
 else{  
     $response['error'] = false;   
-    $response['message'] = 'No records found';  
+    $response['message'] = 'Invalid id';  
 }  
 //}  
 //}  
@@ -1010,20 +1094,23 @@ case 'getProductDetailDescription':
 $id = $_POST['id'];  
 
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.image1,pd.image2 , pd.image3 , pd.image4 , pd.image5 , pd.image6 ,pd.image7 , pd.product_description , pdd.id , pd.bullet_pt1,pd.bullet_pt2,pd.bullet_pt3,pd.bullet_pt4,pd.bullet_pt5,pd.bullet_pt6 , pd.category from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.productid=? ");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.product_description,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.image1,pd.image2 , pd.image3 , pd.image4 , pd.image5 , pd.image6 ,pd.image7 , pdd.id , pd.bullet_pt1,pd.bullet_pt2,pd.bullet_pt3,pd.bullet_pt4,pd.bullet_pt5,pd.bullet_pt6 , pd.category , pd.disc_type,
+ pd.disc_start_date, pd.disc_end_date, pd.subcategory,pd.disc_amt from  products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.productid=? ");  
 $stmt->bind_param("s",$id);  
-$stmt->execute();  
+$stmt->execute();
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id, $heading,$mrp,$sale, $image1, $image2,$image3,$image4,$image5,$image6,$image7,$disc,$prod_desc_id,$bullet_one,$bullet_two,$bullet_three,$bullet_four,$bullet_five,$bullet_six,$category);  
+    $stmt->bind_result($id,$disc,$heading,$mrp,$sale, $image1, $image2,$image3,$image4,$image5,$image6,$image7,$desc_id,$bullet_one,$bullet_two,$bullet_three,$bullet_four,$bullet_five,$bullet_six,$category,$disc_type,$disc_start_date,$disc_end_date,$subcategory,$disc_amt);  
     $stmt->fetch();  
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
     $user = array(  
         'id'=>$id,   
         'heading'=>$heading,  
-        'sale'=>$sale,  
-        'disc'=>strip_tags($disc),   
-        'mrp'=>$mrp,  
+        'sale'=>$calculation['discounted_amount'],  
+        'disc'=>strip_tags($disc), 
+        'discount'=>round($calculation['discount_perc']),  
+        'mrp'=>$calculation['mrp'],  
         'image1'=>IMGPATH.$image1,
         'image2'=>IMGPATH.$image2,
         'image3'=>IMGPATH.$image3,
@@ -1038,14 +1125,16 @@ if($stmt->num_rows > 0){
         'imageName5'=>$image5,
         'imageName6'=>$image6,
         'imageName7'=>$image7,
-        'prod_desc_id'=>$prod_desc_id,
+        'prod_desc_id'=>$desc_id,
         'pt_one'=>strip_tags($bullet_one),
         'pt_two'=>strip_tags($bullet_two),
         'pt_three'=>strip_tags($bullet_three),
         'pt_four'=>strip_tags($bullet_four),
         'pt_five'=>strip_tags($bullet_five),
         'pt_six'=>strip_tags($bullet_six),
-        'category'=>$category
+        'category'=>$category,
+        'gst_type'=>$calculation['gst_type']
+
     );  
 
     $response['error'] = false;   
@@ -1093,34 +1182,39 @@ else
 break; 
 //------------------------------------------------------------------------------------------------
 case 'getSimilarProducts' :  
-$category = $_POST['category'];   
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category=? order by rand() limit 5");  
+$category = $_POST['category'];  
+$id = $_POST['id'];   
 
-$stmt->bind_param("s",$category);  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category=? AND pd.productid != ? AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' order by rand() limit 11");  
+
+$stmt->bind_param("ss",$category,$id);  
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=$calculation['discount_perc'];
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
-
+     $temp['name'] =$image ;
 
      array_push($banner_data, $temp);
  }
-
+ 
  $response['error'] = false;   
- $response['message'] = 'Particular category products Fetch successfull';   
+ $response['message'] = 'Similar category products Fetch successfull';   
  $response['user'] = $banner_data;   
 }  
 else{  
@@ -1130,6 +1224,7 @@ else{
 //}  
 //}  
 break; 
+
 
 //---------------------------------------------------------------------------------
 case 'deleteFromMyWishList':
@@ -1241,25 +1336,28 @@ break;
 case 'getHomeSearchedProducts' :  
 $category = $_POST['category']; 
 $word = "%$category%";  
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1 from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category LIKE ? OR pd.subcategory LIKE ? OR pd.child_category LIKE ? order by rand() limit 20");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category LIKE ? OR pd.subcategory LIKE ? OR pd.child_category LIKE ? order by rand() limit 20");  
 
 $stmt->bind_param("sss",$word,$word,$word);  
 $stmt->execute();  
 $stmt->store_result(); 
 
 if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$name,$mrp,$sale,$disc,$image);  
+    $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
 
     $banner_data = array();
 
     while($stmt->fetch()){
+     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+     //print_r($calculation);die();
+
      $temp = array(); 
      $temp['id'] = $id; 
-     $temp['heading']= $name; 
-     $temp['sale'] =$sale;
-     $temp['disc']=$disc;
-     $temp['mrp']=$mrp;
+     $temp['heading']= $name;
+     $temp['sale'] =$calculation['discounted_amount'];
+     $temp['disc']=round($calculation['discount_perc']);
+     $temp['mrp']=$calculation['mrp'];
      $temp['image'] =IMGPATH.$image ;
      $temp['name'] =$image ;
 
@@ -1267,14 +1365,14 @@ if($stmt->num_rows > 0){
 
      array_push($banner_data, $temp);
  }
-
+ 
  $response['error'] = false;   
- $response['message'] = 'Home searched products Fetch successfull';   
+ $response['message'] = 'Searched products Fetch successfull';   
  $response['user'] = $banner_data;   
 }  
 else{  
     $response['error'] = false;   
-    $response['message'] = 'Invalid id';  
+    $response['message'] = 'searched products are not available';  
 }  
 //}  
 //}  
@@ -1555,6 +1653,8 @@ else{
 break; 
  
 //-------------------------------------------------------------------------------------------- 
+
+
 case 'updateProfilePicture':  
 
 if(isTheseParametersAvailable(array('id','picture'))){ 
@@ -1642,4 +1742,204 @@ function getRandomString($length = 8) {
 
     return $string;
 }
+
+function getproductdescription($productid,$conn)
+{
+
+    $stmt = $conn->prepare("SELECT * FROM product_detail_description WHERE product_id = ?");  
+    $stmt->bind_param("s",$productid);  
+    $stmt->execute();  
+    //$resultSet = $stmt->fetch();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+function getproductdescription1($product_desc_id,$conn)
+{
+
+    $stmt = $conn->prepare("SELECT * FROM product_detail_description WHERE id = ?");  
+    $stmt->bind_param("s",$product_desc_id);  
+    $stmt->execute(); 
+   $result = $stmt->get_result(); // get the mysqli result
+   // $resultSet =[];
+   //  while ($row = $result->fetch_assoc()) {
+   //      $resultSet[] = $row;
+   //  }
+    return $result->fetch_assoc();
+}
+
+function getprices_sum($product_id,$desc_id,$conn)
+{
+   
+    $stmt = $conn->prepare("SELECT id,sale_price, mrp_price, qty totalqty, gst_type FROM product_detail_description WHERE product_id = ? and id=?");  
+    $stmt->bind_param("ss",$product_id, $desc_id);  
+    $stmt->execute();  
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+function get_total_productstock($productid,$sku,$conn)
+{
+    $stmt = $conn->prepare("SELECT stock_count as totalqty from product_stock where product_id=? and skucode=?");  
+    $stmt->bind_param("ss",$productid, $sku);  
+    $stmt->execute();  
+   $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+function getcategory_byname($cat_name,$conn){
+    $stmt = $conn->prepare("select * from categories where category_name=? and active='0'");  
+    $stmt->bind_param("s",$cat_name);  
+    $stmt->execute();  
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+} 
+
+function getsubcategory_byname($subcat_name,$conn){
+    $stmt = $conn->prepare("select * from subcategories where subcategory_name like '%".$subcat_name."%' and active='0'");  
+    $stmt->execute();  
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+function getgstrules($category,$subcategory,$conn){
+    $stmt = $conn->prepare("select * from gst_rules where category_id =?");  
+    $stmt->bind_param("s",$category);  
+    $stmt->execute();  
+   $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+function getpro_calculation($productid, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn)
+{
+    $discount=0;
+    if($desc_id==0){
+        $desc_detail = getproductdescription($productid,$conn);
+        $desc_id = $desc_detail['id'];
+    }else{
+        $desc_detail = getproductdescription1($desc_id,$conn);
+    }
+   
+    $prices = getprices_sum($productid,$desc_id,$conn);
+
+    $qty1 = get_total_productstock($productid, $desc_detail['sku_code'],$conn);
+    if(empty($qty1)){
+        $qty1['totalqty']=0;
+    }
+
+    if($prices['mrp_price'] > 0){
+        $diff = $prices['mrp_price'] - $prices['sale_price'];
+        $discount = ($diff/$prices['mrp_price'])*100; 
+    }else{ $discount = 0; }
+    $discounted_amount=round($prices['sale_price']);
+    $og_price = round($prices['mrp_price']);
+    $og_sale_price = round($prices['sale_price']);
+
+    $special_disc=0;
+
+    if($disc_amt!=0 && $disc_amt!=''){
+      $from_date = date('Y-m-d', strtotime($disc_start_date));
+      $to_date = date('Y-m-d', strtotime($disc_end_date));
+      $cur_date = date('Y-m-d');
+      if($cur_date >= $from_date && $cur_date <= $to_date){
+        $disc_type = $disc_type;
+        $disc_amt = $disc_amt;
+        if($disc_type != '' && $disc_amt!=0){
+          if($disc_type=="Percentage"){
+              $special_disc = round($prices['sale_price']) * $disc_amt/100;
+              $discount = $disc_amt;
+          }else{
+              $special_disc = $disc_amt;
+          }
+
+          $discounted_amount = round($prices['sale_price']) - $special_disc;
+      }
+    }else{
+    $discounted_amount = round($prices['sale_price']);
+    }
+}
+
+if($special_disc==0){
+    $og_price = round($prices['mrp_price']);
+}
+$cat_detail = getcategory_byname(trim($category),$conn);
+
+$subcat_detail = getsubcategory_byname(trim($subcategory),$conn);
+
+if(!empty($cat_detail) && !empty($subcat_detail)){
+    $gst_rules = getgstrules($cat_detail['id'], $subcat_detail['id'],$conn);
+    //print_r($gst_rules);die();
+}elseif(!empty($cat_detail)){
+    $gst_rules = getgstrules($cat_detail['id'], '',$conn);
+}else{
+    $gst_rules = array('min_range'=>0, 'mingst_perc'=>0, 'maxgst_perc'=>0);
+}
+
+$amt_before_gst = $discounted_amount;
+$amt_after_gst = $discounted_amount;
+
+
+if(!empty($gst_rules)){
+    if($discounted_amount <= $gst_rules['min_range']){
+        $listprice_gst_percentage = trim($gst_rules['mingst_perc']);
+    }else{
+        $listprice_gst_percentage = trim($gst_rules['maxgst_perc']);
+    }
+    if($og_price <= $gst_rules['min_range']){
+        $mrp_gst_percentage = trim($gst_rules['mingst_perc']);
+    }else{
+        $mrp_gst_percentage = trim($gst_rules['maxgst_perc']);
+    }
+    if($og_sale_price <= $gst_rules['min_range']){
+        $saleprice_gst_percentage = trim($gst_rules['mingst_perc']);
+    }else{
+        $saleprice_gst_percentage = trim($gst_rules['maxgst_perc']);
+    }
+}else{
+    $listprice_gst_percentage=$mrp_gst_percentage=0;$saleprice_gst_percentage=0;
+}
+
+
+if($prices['gst_type'] == "inc"){
+    $listpricegst = (($discounted_amount * $listprice_gst_percentage) / (100+$listprice_gst_percentage))*1;
+    $salepricegst = (($og_sale_price * $saleprice_gst_percentage) / (100+$saleprice_gst_percentage))*1;
+    $mrpgst = (($og_price * $mrp_gst_percentage) / (100+$mrp_gst_percentage))*1;
+
+    $discounted_amount = round(($discounted_amount*1));
+    $amt_before_gst = round(($discounted_amount*1)-$listpricegst);
+    $amt_after_gst = $discounted_amount;
+    $og_price = round(($og_price));
+   // print_r($discounted_amount);die();
+    $og_sale_price = round(($og_sale_price*1) - $salepricegst);
+}else if($prices['gst_type'] == "exc"){
+    $listpricegst = ($discounted_amount * ($listprice_gst_percentage/100))*1;
+    $mrpgst = ($og_price * ($mrp_gst_percentage/100))*1;
+    $salepricegst = ($og_sale_price * ($saleprice_gst_percentage/100))*1;
+    $amt_before_gst = round(($discounted_amount*1));
+
+    $discounted_amount = round($discounted_amount+$listpricegst);
+
+    $amt_after_gst = round($discounted_amount+$listpricegst);
+    $og_price = round($og_price+$mrpgst);
+    $og_sale_price = round($og_sale_price+$salepricegst);
+}else{
+    $listpricegst = $mrpgst = $salepricegst = 0;
+}
+
+$result['salegst']=round($listpricegst,2);
+$result['mrpgst']=round($mrpgst,2);
+$result['discount_perc']=$discount;
+//$result['og_mrp']=$og_price;
+//$result['og_sale_price']=$og_sale_price;
+$result['mrp']=round($prices['mrp_price']);
+$result['sale_price']=round($prices['sale_price']);
+$result['gst_percentage'] = $listprice_gst_percentage;
+$result['discounted_amount']=$discounted_amount;
+$result['amt_before_gst']=$amt_before_gst;
+$result['amt_after_gst']=$amt_after_gst;
+$result['gst_type'] = $prices['gst_type'];
+$result['totalqty'] = $qty1['totalqty'];
+$result['desc_id'] = $prices['id'];
+return $result;
+} 
 ?>  

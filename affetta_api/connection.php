@@ -1,4 +1,6 @@
+
 <?php  
+error_reporting(0);
 $servername = "localhost";  
 $username = "root";  
 $password = "";  
@@ -10,6 +12,6 @@ if ($conn->connect_error) {
 }  
 
 define("IMGPATH", "https://affetta.com/cms/");
-define("UPLOADPATH", "http://192.168.0.104/affetta_api/");
+define("UPLOADPATH", "http://192.168.0.107/affetta_api/");
 ?> 
 
