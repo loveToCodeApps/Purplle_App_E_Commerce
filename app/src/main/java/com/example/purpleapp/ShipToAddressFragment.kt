@@ -33,11 +33,15 @@ import java.text.SimpleDateFormat
 
 class ShipToAddressFragment : Fragment(), PaymentResultListener {
 
-lateinit var  binding: FragmentShipToAddressBinding
-lateinit var dialog : Dialog
-lateinit var order_no:String
-lateinit var order_created_on:String
-lateinit var total_price:String
+    lateinit var  binding: FragmentShipToAddressBinding
+    lateinit var dialog : Dialog
+    lateinit var order_no:String
+    lateinit var order_created_on:String
+    lateinit var total_price:String
+    lateinit var address:String
+    lateinit var state:String
+    lateinit var city:String
+    lateinit var zipcode:String
 
     @SuppressLint("ResourceAsColor")
     override fun onCreateView(
@@ -45,11 +49,57 @@ lateinit var total_price:String
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-binding = DataBindingUtil.inflate(inflater,R.layout.fragment_ship_to_address,container,false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_ship_to_address,container,false)
+
+        address = ""
+        state = ""
+        city = ""
+        zipcode = ""
+
+        if (SharedPrefManager.getInstance(requireActivity().applicationContext).user.address!="Not available")
+        {
+            address = SharedPrefManager.getInstance(requireActivity().applicationContext).user.address
+        }
+
+
+
+        if (SharedPrefManager.getInstance(requireActivity().applicationContext).user.state!="Not available")
+        {
+            state = SharedPrefManager.getInstance(requireActivity().applicationContext).user.state
+        }
+
+
+        if (SharedPrefManager.getInstance(requireActivity().applicationContext).user.city!="Not available")
+        {
+            city = SharedPrefManager.getInstance(requireActivity().applicationContext).user.city
+        }
+
+
+
+        if (SharedPrefManager.getInstance(requireActivity().applicationContext).user.zipcode!="Not available")
+        {
+            zipcode = SharedPrefManager.getInstance(requireActivity().applicationContext).user.zipcode
+        }
+
+
+
+        binding.textView91.text = SharedPrefManager.getInstance(requireActivity().applicationContext).user.address.toString()
+        binding.textView124.text = SharedPrefManager.getInstance(requireActivity().applicationContext).user.firstName + " " +
+                SharedPrefManager.getInstance(requireActivity().applicationContext).user.middleName + " " + SharedPrefManager.getInstance(requireActivity().applicationContext).user.lastName
+        binding.textView126.text = SharedPrefManager.getInstance(requireActivity().applicationContext).user.phone.toString()
+
+
+        // get address if it is already present
+//        if(binding.textView93.text == "EDIT/CHANGE ADDRESS")
+//        {
+//            getMyAddress()
+//        }
+        //------------------------------------------
+
         getMyCartData()
 
-        val activity:MainActivity = requireActivity() as MainActivity
-        activity.binding.bottomNavigationView.visibility = View.GONE
+//        val activity:MainActivity = requireActivity() as MainActivity
+//        activity.binding.bottomNavigationView.visibility = View.GONE
 
 
         Log.i("111",SharedPrefManager.getInstance(requireActivity().applicationContext).user.email)
@@ -83,30 +133,30 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_ship_to_address,con
         ok.setOnClickListener {
             dialog.dismiss()
             Toast.makeText(requireContext(),"You are welcome!!",Toast.LENGTH_SHORT).show()
-findNavController().navigate(R.id.action_shipToAddressFragment_to_myOrdersFragment)
+            findNavController().navigate(R.id.action_shipToAddressFragment_to_myOrdersFragment)
 
         }
 
 
-binding.button12.setOnClickListener {
-   //uncomment below 2 functions after razorpay process gets done
-   //    dialog.show()
-    insertBillDetails()
+        binding.button12.setOnClickListener {
+            //uncomment below 2 functions after razorpay process gets done
+            //    dialog.show()
+            insertBillDetails()
 
-    var args = ShipToAddressFragmentArgs.fromBundle(requireArguments())
-    val intent = Intent(requireContext(), PaymentActivity::class.java)
-    intent.putExtra("total", args.total);
-    startActivity(intent)
-requireActivity().finish()
-    //startPayment()
-}
+            var args = ShipToAddressFragmentArgs.fromBundle(requireArguments())
+           // val intent = Intent(requireContext(), PaymentActivity::class.java)
+//            intent.putExtra("total", args.total);
+//            startActivity(intent)
+//            requireActivity().finish()
+            //startPayment()
+        }
 
         binding.textView124.text = SharedPrefManager.getInstance(requireActivity().applicationContext).user.firstName+" "+SharedPrefManager.getInstance(requireActivity().applicationContext).user.lastName
 
         if (SharedPrefManager.getInstance(requireActivity().applicationContext).user.address=="Not available" || SharedPrefManager.getInstance(requireActivity().applicationContext).user.address=="null")
         {
             binding.textView91.text = "( you need to add a proper address for delivery of product )"
-           binding.textView91.setTextColor(R.color.purple_700)
+            binding.textView91.setTextColor(R.color.purple_700)
             binding.textView93.text = "ADD NEW ADDRESS"
             binding.button12.setEnabled(false)
             binding.button12.setText("Add shipping adress")
@@ -121,7 +171,7 @@ requireActivity().finish()
         }
 
         binding.textView93.setOnClickListener {
-            it.findNavController().navigate(R.id.action_shipToAddressFragment_to_editAddressFragment)
+            it.findNavController().navigate(ShipToAddressFragmentDirections.actionShipToAddressFragmentToEditAddressFragment(address, state, city, zipcode))
         }
 
 
@@ -145,9 +195,71 @@ requireActivity().finish()
 //    it.findNavController().navigate(R.id.editAddressFragment)
 //}
 
-    return  binding.root
+        return  binding.root
 
     }
+
+//    private fun getMyAddress() {
+//        val stringRequest = object : StringRequest(
+//            Request.Method.POST, URLs.URL_GET_MY_ADDRESS,
+//            Response.Listener { response ->
+//
+//                try {
+//                    val obj = JSONObject(response)
+//                    if (!obj.getBoolean("error")) {
+//                        val array = obj.getJSONArray("user")
+//
+//                        val userJson = obj.getJSONObject("user")
+//
+//                        address = userJson.getString("picture")
+//                        state = userJson.getString("picture")
+//                        city = userJson.getString("picture")
+//                        zipcode = userJson.getString("picture")
+//
+//                            //    objectArtist.optString("image")
+//
+//
+//                    } else {
+//                        Toast.makeText(
+//                            requireActivity().applicationContext,
+//                            obj.getString("message"),
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//
+//
+//                    }
+//
+//                } catch (e: JSONException) {
+//                    e.printStackTrace()
+////                    binding.animationViewEmpty.visibility=View.VISIBLE
+////                    binding.textView4.visibility=View.VISIBLE
+////                    binding.button16.visibility=View.VISIBLE
+////                    binding.button11.setEnabled(false)
+//                }
+//
+//            },
+//            Response.ErrorListener { error ->
+//                Toast.makeText(
+//                    requireActivity().applicationContext,
+//                    error.message,
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        ) {
+//            @Throws(AuthFailureError::class)
+//            override fun getParams(): Map<String, String> {
+//                val params = HashMap<String, String>()
+//                params["id"] =
+//                    SharedPrefManager.getInstance(requireActivity().applicationContext).user.id.toString()
+//                        .trim()
+//                return params
+//
+//            }
+//        }
+//
+//        VolleySingleton.getInstance(requireActivity().applicationContext)
+//            .addToRequestQueue(stringRequest)
+//    }
 
     private fun insertBillDetails() {
         val stringRequest = object : StringRequest(
@@ -160,6 +272,11 @@ requireActivity().finish()
                     //if no error in response
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                        var args = ShipToAddressFragmentArgs.fromBundle(requireArguments())
+                        val intent = Intent(requireContext(), PaymentActivity::class.java)
+                        intent.putExtra("total", args.total);
+                        startActivity(intent)
+                        requireActivity().finish()
                     }
                     else {
                         Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
@@ -337,7 +454,7 @@ requireActivity().finish()
         co.setKeyID(etApiKey)
 
         try {
-           var args = ShipToAddressFragmentArgs.fromBundle(requireArguments())
+            var args = ShipToAddressFragmentArgs.fromBundle(requireArguments())
             var amt = args.total
             var options = JSONObject()
             options.put("name","Razorpay Corp")
@@ -363,9 +480,5 @@ requireActivity().finish()
 
 
 
- //
+    //
 }
-
-
-
-

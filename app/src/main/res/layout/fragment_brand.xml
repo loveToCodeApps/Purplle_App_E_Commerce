@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         tools:context=".BrandFragment">
 
         <com.airbnb.lottie.LottieAnimationView
@@ -25,6 +26,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/no_internet" />
+
         <SearchView
             android:id="@+id/searchBrands"
             android:layout_width="match_parent"
@@ -36,6 +38,7 @@
             android:elevation="5dp"
             android:iconifiedByDefault="false"
             android:queryHint="Search Brands"
+            android:searchIcon="@drawable/ic_baseline_search_24"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

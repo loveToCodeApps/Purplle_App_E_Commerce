@@ -26,7 +26,7 @@
             android:title="Newbies" />
     </group>
     <group
-        android:id="@+id/accountSection">
+        android:id="@+id/accountSection" >
         <item
             android:id="@+id/myOrdersFragment"
             android:icon="@drawable/ic_baseline_shopping_cart_24"
@@ -39,6 +39,11 @@
             android:id="@+id/myProfileFragment"
             android:icon="@drawable/ic_baseline_emoji_emotions_24"
             android:title="My Account" />
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_baseline_login_24"
+            android:title="Logout" />
     </group>
     <group android:id="@+id/customerSupportSection" >
         <item

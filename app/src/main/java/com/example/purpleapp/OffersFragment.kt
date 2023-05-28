@@ -101,3 +101,6 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_offers,container,fa
     }
 
 }
+
+
+

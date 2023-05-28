@@ -346,7 +346,20 @@
         android:id="@+id/editAddressFragment"
         android:name="com.example.purpleapp.EditAddressFragment"
         android:label="Add address"
-        tools:layout="@layout/fragment_edit_address" />
+        tools:layout="@layout/fragment_edit_address" >
+        <argument
+            android:name="address"
+            app:argType="string" />
+        <argument
+            android:name="state"
+            app:argType="string" />
+        <argument
+            android:name="city"
+            app:argType="string" />
+        <argument
+            android:name="zipcode"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/viewAllFragment"
         android:name="com.example.purpleapp.ViewAllFragment"

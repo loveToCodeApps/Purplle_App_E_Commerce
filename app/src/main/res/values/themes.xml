@@ -14,7 +14,22 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="21">#F78195</item>
-        <!-- Customize your theme here. -->
+
+        <!-- Applying style like this  -->
+        <item name="actionBarStyle">@style/Widget.MaterialComponents.ActionBar.Primary</item>
+
+
+<!--         for searchview hint color of searchview-->
+        <item name="android:textColorHint">#FFA0A0A0</item>
+
+
+<!--        color for divider line in navigation drawer-->
+
+
+        <item name="android:listDivider">@color/basic</item>
+
+
+
     </style>
 </resources>
 

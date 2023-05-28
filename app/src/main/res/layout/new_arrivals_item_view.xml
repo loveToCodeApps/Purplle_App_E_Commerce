@@ -12,7 +12,8 @@
         android:id="@+id/newArrivalsConstraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="#FFFFFF">
 
         <ImageView
             android:id="@+id/newArrivalimg"
@@ -94,6 +95,7 @@
             app:layout_constraintEnd_toEndOf="@+id/newArrivalThirdscad"
             app:layout_constraintStart_toStartOf="@+id/newArrivalThirdscad"
             app:layout_constraintTop_toTopOf="@+id/newArrivalThirdscad" />
+
         <Button
             android:id="@+id/textView4comboas"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"

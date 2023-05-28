@@ -1,11 +1,9 @@
 package com.example.purpleapp
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +14,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -40,10 +39,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // action bar title changed
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+//
+//        if (isDarkTheme(this))
+//        {
+//            setTheme(R.style.Theme_PurpleApp)
+//        }
         //myAlarm()
 
       //09-02-2023  code for notification
         NotificationChannels()
+
+
 
 
         val calendar = Calendar.getInstance()
@@ -93,6 +99,11 @@ class MainActivity : AppCompatActivity() {
         if (SharedPrefManager.getInstance(this).isLoggedIn) {
             val user = SharedPrefManager.getInstance(this).user
        //     binding.textView87.text = user.firstName.toString()
+
+            // show logout option from drawer only if logged in
+            val nav_Menu: Menu = binding.myNavView.menu
+            nav_Menu.findItem(R.id.logout).setVisible(true);
+
             val headerView = binding.myNavView.getHeaderView(0)
             val first_name = headerView.findViewById<TextView>(R.id.textView10)
             val last_name = headerView.findViewById<TextView>(R.id.username)
@@ -100,6 +111,11 @@ class MainActivity : AppCompatActivity() {
             val last = SharedPrefManager.getInstance(this).user.lastName
             first_name.text = first
             last_name.text = last
+        }
+        else
+        {
+            val nav_Menu: Menu = binding.myNavView.menu
+            nav_Menu.findItem(R.id.logout).setVisible(false);
         }
 
 
@@ -242,6 +258,14 @@ class MainActivity : AppCompatActivity() {
                        .navigate(R.id.newbiesFragment)
                        binding.myDrawer.closeDrawer(GravityCompat.START, true)
                }
+                R.id.logout->
+                {
+                    SharedPrefManager.getInstance(applicationContext).logout()
+                    Toast.makeText(this, "Logout successfully !!", Toast.LENGTH_SHORT).show();
+                    finish()
+
+                }
+
                 R.id.feedback->
                 {
                     if(SharedPrefManager.getInstance(this).isLoggedIn) {
@@ -266,8 +290,10 @@ class MainActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     }
+            }
 
-
+                else -> {
+                    return@setNavigationItemSelectedListener super.onOptionsItemSelected(it)
                 }
 
 
@@ -322,8 +348,9 @@ class MainActivity : AppCompatActivity() {
                 if (SharedPrefManager.getInstance(this).isLoggedIn) {
                  SharedPrefManager.getInstance(applicationContext).logout()
                     Toast.makeText(this, "Logout successfully !!", Toast.LENGTH_SHORT).show()
+                    finish()
                 } else {
-                    Toast.makeText(this, "you will first need to login !!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "you can login now !!", Toast.LENGTH_SHORT).show();
                     val intent = Intent(this@MainActivity, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -354,6 +381,7 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
+
             R.id.wishlistFragment->{
 
                 if (SharedPrefManager.getInstance(this).isLoggedIn) {
@@ -400,12 +428,18 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.purplleNavHost)
-
         return NavigationUI.navigateUp(navController, drawerLayout)
+
+
     }
 
 
 
+
+    fun isDarkTheme(activity: Activity): Boolean {
+        return activity.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    }
     }
 
 

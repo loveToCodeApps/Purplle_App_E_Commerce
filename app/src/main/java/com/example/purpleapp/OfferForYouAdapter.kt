@@ -6,6 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 
 class OfferForYouAdapter(val data : List<OfferForYouData>) : RecyclerView.Adapter<OfferForYouViewHolder>()
 {
@@ -19,7 +22,19 @@ class OfferForYouAdapter(val data : List<OfferForYouData>) : RecyclerView.Adapte
         val item = data[position]
         holder.first.text = item.offer_for_you_first
         holder.second.text = item.offer_for_you_second
-        holder.img.setImageResource(item.offer_for_you_img)
+       // holder.img.setImageResource(item.offer_for_you_img)
+
+
+        val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+        Glide.with(holder.img.context).load(item.offer_for_you_img).thumbnail(0.05f)
+            .apply(requestOptions).into(holder.img)
+
+        Glide.get(holder.img.context).clearMemory()
+
+        Thread(Runnable {
+            // This method must be called on a background thread.
+            Glide.get(holder.img.context).clearDiskCache()
+        }).start()
 
 //        holder.img.setOnClickListener {
 //            Snackbar.make(,"${item.offer_first.toString()}",Snackbar.LENGTH_SHORT)

@@ -1,8 +1,12 @@
 package com.example.purpleapp.api
 
 object URLs {
+
  private val ROOT_URL = "https://affetta.com/affetta_api/registrationapi.php?apicall="
-  //private  val ROOT_URL = "http://192.168.0.106/affetta_api/registrationapi.php?apicall="
+ private val ROOT_OTP_URL = "https://affetta.com/affetta_api/otp_verification.php?apicall="
+
+//  private  val ROOT_URL = "http://192.168.0.105/affetta_api/registrationapi.php?apicall="
+// private val ROOT_OTP_URL = "http://192.168.0.105/affetta_api/otp_verification.php?apicall="
 
 
         val URL_REGISTER = ROOT_URL + "signup"
@@ -27,7 +31,7 @@ object URLs {
         val URL_ADD_TO_CART = ROOT_URL + "addToCart"
         val URL_GET_MY_CART = ROOT_URL + "getMyCart"
         val URL_GET_MY_SHIPMENT_DATA = ROOT_URL + "getMyShipmentData"
-        val URL_GET_MY_CURRENT_SHIPMENT_DATA = ROOT_URL + "getMyCurrentShipmentData"
+       // val URL_GET_MY_CURRENT_SHIPMENT_DATA = ROOT_URL + "getMyCurrentShipmentData"
         val URL_GET_MY_WISH_LIST = ROOT_URL + "getMyWishlist"
         val URL_GET_PRODUCT_DETAILED_DESCRIPTION = ROOT_URL + "getProductDetailDescription"
         val URL_ADD_TO_WISH_LIST = ROOT_URL + "addToWishList"
@@ -49,12 +53,17 @@ object URLs {
         val URL_UPDATE_PROFILE_PICTURE = ROOT_URL + "updateProfilePicture"
         val URL_GET_PROFILE_PICTURE = ROOT_URL + "getProfilepicture"
         val URL_GET_MY_CURRENT_ORDER = ROOT_URL + "getCurrentOrder"
+        val URL_ABOUT_APP = ROOT_URL + "aboutApp"
+        val URL_GET_MY_ADDRESS = ROOT_URL + "getMyAddress"
+       val URL_CUSTOMER_SUPPORT = ROOT_URL + "customerSupport"
+       val URL_GET_COLORS = ROOT_URL + "getColors"
+       val URL_GET_SIZES = ROOT_URL + "getSizes"
+       val URL_GET_SELECTED_SIZE_DATA = ROOT_URL + "getDataForSelectedSize"
 
 
-
-
-
-
+    // Otp verification Url's
+        val URL_SEND_OTP = ROOT_OTP_URL + "sendotp"
+        val URL_VERIFY_OTP = ROOT_OTP_URL + "verifyotp"
 
 }
 

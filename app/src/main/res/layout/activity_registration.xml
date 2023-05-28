@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         tools:context=".RegistrationActivity">
 
         <Button
@@ -96,8 +97,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-           >
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextTextPersonName"
@@ -125,8 +125,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tl300"
-           >
+            app:layout_constraintTop_toBottomOf="@+id/tl300">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextTextPersonName2"
@@ -154,8 +153,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tl301"
-            >
+            app:layout_constraintTop_toBottomOf="@+id/tl301">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextTextPersonName3"
@@ -183,8 +181,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tl302"
-            >
+            app:layout_constraintTop_toBottomOf="@+id/tl302">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextTextPersonName4"
@@ -214,8 +211,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tl303"
-           >
+            app:layout_constraintTop_toBottomOf="@+id/tl303">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextTextPersonName5"

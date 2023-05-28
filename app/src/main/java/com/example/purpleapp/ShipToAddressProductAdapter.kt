@@ -17,6 +17,9 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.api.URLs
 import com.example.purpleapp.api.VolleySingleton
@@ -37,7 +40,22 @@ class ShipToAddressProductAdapter(val data : MutableList<ShipToAddressProductsDa
     override fun onBindViewHolder(holder: ShipToAddressProductHolder, position: Int) {
         val item = data[position]
         var quantity = 1
-        Picasso.get().load(item.myCartProdImg).into(holder.imgs)
+
+      //  Picasso.get().load(item.myCartProdImg).into(holder.imgs)
+
+        val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+        Glide.with(holder.imgs.context).load(item.myCartProdImg).thumbnail(0.05f)
+            .apply(requestOptions).into(holder.imgs)
+
+        Glide.get(holder.imgs.context).clearMemory()
+
+        Thread(Runnable {
+            // This method must be called on a background thread.
+            Glide.get(holder.imgs.context).clearDiskCache()
+        }).start()
+
+
+
         holder.prices.text="₹"+item.myCartProdNewPrice+"  |"
         holder.Qtys.text = "Qty:"+" "+item.qty.toString()
         holder.headings.text=item.myCartProdHeading

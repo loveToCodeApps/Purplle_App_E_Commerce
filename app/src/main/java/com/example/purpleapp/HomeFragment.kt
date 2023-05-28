@@ -34,14 +34,11 @@ import org.json.JSONObject
 
 class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
-    var activityAlreadyCreated:Boolean = false
-    var searchList =  arrayListOf<BrandNameData>()
-    lateinit var adapter : BrandNameAdapter
-    lateinit var adapters : ArrayAdapter<String>
+    var activityAlreadyCreated: Boolean = false
+    var searchList = arrayListOf<BrandNameData>()
+    lateinit var adapter: BrandNameAdapter
+    lateinit var adapters: ArrayAdapter<String>
     var count = "0"
-
-
-
 
 
     override fun onCreateView(
@@ -53,7 +50,7 @@ class HomeFragment : Fragment() {
         val i1 = Internet()
 
 
-        Log.i("@@@@","onCreateView() called")
+        Log.i("@@@@", "onCreateView() called")
 //    if (b)
 //    {
 //        binding.categoryNamesList.visibility = View.VISIBLE
@@ -69,81 +66,81 @@ class HomeFragment : Fragment() {
 //            it.findNavController().navigate(R.id.searchAnything)
 //        }
 
+
+        // Pink search button
+        binding.button21.setOnClickListener {
+            if (binding.searchView.length() != 0) {
+
+                Toast.makeText(requireContext(), "searched your query", Toast.LENGTH_SHORT)
+                    .show() // you can do anything
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToSearchedProductsFragment(
+                        binding.searchView.text.toString()
+                    )
+                )
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "please enter something first!!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+        }
+
+
+
         binding.searchView.setOnEditorActionListener { v, actionId, event ->
-           if (binding.searchView.length()!=0) {
-               if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                   Toast.makeText(requireContext(), "searched your query", Toast.LENGTH_SHORT)
-                       .show() // you can do anything
-                   findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchedProductsFragment(v.text.toString()))
-                   return@setOnEditorActionListener true
-               }
-               false
-           }
-            else
-           {
-               Toast.makeText(requireContext(), "please enter something first!!", Toast.LENGTH_SHORT).show()
-           }
+            if (binding.searchView.length() != 0) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    Toast.makeText(requireContext(), "searched your query", Toast.LENGTH_SHORT)
+                        .show() // you can do anything
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToSearchedProductsFragment(
+                            v.text.toString()
+                        )
+                    )
+                    return@setOnEditorActionListener true
+                }
+                false
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "please enter something first!!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
             false
-           }
+        }
+
+
 
 
         if (i1.checkConnection(requireContext())) {
-            binding.animationView.visibility = View.GONE
-            binding.textView103.visibility=View.VISIBLE
-            binding.categoryList.visibility = View.VISIBLE
-            binding.textView95.visibility= View.VISIBLE
-            binding.textView2.visibility= View.VISIBLE
-            binding.textView3.visibility= View.VISIBLE
-            binding.textView87.visibility= View.VISIBLE
-            binding.textView98.visibility= View.VISIBLE
-            binding.textView99.visibility= View.VISIBLE
-            binding.comboOffersList.visibility= View.VISIBLE
-            binding.productList.visibility= View.VISIBLE
-            binding.offerProductList.visibility= View.VISIBLE
-            binding.newArrivalsList.visibility= View.VISIBLE
-            binding.liveProductList.visibility= View.VISIBLE
-            binding.dicountbannerList.visibility= View.VISIBLE
-            binding.brandProductCategoryList.visibility= View.VISIBLE
-            binding.vertcalBannerList.visibility= View.VISIBLE
-            binding.textView134.visibility= View.VISIBLE
-            binding.textView135.visibility= View.VISIBLE
-            binding.textView136.visibility= View.VISIBLE
-            binding.textView138.visibility= View.VISIBLE
-            binding.searchView.visibility = View.VISIBLE
-            binding.randomList.visibility= View.VISIBLE
-
-            //get item count of cart
-            if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
-                getCartItemsCount()
-            }
-            else
-            {
-                count = "0"
-            }
 
             //categories here
-             getCategories()
+            getCategories()
 
-             //combo offers are here
-             getComboOffers()
+            //combo offers are here
+            getComboOffers()
 
-             //banner ads here
-             getProducts()
+            //banner ads here
+            getProducts()
 
-             //product details here
-             getOfferProducts()
+            //product details here
+            getOfferProducts()
 
-             //Offer banners here
-             getOfferBanners()
+            //Offer banners here
+            getOfferBanners()
 
-             //Brands here
-             getBrands()
+            //Brands here
+            getBrands()
 
-             //Deals here
-             getDeals()
+            //Deals here
+            getDeals()
 
-             //New Arrivals here
-             getNewArrivals()
+            //New Arrivals here
+            getNewArrivals()
 
             // last random list banners are here
             getRandomBanners()
@@ -151,35 +148,72 @@ class HomeFragment : Fragment() {
             //get category names for searchview
             getCategoryNames()
 
-             }
-        else
-        {
-            Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                "Poor internet connection!!", Snackbar.LENGTH_LONG).show();
-            binding.animationView.visibility = View.VISIBLE
-            binding.textView103.visibility=View.GONE
-          binding.categoryList.visibility = View.GONE
-          binding.textView95.visibility= View.GONE
-          binding.textView2.visibility= View.GONE
-          binding.textView3.visibility= View.GONE
-            binding.textView87.visibility= View.GONE
-            binding.textView98.visibility= View.GONE
-            binding.textView99.visibility= View.GONE
-            binding.comboOffersList.visibility= View.GONE
-            binding.productList.visibility= View.GONE
-            binding.offerProductList.visibility= View.GONE
-            binding.newArrivalsList.visibility= View.GONE
-            binding.liveProductList.visibility= View.GONE
-            binding.dicountbannerList.visibility= View.GONE
-            binding.brandProductCategoryList.visibility= View.GONE
-            binding.vertcalBannerList.visibility= View.GONE
-            binding.textView134.visibility= View.GONE
-            binding.textView135.visibility= View.GONE
-            binding.textView136.visibility= View.GONE
-            binding.searchView.visibility = View.GONE
-            binding.textView138.visibility= View.GONE
-            binding.randomList.visibility= View.GONE
 
+
+
+
+            binding.animationView.visibility = View.GONE
+            binding.textView103.visibility = View.VISIBLE
+            binding.categoryList.visibility = View.VISIBLE
+            binding.textView95.visibility = View.VISIBLE
+            binding.textView2.visibility = View.VISIBLE
+            binding.textView3.visibility = View.VISIBLE
+            binding.textView87.visibility = View.VISIBLE
+            binding.textView98.visibility = View.VISIBLE
+            binding.textView99.visibility = View.VISIBLE
+            binding.comboOffersList.visibility = View.VISIBLE
+            binding.productList.visibility = View.VISIBLE
+            binding.offerProductList.visibility = View.VISIBLE
+            binding.newArrivalsList.visibility = View.VISIBLE
+            binding.liveProductList.visibility = View.VISIBLE
+            binding.dicountbannerList.visibility = View.VISIBLE
+            binding.brandProductCategoryList.visibility = View.VISIBLE
+            binding.vertcalBannerList.visibility = View.VISIBLE
+            binding.textView134.visibility = View.VISIBLE
+            binding.textView135.visibility = View.VISIBLE
+            binding.textView136.visibility = View.VISIBLE
+            binding.textView138.visibility = View.VISIBLE
+            binding.searchView.visibility = View.VISIBLE
+            binding.randomList.visibility = View.VISIBLE
+
+            //get item count of cart
+            if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
+                getCartItemsCount()
+            } else {
+                count = "0"
+            }
+
+
+
+        }
+        else {
+            Snackbar.make(
+                requireActivity().findViewById(android.R.id.content),
+                "Poor internet connection!!", Snackbar.LENGTH_LONG
+            ).show();
+            binding.animationView.visibility = View.VISIBLE
+            binding.textView103.visibility = View.GONE
+            binding.categoryList.visibility = View.GONE
+            binding.textView95.visibility = View.GONE
+            binding.textView2.visibility = View.GONE
+            binding.textView3.visibility = View.GONE
+            binding.textView87.visibility = View.GONE
+            binding.textView98.visibility = View.GONE
+            binding.textView99.visibility = View.GONE
+            binding.comboOffersList.visibility = View.GONE
+            binding.productList.visibility = View.GONE
+            binding.offerProductList.visibility = View.GONE
+            binding.newArrivalsList.visibility = View.GONE
+            binding.liveProductList.visibility = View.GONE
+            binding.dicountbannerList.visibility = View.GONE
+            binding.brandProductCategoryList.visibility = View.GONE
+            binding.vertcalBannerList.visibility = View.GONE
+            binding.textView134.visibility = View.GONE
+            binding.textView135.visibility = View.GONE
+            binding.textView136.visibility = View.GONE
+            binding.searchView.visibility = View.GONE
+            binding.textView138.visibility = View.GONE
+            binding.randomList.visibility = View.GONE
 
 
         }
@@ -191,7 +225,11 @@ class HomeFragment : Fragment() {
 
         // searchview item onclick listners
         binding.searchView.setOnItemClickListener { adapterAdapterView, view, i, l ->
-         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchedProductsFragment(adapters.getItem(i).toString()))
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToSearchedProductsFragment(
+                    adapters.getItem(i).toString()
+                )
+            )
 
         }
 
@@ -206,7 +244,7 @@ class HomeFragment : Fragment() {
 //        liveProductList.add(LiveProductData("₹499", R.drawable.offer_prod_two))
 //        liveProductList.add(LiveProductData("₹123", R.drawable.offer_prod_one))
 
-   //     binding.liveProductList.adapter = LiveProductAdapter(liveProductList)
+        //     binding.liveProductList.adapter = LiveProductAdapter(liveProductList)
 
 
 //        val bannerDiscountList = mutableListOf<BannerDiscountData>()
@@ -241,7 +279,6 @@ class HomeFragment : Fragment() {
 //        })
 
 
-
 //---------------------------
         // do uncomment -   vertical banners
 //        val verticalBannerList = mutableListOf<VerticalBannerData>()
@@ -255,24 +292,28 @@ class HomeFragment : Fragment() {
 
 
         // to open a page where we can see all of the combo offers product
-       // All combo offers
+        // All combo offers
         binding.textView136.setOnClickListener {
-            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("comboOffers"))
+            it.findNavController()
+                .navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("comboOffers"))
         }
 
         // All featured products
         binding.textView3.setOnClickListener {
-            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("featured"))
+            it.findNavController()
+                .navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("featured"))
         }
 
         // All combo offers
         binding.textView134.setOnClickListener {
-            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("newArrivals"))
+            it.findNavController()
+                .navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("newArrivals"))
         }
 
         // All hot deals
         binding.textView135.setOnClickListener {
-            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("hotDeals"))
+            it.findNavController()
+                .navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("hotDeals"))
         }
 
         setHasOptionsMenu(true)
@@ -291,7 +332,7 @@ class HomeFragment : Fragment() {
                     //if no error in response
                     if (!obj.getBoolean("error")) {
 
-                         count = obj.getString("count")
+                        count = obj.getString("count")
 
 
                     } else {
@@ -330,24 +371,22 @@ class HomeFragment : Fragment() {
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
 
-      requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
 
 
     }
 
     private fun activitiesFilter(newText: String?) {
-        Log.i("@@@@@@@@@@@@@@@@@@@@","$newText")
+        Log.i("@@@@@@@@@@@@@@@@@@@@", "$newText")
         var newFilteredList = arrayListOf<BrandNameData>()
 
-        for (i in searchList)
-        {
-            if (i.brand.contains(newText!!.uppercase()) || i.brand.contains(newText!!.lowercase())){
+        for (i in searchList) {
+            if (i.brand.contains(newText!!.uppercase()) || i.brand.contains(newText!!.lowercase())) {
                 newFilteredList.add(i)
             }
         }
         adapter.filtering(newFilteredList)
     }
-
 
 
     // for searchview
@@ -364,17 +403,21 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0..array.length()-1) {
+                        for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
-                         newlist.add(objectArtist.getString("category"))
-                            adapters = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1,newlist)
+                            newlist.add(objectArtist.getString("category"))
+                            adapters = ArrayAdapter(
+                                requireContext(),
+                                android.R.layout.simple_list_item_1,
+                                newlist
+                            )
                             binding.searchView.setAdapter(adapters)
 
 
-                           // binding.searchView.adapter = adapter
+                            // binding.searchView.adapter = adapter
 
 
-                        //    binding.categoryNamesList.adapter = adapter
+                            //    binding.categoryNamesList.adapter = adapter
                         }
                     } else {
                         Toast.makeText(
@@ -395,7 +438,7 @@ class HomeFragment : Fragment() {
                 ).show()
             })
 
-       val requestQueue = Volley.newRequestQueue(requireContext())
+        val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
 
         requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
@@ -417,12 +460,12 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 .. array.length()-1) {
+                        for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ProductData(
                                 objectArtist.getString("image"),
                                 objectArtist.getString("url")
-                                )
+                            )
                             // productLists.add(banners)
 
                             //   val adapter = ProductAdapter(productLists, requireContext())
@@ -439,7 +482,11 @@ class HomeFragment : Fragment() {
 //                                        Toast.LENGTH_SHORT
 //                                    ).show();
                                     val onc = array.getJSONObject(position)
-                                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWebviewFragment( onc.getString("url")))
+                                    findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToWebviewFragment(
+                                            onc.getString("url")
+                                        )
+                                    )
 
 
                                 }
@@ -474,18 +521,18 @@ class HomeFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        Log.i("@@@@","onPause() called")
+        Log.i("@@@@", "onPause() called")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.i("@@@@","onStop() called")
+        Log.i("@@@@", "onStop() called")
 
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.i("@@@@","onDestroyView() called")
+        Log.i("@@@@", "onDestroyView() called")
         //activityAlreadyCreated=false
 
     }
@@ -493,13 +540,13 @@ class HomeFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.i("@@@@","onDestroy() called")
+        Log.i("@@@@", "onDestroy() called")
 
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i("@@@@","onCreate() called")
+        Log.i("@@@@", "onCreate() called")
     }
 
     private fun getNewArrivals() {
@@ -513,7 +560,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 .. array.length()-1) {
+                        for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = NewArrivalsData(
                                 objectArtist.getString("heading"),
@@ -523,10 +570,7 @@ class HomeFragment : Fragment() {
                                 objectArtist.getString("image"),
                                 objectArtist.getString("id"),
                                 objectArtist.getString("name")
-
-
-
-                                )
+                            )
                             newArrivalsList.add(banners)
                             val adapter = NewArrivalsAdapter(newArrivalsList)
                             binding.newArrivalsList.adapter = adapter
@@ -568,7 +612,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 .. array.length()-1) {
+                        for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = DealsData(
                                 objectArtist.getString("heading"),
@@ -608,13 +652,10 @@ class HomeFragment : Fragment() {
 
         requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
 
-
-
-
     }
 
     private fun getComboOffers() {
-        Log.i("@@@@","volley fired")
+        Log.i("@@@@", "volley fired")
         val comboOffersList = mutableListOf<ComboOffersData>()
         val stringRequest = StringRequest(
             Request.Method.GET,
@@ -626,17 +667,17 @@ class HomeFragment : Fragment() {
                         val array = obj.getJSONArray("user")
 
 
-                        for (i in 0..array.length()-1) {
+                        for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ComboOffersData(
                                 objectArtist.getString("heading"),
-                                        objectArtist.getString("sale"),
+                                objectArtist.getString("sale"),
                                 objectArtist.getString("disc"),
                                 objectArtist.getString("mrp"),
                                 objectArtist.getString("image"),
                                 objectArtist.getString("id"),
                                 objectArtist.getString("name")
-                                )
+                            )
                             comboOffersList.add(banners)
                             val adapter = ComboOffersAdspter(comboOffersList)
                             binding.comboOffersList.adapter = adapter
@@ -685,7 +726,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 .. array.length()-1) {
+                        for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BrandProductData(
                                 objectArtist.getString("url"),
@@ -724,7 +765,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getOfferBanners() {
-      //  val bannerDiscountList = mutableListOf<BannerDiscountData>()
+        //  val bannerDiscountList = mutableListOf<BannerDiscountData>()
         val slideModels = mutableListOf<SlideModel>()
         val stringRequest = StringRequest(
             Request.Method.GET,
@@ -735,23 +776,28 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 ..array.length()-1) {
+                        for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = BannerDiscountData(
                                 objectArtist.getString("image"),
                                 objectArtist.getString("url")
                             )
 //                            bannerDiscountList.add(banners)
-                           // val adapter = BannerDiscountAdapter(bannerDiscountList)
+                            // val adapter = BannerDiscountAdapter(bannerDiscountList)
 //                            binding.dicountbannerList.adapter = adapter
 
                             slideModels.add(SlideModel(banners.banner))
                             binding.dicountbannerList.setImageList(slideModels, ScaleTypes.FIT);
-                            binding.dicountbannerList.setItemClickListener(object : ItemClickListener {
+                            binding.dicountbannerList.setItemClickListener(object :
+                                ItemClickListener {
                                 override fun onItemSelected(position: Int) {
 //
                                     val onc = array.getJSONObject(position)
-                                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWebviewFragment( onc.getString("url")))
+                                    findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToWebviewFragment(
+                                            onc.getString("url")
+                                        )
+                                    )
 
 
                                 }
@@ -795,7 +841,7 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0.. array.length()-1) {
+                        for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = OfferProductData(
                                 objectArtist.getString("id"),
@@ -838,8 +884,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun getCategories() {
-        activityAlreadyCreated=true
-        Log.i("@@@@","volley fired")
+        activityAlreadyCreated = true
+        Log.i("@@@@", "volley fired")
         var categoryList = mutableListOf<CategoryData>()
         val stringRequest = StringRequest(
             Request.Method.GET,
@@ -850,13 +896,13 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0..array.length()-1) {
+                        for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = CategoryData(
                                 objectArtist.getString("url"),
                                 objectArtist.getString("heading"),
                                 objectArtist.getString("img_name")
-                                )
+                            )
                             categoryList.add(banners)
                             val adapter = CategoryAdapter(categoryList)
                             binding.categoryList.adapter = adapter
@@ -889,7 +935,7 @@ class HomeFragment : Fragment() {
 
     //    // volley request for banners
     private fun getProducts() {
-      //  var productLists = mutableListOf<ProductData>()
+        //  var productLists = mutableListOf<ProductData>()
         val slideModels = mutableListOf<SlideModel>()
         val stringRequest = StringRequest(
             Request.Method.GET,
@@ -900,24 +946,28 @@ class HomeFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
-                        for (i in 0 .. array.length()-1) {
+                        for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ProductData(
                                 objectArtist.getString("image"),
                                 objectArtist.getString("url")
 
-                                )
-                           // productLists.add(banners)
+                            )
+                            // productLists.add(banners)
 
-                         //   val adapter = ProductAdapter(productLists, requireContext())
-                         //   binding.productList.adapter = adapter
+                            //   val adapter = ProductAdapter(productLists, requireContext())
+                            //   binding.productList.adapter = adapter
 
                             slideModels.add(SlideModel(banners.url))
                             binding.productList.setImageList(slideModels, ScaleTypes.FIT);
                             binding.productList.setItemClickListener(object : ItemClickListener {
                                 override fun onItemSelected(position: Int) {
                                     val onc = array.getJSONObject(position)
-                                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWebviewFragment( onc.getString("url")))
+                                    findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToWebviewFragment(
+                                            onc.getString("url")
+                                        )
+                                    )
 
                                 }
                             })
@@ -953,38 +1003,40 @@ class HomeFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.overflow_menu, menu)
-        val menuItem:MenuItem = menu.findItem(R.id.myCartFragment)
-        val loginStatus:MenuItem = menu.findItem(R.id.loginBtn)
-        val actionView:View = menuItem.actionView
-        if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn)
-        {
+        val menuItem: MenuItem = menu.findItem(R.id.myCartFragment)
+        val loginStatus: MenuItem = menu.findItem(R.id.loginBtn)
+        val actionView: View? = menuItem.actionView
+        if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
             loginStatus.title = "Logout"
-        }
-        else
-        {
+        } else {
             loginStatus.title = "Login or Register"
         }
 
-        var cartBadgeTextview:TextView = actionView.findViewById(R.id.cart_badge_text_view)
 
-        if (count==null || count=="null" || count=="") {
-            cartBadgeTextview.setText("0")
+        // If user is logged in then only show count of cart OR HIDE it
+        var cartBadgeTextview: TextView = actionView!!.findViewById(R.id.cart_badge_text_view)
+
+        if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
+            cartBadgeTextview.visibility = View.GONE
+        } else {
+            if (count == null || count == "null" || count == "") {
+                cartBadgeTextview.setText("0")
+            } else {
+                cartBadgeTextview.setText(count)
+            }
         }
-        else
-        {
-            cartBadgeTextview.setText(count)
-        }
+        // ---------------------------------------------------------------------------------------
+
+
         actionView.setOnClickListener {
-          if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
-              onOptionsItemSelected(menuItem)
-          }
-            else
-          {
-              val intent = Intent(requireContext(), LoginActivity::class.java)
-              startActivity(intent)
-              requireActivity().finish()
-          }
-          }
+            if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
+                onOptionsItemSelected(menuItem)
+            } else {
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

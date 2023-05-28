@@ -14,6 +14,7 @@ if(isset($_GET['apicall'])){
         $fullname = $firstname . " " . $middlename . " " . $lastname;  
 
 
+
         $stmt = $conn->prepare("SELECT id FROM register WHERE phone = ?");  
         $stmt->bind_param("s", $phone);  
         $stmt->execute();  
@@ -42,7 +43,6 @@ if(isset($_GET['apicall'])){
                     'lastname'=>$lastname, 
                     'email'=>$email,  
                     'phone'=>$phone
-
                 );  
 
                 $stmt->close();  
@@ -177,7 +177,10 @@ break;
 //------------------------------------------------------------------------------------------------------
 case 'categories':  
 
-$stmt = $conn->prepare("SELECT id, category_name as heading , image  FROM categories WHERE active='0'");  
+// $stmt = $conn->prepare("SELECT id, category_name as heading , image  FROM categories WHERE active='0'");  
+
+$stmt = $conn->prepare("SELECT id, primary_categories_name as heading , image  FROM primary_categories WHERE active='0'");  
+
 //$stmt->bind_param("s",$id);  
 $stmt->execute();  
 $stmt->store_result(); 
@@ -211,6 +214,7 @@ else{
 //}  
 break;  
 //---------------------------------------------------------------------------------------------------------------------------
+
 
 case 'subCategories':  
 
@@ -247,7 +251,7 @@ break;
 // //-------------------------------------------------------------------------------------------------- 
 case 'featured':  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.popular='1' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' order by pd.productid DESC limit 7");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.popular='1' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' group by pd.productid order by rand() limit 7");  
 $stmt->execute();  
 $stmt->store_result(); 
 
@@ -290,7 +294,7 @@ break;
 
 case 'featuredAll':  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory  from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.popular='1' order by rand() limit 20");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory  from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.popular='1' group by pd.productid order by rand() limit 20");  
 $stmt->execute();  
 $stmt->store_result(); 
 
@@ -367,7 +371,7 @@ break;
 // //-------------------------------------------------------------------------------------------------- 
 case 'brands':  
 
-$stmt = $conn->prepare("SELECT id, sch_name as heading , image  FROM school_name WHERE active='0' AND (LENGTH(image) > 0) AND image <> '' order by id DESC limit 8");  
+$stmt = $conn->prepare("SELECT id, sch_name as heading , image  FROM school_name WHERE active='0' AND (LENGTH(image) > 0) AND image <> '' order by rand() limit 8");  
 //$stmt->bind_param("s",$id);    
 $stmt->execute();    
 $stmt->store_result(); 
@@ -437,10 +441,10 @@ break;
 // //-------------------------------------------------------------------------------------------------- 
 case 'deals':  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.popular='1' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' order by pd.productid DESC limit 7");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.popular='1' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' group by pd.productid order by rand() limit 7");  
 $stmt->execute();  
 $stmt->store_result(); 
-
+                   
 if($stmt->num_rows > 0){  
     $stmt->bind_result($id,$name,$mrp,$sale,$disc_amt,$image,$desc_id, $disc_type,$disc_start_date,$disc_end_date,$category,$subcategory);  
     $stmt->fetch();
@@ -480,7 +484,7 @@ break;
 
 case 'dealsAll':  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.deals='1' limit 20");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.hide='N' and pd.deals='1' group by pd.productid order by rand() limit 11");  
 $stmt->execute();  
 $stmt->store_result(); 
 
@@ -524,7 +528,7 @@ break;
 case 'comboOffers':  
 
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category='Combo' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' order by pd.productid DESC limit 7");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.primary_categories_name='Combo' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' group by pd.productid order by rand() limit 7");  
 
 $stmt->execute();  
 $stmt->store_result(); 
@@ -570,7 +574,7 @@ break;
 case 'comboOffersAll':  
 
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory  from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category='Combo' order by rand() limit 20");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory  from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.primary_categories_name='Combo' group by pd.productid order by rand() limit 11");  
 
 $stmt->execute();  
 $stmt->store_result(); 
@@ -614,9 +618,8 @@ break;
 
 // //-------------------------------------------------------------------------------------------- 
 case 'newArrivals':  
-
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.new_arrival='1' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' order by pd.productid DESC limit 7");  
-//$stmt->bind_param("s",$id);  
+$tem = array();
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.new_arrival='1' AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' group by pd.productid order by rand() limit 11");   
 $stmt->execute();  
 $stmt->store_result(); 
 
@@ -628,8 +631,7 @@ if($stmt->num_rows > 0){
 
     while($stmt->fetch()){
      $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
-    // print_r($calculation);die();
-
+ 
      $temp = array(); 
      $temp['id'] = $id; 
      $temp['heading']= $name;
@@ -643,10 +645,11 @@ if($stmt->num_rows > 0){
 
      array_push($banner_data, $temp);
  }
-
+  
  $response['error'] = false;   
  $response['message'] = ' New Arrivals Fetch successfull';   
- $response['user'] = $banner_data;   
+ $response['user'] = $banner_data; 
+
 }  
 else{  
     $response['error'] = false;   
@@ -664,7 +667,7 @@ break;
 // //----------------------------------------------------------------------------------------
 case 'newArrivalsAll':  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.new_arrival='1' order by rand() limit 20");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.new_arrival='1' group by pd.productid order by rand() limit 11");  
 $stmt->execute();  
 $stmt->store_result(); 
 
@@ -754,7 +757,7 @@ $id = $_POST['id'];
 // $prod_id = $_POST['prod_id'];
 
 $stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1,c.quantity, pdd.id, pd.disc_type,
- pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from cart c left JOIN products pd on pd.productid=c.productid LEFT join product_detail_description pdd on pdd.id=c.product_desc_id where c.userid=? and c.status='Added in cart'");  
+ pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory from cart c left JOIN products pd on pd.productid=c.productid LEFT join product_detail_description pdd on pdd.id=c.product_desc_id where c.userid=? and c.status='Added in cart'");  
 
 $stmt->bind_param("s",$id);
 $stmt->execute();  
@@ -802,7 +805,7 @@ break;
 case 'getMyWishlist':
 $id = $_POST['id'];  
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1,c.quantity, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from wishlist c left JOIN products pd on pd.productid=c.productid LEFT join product_detail_description pdd on pdd.id=c.product_desc_id
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1,c.quantity, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory from wishlist c left JOIN products pd on pd.productid=c.productid LEFT join product_detail_description pdd on pdd.id=c.product_desc_id
     where c.status='Created' and  c.userid=?");  
 $stmt->bind_param("s",$id);  
 $stmt->execute();  
@@ -947,13 +950,6 @@ if(isTheseParametersAvailable(array('prod_id','user_id'))){
 $response['error'] = false;   
     $response['message'] = '1 item added to cart successfully!!';   
     $response['user'] = "";
-
-
-//  $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, 
-// $disc_end_date,$category,$subcategory,$conn);
-
-//  print_r($calculation);die(); 
-
 }  
 else{  
     $response['error'] = true;   
@@ -995,7 +991,7 @@ break;
 //-----------------------------------------------------------------------------------------------------------------------------------    
 case 'getParticularCategoryProducts' :  
 $category = $_POST['category'];   
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category=?  limit 7");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.primary_categories_name=? group by pd.productid order by rand() limit 7");  
 
 $stmt->bind_param("s",$category);  
 $stmt->execute();  
@@ -1042,7 +1038,7 @@ break;
 
 case 'getParticularBrandProducts' :  
 $brand = $_POST['brand'];   
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.dressmadefor=? order by rand() limit 10");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.dressmadefor=? group by pd.productid order by rand() limit 11");  
 
 $stmt->bind_param("s",$brand);  
 $stmt->execute();  
@@ -1094,48 +1090,49 @@ case 'getProductDetailDescription':
 $id = $_POST['id'];  
 
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.product_description,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.image1,pd.image2 , pd.image3 , pd.image4 , pd.image5 , pd.image6 ,pd.image7 , pdd.id , pd.bullet_pt1,pd.bullet_pt2,pd.bullet_pt3,pd.bullet_pt4,pd.bullet_pt5,pd.bullet_pt6 , pd.category , pd.disc_type,
+$stmt = $conn->prepare("SELECT pd.productid,pd.product_description,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.image1,pd.image2 , pd.image3 , pd.image4 , pd.image5 , pd.image6 ,pd.image7 , pdd.id , pd.bullet_pt1,pd.bullet_pt2,pd.bullet_pt3,pd.bullet_pt4,pd.bullet_pt5,pd.bullet_pt6 , pd.primary_categories_name , pd.disc_type,
  pd.disc_start_date, pd.disc_end_date, pd.subcategory,pd.disc_amt from  products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.productid=? ");  
 $stmt->bind_param("s",$id);  
 $stmt->execute();
-$stmt->store_result(); 
+$new = $stmt->get_result(); 
+$result = $new->fetch_assoc();  
 
-if($stmt->num_rows > 0){  
-    $stmt->bind_result($id,$disc,$heading,$mrp,$sale, $image1, $image2,$image3,$image4,$image5,$image6,$image7,$desc_id,$bullet_one,$bullet_two,$bullet_three,$bullet_four,$bullet_five,$bullet_six,$category,$disc_type,$disc_start_date,$disc_end_date,$subcategory,$disc_amt);  
-    $stmt->fetch();  
-     $calculation = getpro_calculation($id, $desc_id, $disc_amt, $disc_type, $disc_start_date, $disc_end_date,$category,$subcategory,$conn);
+if(!empty($result)){  
+    //$stmt->bind_result($id,$disc,$heading,$mrp,$sale, $image1, $image2,$image3,$image4,$image5,$image6,$image7,$desc_id,$bullet_one,$bullet_two,$bullet_three,$bullet_four,$bullet_five,$bullet_six,$category,$disc_type,$disc_start_date,$disc_end_date,$subcategory,$disc_amt);  
+    
+     $calculation = getpro_calculation($id, $result['id'], $result['disc_amt'], $result['disc_type'], $result['disc_start_date'], $result['disc_end_date'],$result['primary_categories_name'],$result['subcategory'],$conn);
+     
     $user = array(  
         'id'=>$id,   
-        'heading'=>$heading,  
+        'heading'=>$result['item_name'],  
         'sale'=>$calculation['discounted_amount'],  
-        'disc'=>strip_tags($disc), 
+        'disc'=>strip_tags($result['product_description']), 
         'discount'=>round($calculation['discount_perc']),  
         'mrp'=>$calculation['mrp'],  
-        'image1'=>IMGPATH.$image1,
-        'image2'=>IMGPATH.$image2,
-        'image3'=>IMGPATH.$image3,
-        'image4'=>IMGPATH.$image4,
-        'image5'=>IMGPATH.$image5,
-        'image6'=>IMGPATH.$image6,
-        'image7'=>IMGPATH.$image7,
-        'imageName1'=>$image1,
-        'imageName2'=>$image2,
-        'imageName3'=>$image3,
-        'imageName4'=>$image4,
-        'imageName5'=>$image5,
-        'imageName6'=>$image6,
-        'imageName7'=>$image7,
-        'prod_desc_id'=>$desc_id,
-        'pt_one'=>strip_tags($bullet_one),
-        'pt_two'=>strip_tags($bullet_two),
-        'pt_three'=>strip_tags($bullet_three),
-        'pt_four'=>strip_tags($bullet_four),
-        'pt_five'=>strip_tags($bullet_five),
-        'pt_six'=>strip_tags($bullet_six),
-        'category'=>$category,
+        'image1'=>IMGPATH.$result['image1'],
+        'image2'=>IMGPATH.$result['image2'],
+        'image3'=>IMGPATH.$result['image3'],
+        'image4'=>IMGPATH.$result['image4'],
+        'image5'=>IMGPATH.$result['image5'],
+        'image6'=>IMGPATH.$result['image6'],
+        'image7'=>IMGPATH.$result['image7'],
+        'imageName1'=>$result['image1'],
+        'imageName2'=>$result['image2'],
+        'imageName3'=>$result['image3'],
+        'imageName4'=>$result['image4'],
+        'imageName5'=>$result['image5'],
+        'imageName6'=>$result['image6'],
+        'imageName7'=>$result['image7'],
+        'prod_desc_id'=>$result['id'],
+        'pt_one'=>strip_tags($result['bullet_pt1']),
+        'pt_two'=>strip_tags($result['bullet_pt2']),
+        'pt_three'=>strip_tags($result['bullet_pt3']),
+        'pt_four'=>strip_tags($result['bullet_pt4']),
+        'pt_five'=>strip_tags($result['bullet_pt5']),
+        'pt_six'=>strip_tags($result['bullet_pt6']),
+        'category'=>$result['primary_categories_name'],
         'gst_type'=>$calculation['gst_type']
-
-    );  
+    );              
 
     $response['error'] = false;   
     $response['message'] = 'Product description fetch successfull';   
@@ -1148,6 +1145,93 @@ else{
 //}  
 break;   
 //-----------------------------------------------------------------------------------------------
+
+case 'getColors':  
+
+$id = $_POST['id']; 
+$newpro_id = '1'; 
+
+$stmt = $conn->prepare("SELECT c.pro_colour,c.desc_id,c.product_id,c.product_link
+ from product_detail_description pdd left join pro_colours c on pdd.id=c.desc_id where c.product_id=? and (c.pro_colour!='' and c.pro_colour IS NOT NULL) group by c.pro_colour");  
+
+$stmt->bind_param("s",$id);  
+$stmt->execute();  
+//$stmt->store_result(); 
+$new = $stmt->get_result(); 
+    //$result = $new->fetch_assoc();   
+
+if($stmt->execute()){ 
+
+   
+    //$stmt->bind_result($pro_colour,$desc_id,$product_id,$product_link);
+    $banner_data = array();
+
+    while($row = $new->fetch_assoc()){
+
+    if($row['product_link']!=''){
+        $newpro_link = trim($row['product_link'], "https://affetta.com/product/index?ref=");
+        $newpro_id =base64_decode($newpro_link);
+    }
+
+     $temp = array(); 
+     $temp['pro_colour'] = $row['pro_colour']; 
+     $temp['desc_id'] = $row['desc_id']; 
+     $temp['product_id'] = $row['product_id']; 
+     $temp['product_link'] = $row['product_link']; 
+     $temp['newpro_id'] = $newpro_id; 
+
+     array_push($banner_data, $temp);
+ }
+
+ $response['error'] = false;   
+ $response['message'] = 'colors Fetch successfull';   
+ $response['user'] = $banner_data;   
+}  
+else{  
+    $response['error'] = true;   
+    $response['message'] = 'Invalid id';  
+}   
+break;  
+//---------------------------------------------------------------------------------------------------------------------------
+
+case 'getSizes':  
+
+$id = $_POST['id'];  
+
+$stmt = $conn->prepare("SELECT size,id FROM product_detail_description WHERE product_id=? and (size!='' and size IS NOT NULL)");  
+
+$stmt->bind_param("s",$id);  
+$stmt->execute();  
+$new = $stmt->get_result(); 
+
+
+if($stmt->execute()){ 
+   
+    //$stmt->bind_result($pro_colour,$desc_id,$product_id,$product_link);
+    $banner_data = array();
+
+    while($row = $new->fetch_assoc()){
+
+     $temp = array(); 
+     $temp['size'] = $row['size']; 
+     $temp['desc_id'] =$row['id']; 
+
+     array_push($banner_data, $temp);
+ }
+
+ $response['error'] = false;   
+ $response['message'] = 'Sizes Fetch successfull';   
+ $response['user'] = $banner_data;   
+}  
+else{  
+    $response['error'] = true;   
+    $response['message'] = 'Invalid id';  
+}   
+break;  
+//---------------------------------------------------------------------------------------------------------------------------
+
+
+
 case 'editMyProfile':  
 
 if(isTheseParametersAvailable(array('first_name','last_name','email','user_id','full_name','shipping_state','shipping_city','shipping_zipcode','shipping_whatsappno','billing_whatsappno'))){ 
@@ -1185,9 +1269,9 @@ case 'getSimilarProducts' :
 $category = $_POST['category'];  
 $id = $_POST['id'];   
 
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category=? AND pd.productid != ? AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' order by rand() limit 11");  
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.primary_categories_name, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.primary_categories_name=? AND pd.productid != ? AND (LENGTH(pd.image1) > 0) AND pd.image1 <> '' group by pd.productid order by rand() limit 11");  
 
-$stmt->bind_param("ss",$category,$id);  
+$stmt->bind_param("ss",$category,$id); 
 $stmt->execute();  
 $stmt->store_result(); 
 
@@ -1335,10 +1419,12 @@ break;
 //-----------------------------------------------------------------------------------
 case 'getHomeSearchedProducts' :  
 $category = $_POST['category']; 
-$word = "%$category%";  
-$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category LIKE ? OR pd.subcategory LIKE ? OR pd.child_category LIKE ? order by rand() limit 20");  
+$word = "%$category%"; 
+$stmt = $conn->prepare("SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category LIKE '%$category%' OR pd.subcategory LIKE '%$category%' OR pd.child_category LIKE '%$category%' OR pd.item_name LIKE '%$category%' group by pd.productid order by rand() limit 11");  
 
-$stmt->bind_param("sss",$word,$word,$word);  
+// SELECT pd.productid,pd.item_name, pdd.mrp_price,pdd.sale_price ,pd.disc_amt,pd.image1, pdd.id, pd.disc_type, pd.disc_start_date, pd.disc_end_date,pd.category, pd.subcategory from products pd left join product_detail_description pdd on pd.productid=pdd.product_id where pd.category LIKE ? OR pd.subcategory LIKE ? OR pd.child_category LIKE ? OR pd.item_name LIKE ? order by rand() limit 11
+
+// $stmt->bind_param("ssss",$word,$word,$word,$word);  
 $stmt->execute();  
 $stmt->store_result(); 
 
@@ -1381,7 +1467,7 @@ break;
 //-------------------------------------------------------------
 case 'getCategoryNamesAll':  
 
-$stmt = $conn->prepare("SELECT category_name FROM categories UNION SELECT subcategory_name FROM subcategories  UNION SELECT child_category FROM child_categories");  
+$stmt = $conn->prepare("SELECT category_name FROM categories UNION SELECT subcategory_name FROM subcategories  UNION SELECT child_category FROM child_categories UNION SELECT item_name FROM products");  
 //$stmt->bind_param("s",$id);  
 $stmt->execute();  
 $stmt->store_result(); 
@@ -1710,6 +1796,121 @@ break;
     }  
     break; 
 //-----------------------------------------------------------------------------------------------------
+case 'aboutApp':  
+
+$stmt = $conn->prepare("SELECT title,description FROM static_pages WHERE page_type ='About Us' AND active = '0' ");  
+$stmt->execute();  
+$stmt->store_result(); 
+
+if($stmt->num_rows > 0){  
+    $stmt->bind_result($title,$description);  
+
+    $banner_data = array();
+
+    while($stmt->fetch()){   
+     $temp = array();        
+     $temp['title'] = $title; 
+     $temp['description']= strip_tags($description);
+   
+     array_push($banner_data, $temp);
+ }
+
+ $response['error'] = false;   
+ $response['message'] = 'Static pages data Fetch successfull'; 
+ $response['user'] = $banner_data;   
+}  
+else{  
+    $response['error'] = false;   
+    $response['message'] = 'Invalid id';  
+}  
+//}  
+//}  
+break;  
+//---------------------------------------------------------------------------------------------------------------------------
+
+case 'customerSupport':  
+if(isTheseParametersAvailable(array('name'))){ 
+    date_default_timezone_set('Asia/Kolkata'); 
+    $name = $_POST['name'];   
+    $email = $_POST['email'];   
+    $phone = $_POST['phone'];
+    $message = $_POST['message'];
+    $created_on = date('Y-m-d H:i:s');
+
+ $stmt = $conn->prepare("INSERT INTO contact (cusname, cusemail,cusphone,cusmessage,created_on) VALUES (?, ?, ?, ?, ?)");  
+    $stmt->bind_param("sssss", $name ,$email, $phone,$message,$created_on);  
+
+    $stmt->execute();
+    $stmt->close();      
+
+    $response['error'] = false;   
+    $response['message'] = 'Message sent successfully!!';   
+    $response['user'] = "";
+
+}  
+else{  
+    $response['error'] = true;   
+    $response['message'] = 'required parameters are not available';   
+}  
+break; 
+//---------------------------------------------------------------------------------------------------------------------------------
+
+
+
+case 'getDataForSelectedSize':  
+
+if(isTheseParametersAvailable(array('desc_id'))){  
+$desc_id = $_POST['desc_id'];  
+
+$stmt = $conn->prepare("SELECT mrp_price,sale_price,product_id from product_detail_description where id=? ");  
+$stmt->bind_param("s",$desc_id);  
+$stmt->execute();
+$new = $stmt->get_result(); 
+$result = $new->fetch_assoc(); 
+
+            if($stmt->execute()){
+     $stmt->close();  
+
+                 $stmt1 = $conn->prepare("SELECT item_name,disc_amt,disc_type,primary_categories_name,subcategory,disc_start_date,disc_end_date FROM products WHERE productid = ?");   
+                $stmt1->bind_param("s",$result['product_id']);  
+                $stmt1->execute();  
+                $new1 = $stmt1->get_result(); 
+                $result1 = $new1->fetch_assoc(); 
+
+                //$stmt1->bind_result($item_name, $disc_amt, $disc_type,$category,$subcategory, $startdate ,$enddate);  
+           
+$calculation = getpro_calculation($result['product_id'],$desc_id, $result1['disc_amt'], $result1['disc_type'], $result1['disc_start_date'], $result1['disc_end_date'],$result1['primary_categories_name'],$result1['subcategory'],$conn);
+    
+    $user = array(  
+        'id'=>$result['product_id'],   
+        'prod_desc_id'=>$desc_id,
+        'heading'=>$result1['item_name'],  
+        'sale'=>$calculation['discounted_amount'],  
+        'discount'=>round($calculation['discount_perc']),  
+        'mrp'=>$calculation['mrp'],  
+        'category'=>$result1['primary_categories_name'],
+        'gst_type'=>$calculation['gst_type']
+    ); 
+     $stmt1->close();  
+
+                $response['error'] = false;   
+                $response['message'] = 'Size data fetch successfully';   
+                $response['user'] = $user;                
+
+  }
+}
+else
+{
+        $response['error'] = true;   
+        $response['message'] = 'required parameters are not available';   
+}
+
+
+
+//}  
+break;   
+//-----------------------------------------------------------------------------------------------
+
 
 
 default:   
@@ -1721,7 +1922,9 @@ else{
     $response['error'] = true;   
     $response['message'] = 'Invalid API Call';  
 }  
-echo json_encode($response);  
+echo json_encode($response,JSON_PARTIAL_OUTPUT_ON_ERROR);  
+
+
 function isTheseParametersAvailable($params){  
     foreach($params as $param){  
      if(!isset($_POST[$param])){  
@@ -1904,7 +2107,7 @@ if($prices['gst_type'] == "inc"){
     $listpricegst = (($discounted_amount * $listprice_gst_percentage) / (100+$listprice_gst_percentage))*1;
     $salepricegst = (($og_sale_price * $saleprice_gst_percentage) / (100+$saleprice_gst_percentage))*1;
     $mrpgst = (($og_price * $mrp_gst_percentage) / (100+$mrp_gst_percentage))*1;
-
+ 
     $discounted_amount = round(($discounted_amount*1));
     $amt_before_gst = round(($discounted_amount*1)-$listpricegst);
     $amt_after_gst = $discounted_amount;

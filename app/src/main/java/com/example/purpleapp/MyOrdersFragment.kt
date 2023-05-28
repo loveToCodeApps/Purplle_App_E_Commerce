@@ -36,8 +36,8 @@ class MyOrdersFragment : Fragment() {
  binding  = DataBindingUtil.inflate(inflater,R.layout.fragment_my_orders,container,false)
 
 
-        val activity:MainActivity = requireActivity() as MainActivity
-        activity.binding.bottomNavigationView.visibility = View.GONE
+//        val activity:MainActivity = requireActivity() as MainActivity
+//        activity.binding.bottomNavigationView.visibility = View.GONE
 
         val i1 = Internet()
         if (i1.checkConnection(requireContext()))

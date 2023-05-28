@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.purpleapp.api.URLs
 import com.squareup.picasso.Picasso
 import org.json.JSONException
@@ -33,17 +36,34 @@ class ServiceCategoryAdapter(val data : List<ServiceCategoryData> , val data2 : 
 
     override fun onBindViewHolder(holder: ServiceCategoryViewHolder, position: Int) {
         val item = data[position]
-        Picasso.get().load(item.serviceCategoryImg).into(holder.img)
+      //  Picasso.get().load(item.serviceCategoryImg).into(holder.img)
+
+
+
+        val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+        Glide.with(holder.img.context).load(item.serviceCategoryImg).thumbnail(0.05f)
+            .apply(requestOptions).into(holder.img)
+
+        Glide.get(holder.img.context).clearMemory()
+
+        Thread(Runnable {
+            // This method must be called on a background thread.
+            Glide.get(holder.img.context).clearDiskCache()
+        }).start()
+
+
+
 
         if (item.serviceCategoryImgName=="0" || item.serviceCategoryImgName=="null" ||  item.serviceCategoryImgName=="")
         {
             holder.title.text = item.serviceCategoryHeading
             holder.ogLayout.setBackgroundColor(Color.parseColor("#ff4646"))
             holder.title.visibility=View.VISIBLE
+            holder.newHeading.visibility=View.INVISIBLE
         }
-        else
-        {
-            holder.title.visibility=View.GONE
+        else {
+            holder.title.visibility = View.GONE
+            holder.newHeading.text = item.serviceCategoryHeading
         }
        // holder.title.text = item.serviceCategoryHeading + " ⬇"
 
@@ -106,6 +126,8 @@ class ServiceCategoryViewHolder(itemView: android.view.View):ViewHolder(itemView
 {
     val img:ImageView = itemView.findViewById(R.id.serviceCategoryImg)
     val title:TextView = itemView.findViewById(R.id.serviceCategoryTitle)
+    val newHeading:TextView = itemView.findViewById(R.id.textView80)
+
     //val linearLayout:LinearLayout = itemView.findViewById(R.id.LinearLayout)
 //    val expandableLayout:ConstraintLayout = itemView.findViewById(R.id.expandable_layout)
     val ogLayout:ConstraintLayout = itemView.findViewById(R.id.ogLayout)

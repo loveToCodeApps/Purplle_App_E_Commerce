@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         android:focusable="true"
         android:focusableInTouchMode="true"
         tools:context=".HomeFragment">
@@ -29,26 +30,29 @@
         <!--            app:layout_constraintStart_toStartOf="parent"-->
         <!--            app:layout_constraintTop_toTopOf="parent"-->
         <!--            app:queryHint="what are you looking for ?"/>-->
+
         <AutoCompleteTextView
             android:id="@+id/searchView"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="43dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/shape"
-            android:drawableLeft="@drawable/ic_baseline_search_24"
             android:elevation="4dp"
             android:fontFamily="@font/gilroy_medium"
             android:hint="  what are you looking for ?"
             android:imeOptions="actionSearch"
             android:maxLines="1"
             android:paddingLeft="10dp"
+            android:paddingEnd="10dp"
             android:singleLine="true"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColorHint="#FFA0A0A0"
+            app:layout_constraintBottom_toBottomOf="@+id/button21"
+            app:layout_constraintEnd_toStartOf="@+id/button21"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="#F78195" />
+            app:layout_constraintTop_toTopOf="@+id/button21"
+            app:tint="#F78195"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view"
@@ -107,6 +111,8 @@
                 <!--                    app:layout_constraintEnd_toEndOf="parent"-->
                 <!--                    app:layout_constraintStart_toStartOf="parent"-->
                 <!--                    app:layout_constraintTop_toBottomOf="@+id/comboOffersList" />-->
+
+
                 <com.denzcoskun.imageslider.ImageSlider
                     android:id="@+id/productList"
                     android:layout_width="match_parent"
@@ -118,9 +124,9 @@
                     app:iss_delay="0"
                     app:iss_period="1400"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/comboOffersList" />
-
 
                 <TextView
                     android:id="@+id/textView2"
@@ -382,6 +388,20 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
+
+        <Button
+            android:id="@+id/button21"
+            android:layout_width="50dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:drawableLeft="@drawable/ic_baseline_search"
+            android:gravity="center"
+            android:text="✓"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

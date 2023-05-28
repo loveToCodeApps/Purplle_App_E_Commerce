@@ -30,8 +30,16 @@ lateinit var binding : FragmentEditAddressBinding
         // Inflate the layout for this fragment
 binding = DataBindingUtil.inflate(inflater,R.layout.fragment_edit_address,container,false)
 
-        val activity:MainActivity = requireActivity() as MainActivity
-        activity.binding.bottomNavigationView.visibility = View.GONE
+//        val activity:MainActivity = requireActivity() as MainActivity
+//        activity.binding.bottomNavigationView.visibility = View.GONE
+
+        val args = EditAddressFragmentArgs.fromBundle(requireArguments())
+        binding.userFirstName.setText( args.address)
+        binding.userShippingState.setText( args.state)
+        binding.userShippingCity.setText( args.city)
+        binding.userShippingZipcode.setText( args.zipcode)
+
+
 
         binding.button8.setOnClickListener {
             editAddress()

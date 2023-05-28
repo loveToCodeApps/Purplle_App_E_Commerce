@@ -1,16 +1,39 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.PurpleApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="21">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
-    </style>
+
+        <style name="Theme.PurpleApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+            <!-- Primary brand color. -->
+            <item name="colorPrimary">#F78195</item>
+            <!--      color for action bar text-->
+            <item name="android:textColorPrimary">#000000</item>
+            <item name="colorPrimaryVariant">@color/purple_700</item>
+            <item name="colorOnPrimary">@color/white</item>
+            <!-- Secondary brand color. -->
+            <item name="colorSecondary">@color/teal_200</item>
+            <item name="colorSecondaryVariant">@color/teal_700</item>
+            <item name="colorOnSecondary">@color/black</item>
+            <!-- Status bar color. -->
+            <item name="android:statusBarColor" tools:targetApi="21">#F78195</item>
+            <!-- Customize your theme here. -->
+
+
+            <!--becoz of this line action bar became pink in dark mode-->
+            <!-- Applying style like this  -->
+            <item name="actionBarStyle">@style/Widget.MaterialComponents.ActionBar.Primary</item>
+            <!--            -->
+
+            <!--         for searchview hint color of searchview-->
+            <item name="android:textColorHint">#FFA0A0A0</item>
+
+
+            <!--        color for divider line in navigation drawer-->
+
+            <item name="android:listDivider">@color/basic</item>
+
+
+        </style>
 </resources>
+
+
+
+

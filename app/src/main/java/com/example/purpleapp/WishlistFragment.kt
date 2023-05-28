@@ -29,8 +29,8 @@ class WishlistFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wishlist, container, false)
 
-        val activity:MainActivity = requireActivity() as MainActivity
-        activity.binding.bottomNavigationView.visibility = View.GONE
+//        val activity:MainActivity = requireActivity() as MainActivity
+//        activity.binding.bottomNavigationView.visibility = View.GONE
 
         val i1 = Internet()
         if (i1.checkConnection(requireContext())) {

@@ -28,11 +28,8 @@ class BrandProductAdapter(val data : List<BrandProductData>):Adapter<BrandProduc
        // Picasso.get().load(item.img).into(holder.imge)
 
             val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
-            Glide.with(holder.imge.context).load(item.img)
-                .thumbnail(
-                    Glide.with(holder.imge.context)
-                        .load("https://www.pngfind.com/pngs/m/360-3604777_waiting-png-transparent-background-waiting-icon-transparent-png.png")
-                )
+//           
+            Glide.with(holder.imge.context).load(item.img).thumbnail(0.05f)
                 .apply(requestOptions).into(holder.imge)
 
             Glide.get(holder.imge.context).clearMemory()

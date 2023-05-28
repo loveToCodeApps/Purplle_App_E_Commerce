@@ -25,6 +25,18 @@ class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<Offer
     override fun onBindViewHolder(holder: OfferProductViewHolder, position: Int) {
         val item = data[position]
         holder.title.text = item.heading
+
+
+        if (item.heading == null || item.heading == "null" || item.heading.length == 0)
+        {
+            holder.title.text = ""
+        }
+        else
+        {
+            holder.title.text = item.heading
+        }
+
+
         if (item.mrp==item.sale)
         {
             holder.sale.visibility = View.VISIBLE
@@ -53,8 +65,7 @@ class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<Offer
         {
           //  Picasso.get().load(R.drawable.not_available_picture).into(holder.img)
             val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
-            Glide.with(holder.img.context).load(R.drawable.not_available_picture)
-                .thumbnail(Glide.with(holder.img.context).load("https://www.pngfind.com/pngs/m/360-3604777_waiting-png-transparent-background-waiting-icon-transparent-png.png"))
+            Glide.with(holder.img.context).load(R.drawable.not_available_picture).thumbnail(0.05f)
                 .apply(requestOptions).into(holder.img)
 
             Glide.get(holder.img.context).clearMemory()
@@ -67,8 +78,7 @@ class OfferProductAdapter(val data: MutableList<OfferProductData>):Adapter<Offer
         else {
             //Picasso.get().load(item.image1).into(holder.img)
             val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
-            Glide.with(holder.img.context).load(item.image1)
-                .thumbnail(Glide.with(holder.img.context).load("https://www.pngfind.com/pngs/m/360-3604777_waiting-png-transparent-background-waiting-icon-transparent-png.png"))
+            Glide.with(holder.img.context).load(item.image1).thumbnail(0.05f)
                 .apply(requestOptions).into(holder.img)
 
             Glide.get(holder.img.context).clearMemory()

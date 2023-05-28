@@ -12,7 +12,8 @@
         android:id="@+id/comboConstraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="#FFFFFF">
 
         <ImageView
             android:id="@+id/offerprodimgcombo"

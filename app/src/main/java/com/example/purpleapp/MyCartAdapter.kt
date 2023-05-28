@@ -16,6 +16,9 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.api.URLs
 import com.example.purpleapp.api.VolleySingleton
@@ -35,7 +38,22 @@ class MyCartAdapter(val data : List<MyCartData> , var context: Context):Adapter<
     override fun onBindViewHolder(holder: MyCartViewHolder, position: Int) {
         val item = data[position]
         var quantity = item.qty.toInt()
-        Picasso.get().load(item.myCartProdImg).into(holder.img)
+//        Picasso.get().load(item.myCartProdImg).into(holder.img)
+
+        val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+        Glide.with(holder.img.context).load(item.myCartProdImg).thumbnail(0.05f)
+            .apply(requestOptions).into(holder.img)
+
+        Glide.get(holder.img.context).clearMemory()
+
+        Thread(Runnable {
+            // This method must be called on a background thread.
+            Glide.get(holder.img.context).clearDiskCache()
+        }).start()
+
+
+
+
         if (item.myCartProdNewPrice==item.myCartProdOrgPrice)
         {
             holder.price.visibility = View.VISIBLE

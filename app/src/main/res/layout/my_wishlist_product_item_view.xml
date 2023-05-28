@@ -11,7 +11,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/wishlistCons"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
 
         <ImageView
             android:id="@+id/imageView30"
@@ -112,6 +113,7 @@
             android:text="★4.1"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:backgroundTint="#FFAB40"
             app:cornerRadius="20dp"
             app:layout_constraintStart_toStartOf="@+id/textView78"
@@ -125,6 +127,7 @@
             android:fontFamily="@font/gilroy_medium"
             android:text="(160)"
             android:textColor="#BCBABA"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/button9"
             app:layout_constraintStart_toEndOf="@+id/button9"
             app:layout_constraintTop_toTopOf="@+id/button9" />

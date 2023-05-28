@@ -27,8 +27,8 @@ lateinit var binding : FragmentBrandAllProductsBinding
     ): View? {
         // Inflate the layout for this fragment
 binding = DataBindingUtil.inflate(inflater,R.layout.fragment_brand_all_products,container,false)
-        val activity:MainActivity = requireActivity() as MainActivity
-        activity.binding.bottomNavigationView.visibility = View.GONE
+//        val activity:MainActivity = requireActivity() as MainActivity
+//        activity.binding.bottomNavigationView.visibility = View.GONE
 
         getParticularBrandProducts()
 

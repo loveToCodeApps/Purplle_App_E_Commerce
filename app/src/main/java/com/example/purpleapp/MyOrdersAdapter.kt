@@ -33,6 +33,7 @@ class MyOrdersAdapter(val data : List<MyOrdersData>):Adapter<MyOrdersViewHolder>
         holder.total_price.text = "₹"+item.total_price.toString()
         holder.status.text = item.status
 
+
         holder.viewOrder.setOnClickListener {
             it.findNavController().navigate(MyOrdersFragmentDirections.actionMyOrdersFragmentToViewOrderFragment(item.invoice_no,output,"₹"+item.total_price))
         }
@@ -53,7 +54,6 @@ class MyOrdersAdapter(val data : List<MyOrdersData>):Adapter<MyOrdersViewHolder>
 
 class MyOrdersViewHolder(itemView: View):ViewHolder(itemView)
 {
-
     val invoice_id: TextView = itemView.findViewById(R.id.textView113)
    val created_on: TextView =itemView.findViewById(R.id.textView114)
     val total_price: TextView =itemView.findViewById(R.id.textView116)

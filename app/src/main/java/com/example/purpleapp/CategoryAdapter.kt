@@ -27,17 +27,33 @@ class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>
     override fun onBindViewHolder(holder: MyCategoryViewHolder, position: Int) {
 
         val item = cate[position]
+
+
+        if (item.heading == null || item.heading == "null" || item.heading.length == 0)
+        {
+            holder.img_name.text = ""
+        }
+        else
+        {
+            holder.img_name.text = item.heading
+        }
+
+
         Picasso.get().load(item.image).into(holder.headImg)
         if (item.img_name=="0" || item.img_name=="null" || item.img_name=="")
         {
             holder.img_name.text = item.heading
             holder.background.setBackgroundColor(Color.parseColor("#ff4646"))
             holder.img_name.visibility=View.VISIBLE
+            holder.img_title.visibility=View.GONE
+
 
         }
         else
         {
             holder.img_name.visibility=View.GONE
+            holder.img_title.text=item.heading.toString()
+
         }
 
         holder.headImg.setOnClickListener {
@@ -56,6 +72,7 @@ class MyCategoryViewHolder(itemView: View) : ViewHolder(itemView)
 {
 val headImg:ImageView = itemView.findViewById(R.id.serviceCategoryImg)
 val img_name:TextView = itemView.findViewById(R.id.textView128)
+val img_title:TextView = itemView.findViewById(R.id.textView143)
 val background:ConstraintLayout = itemView.findViewById(R.id.ogLayout)
 
 

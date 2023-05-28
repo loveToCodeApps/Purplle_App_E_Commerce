@@ -77,7 +77,7 @@
                 android:gravity="center|start"
                 android:lineSpacingMultiplier="1.2"
                 android:padding="8dp"
-                android:text="The New Digital Age Platform to fashion your &quot;Real You&quot; in the most trendy way!!! - Affetta rigorously and passionately innovates the ways to offers a variety of beauty , grooming products of exceptional performance for our customers. We, at Affetta, amalgamate the latest E-Comm technology to facelitate one among the top online marketplace for our customers to offer global products  with an in-depth understanding of the Indian end users needs and offer a comprehensive beauty experience to our customers through products that are most apt for the colourful and diverse expectations of Indian user. Affetta takes pride in offering one of its kind one stop shop for all the users both (women/men) needs by way of offering the most suitable product as per user demads by blending the artificial intelligence technology to the Indian flavours and not compromising on the essence traditional customer values. We also take immense pride in being a compassionate E-com platform for beauty and hygeine brand which is why we do not believe in using the old ways offering but being continuously innovative to offer the best to our breed of customers. Our bond with beauty and fashion goes beyond skincare and  makeup to offer customised products as well hence it is manifested through the know your customer needs, which is now the saga for the Beauty and Hygeine Industry. "
+                android:text="hello"
                 android:textColor="#000000"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"

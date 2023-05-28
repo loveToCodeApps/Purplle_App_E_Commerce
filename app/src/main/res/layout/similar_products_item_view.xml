@@ -18,7 +18,8 @@
             android:id="@+id/constraintBrandsProd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:background="#FFFFFF">
 
             <ImageView
                 android:id="@+id/brandsprodimg"

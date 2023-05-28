@@ -32,6 +32,8 @@ class BrandFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_brand, container, false)
 
+
+
         val i1 = Internet()
         if (i1.checkConnection(requireContext()))
         {

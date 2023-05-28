@@ -27,13 +27,24 @@ class ViewOrderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-binding = DataBindingUtil.inflate(inflater,R.layout.fragment_view_order,container,false)
+
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_view_order,container,false)
+
+//        val activity:MainActivity = requireActivity() as MainActivity
+//        activity.binding.bottomNavigationView.visibility = View.GONE
 
 
         var args = ViewOrderFragmentArgs.fromBundle(requireArguments())
         binding.textView113.text = args.orderId
         binding.textView114.text = args.orderDate
         binding.textView37.text = args.orderTotal
+
+
+        binding.textView91.text = SharedPrefManager.getInstance(requireActivity().applicationContext).user.address.toString()
+        binding.textView124.text = SharedPrefManager.getInstance(requireActivity().applicationContext).user.firstName + " " +
+                SharedPrefManager.getInstance(requireActivity().applicationContext).user.middleName + " " + SharedPrefManager.getInstance(requireActivity().applicationContext).user.lastName
+        binding.textView126.text = SharedPrefManager.getInstance(requireActivity().applicationContext).user.phone.toString()
+
 
         getShipmentData()
 

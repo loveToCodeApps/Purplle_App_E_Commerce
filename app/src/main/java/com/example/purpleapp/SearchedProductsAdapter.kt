@@ -9,6 +9,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.squareup.picasso.Picasso
 
 class SearchedProductsAdapter(val data: MutableList<ViewAllProductsData>):Adapter<SearchedProductsViewHolder>()
@@ -40,7 +43,20 @@ class SearchedProductsAdapter(val data: MutableList<ViewAllProductsData>):Adapte
 
         }
 
-        Picasso.get().load(item.image1).into(holder.img)
+       // Picasso.get().load(item.image1).into(holder.img)
+
+
+        val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+        Glide.with(holder.img.context).load(item.image1).thumbnail(0.05f)
+            .apply(requestOptions).into(holder.img)
+
+        Glide.get(holder.img.context).clearMemory()
+
+        Thread(Runnable {
+            // This method must be called on a background thread.
+            Glide.get(holder.img.context).clearDiskCache()
+        }).start()
+
 
 
         holder.openProd.setOnClickListener {

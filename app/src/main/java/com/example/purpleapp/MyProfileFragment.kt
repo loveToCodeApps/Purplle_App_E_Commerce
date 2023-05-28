@@ -237,6 +237,22 @@ class MyProfileFragment : Fragment() {
                         //getting the user from the response
                         val userJson = obj.getJSONObject("user")
                         //Glide.with(requireActivity().applicationContext).load( userJson.getString("picture")).into(binding.imageView21)
+                   if (userJson.getString("picture") == null || userJson.getString("picture")=="" || userJson.getString("picture").length==0 || userJson.getString("picture") == "null" || userJson.getString("picture") == "NULL")
+                   {
+                       Glide.with(this)
+                           .load(userJson.getString("picture"))
+                           .diskCacheStrategy(DiskCacheStrategy.NONE)
+                           .skipMemoryCache(true)
+                           .into((binding.imageView21))
+
+
+                       Glide.with(this)
+                           .load(userJson.getString("picture"))
+                           .diskCacheStrategy(DiskCacheStrategy.NONE)
+                           .skipMemoryCache(true)
+                           .into((binding.imageView8))
+
+                   }
                         Glide.with(this)
                             .load(userJson.getString("picture"))
                             .diskCacheStrategy(DiskCacheStrategy.NONE)

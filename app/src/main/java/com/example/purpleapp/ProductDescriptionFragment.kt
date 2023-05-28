@@ -2,6 +2,7 @@ package com.example.purpleapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
@@ -15,6 +16,7 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
@@ -42,7 +44,8 @@ class ProductDescriptionFragment : Fragment() {
     lateinit var prod_newp: String
     var quantitiesCounter: Int = 1
     lateinit var categ: String
-
+ var color:Boolean = true
+    var size:Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,10 +61,15 @@ class ProductDescriptionFragment : Fragment() {
 
         var showMoreDescription = "false"
 
+        color = true
+        size = true
+
 
         //get item count of cart
 
         getProductDescriptionDetails()
+        getColors()
+        getSizes()
 
 //    getSimilarProducts()
 
@@ -137,7 +145,7 @@ class ProductDescriptionFragment : Fragment() {
         //textview to show more description of product , bydefault it only shows 3 lines of description
         binding.textView24.setOnClickListener {
             if (showMoreDescription.equals("false")) {
-                binding.textView38.maxLines = 25
+                binding.textView38.maxLines = 100
                 binding.textView24.text = "Show less >"
                 showMoreDescription = "true"
             } else if (showMoreDescription.equals("true")) {
@@ -153,7 +161,139 @@ class ProductDescriptionFragment : Fragment() {
 
     }
 
+    private fun getColors() {
+        var colorList = mutableListOf<colorData>()
+        var args = ProductDescriptionFragmentArgs.fromBundle(requireArguments())
+        var product_id = args.prodId
 
+
+        val stringRequest = object : StringRequest(
+            Request.Method.POST, URLs.URL_GET_COLORS,
+            Response.Listener { response ->
+
+                try {
+                    val obj = JSONObject(response)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        if (array.length()!=0) {
+                            for (i in 0..array.length() - 1) {
+                                val objectArtist = array.getJSONObject(i)
+                                val banners = colorData(
+                                    objectArtist.getString("pro_colour"),
+                                    objectArtist.getString("desc_id"),
+                                    objectArtist.getString("newpro_id")
+                                    )
+                                colorList.add(banners)
+                                val adapter = ColorAdapter(colorList,args.prodId,binding)
+                                binding.colorList.adapter = adapter
+                            }
+                        }
+                        else
+                        {
+                            //hide colorlist if list length is zero
+                            binding.colorList.visibility = View.GONE
+                            binding.textView145.visibility = View.GONE
+                            color = false
+                            if (color==false && size==false)
+                            {
+                                binding.cardView10.visibility = View.GONE
+                            }
+
+                        }
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+
+                }
+
+            },
+            Response.ErrorListener { error -> Toast.makeText(requireActivity().applicationContext, error.message, Toast.LENGTH_SHORT).show() }
+        ) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params["id"] = product_id
+                return params
+
+            }
+        }
+
+        VolleySingleton.getInstance(requireActivity().applicationContext).addToRequestQueue(stringRequest)
+
+    }
+
+    private fun getSizes() {
+
+        var sizesList = mutableListOf<sizeData>()
+
+        var args = ProductDescriptionFragmentArgs.fromBundle(requireArguments())
+        var product_id = args.prodId
+
+        val stringRequest = object : StringRequest(
+            Request.Method.POST, URLs.URL_GET_SIZES,
+            Response.Listener { response ->
+
+                try {
+                    val obj = JSONObject(response)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        var myfrag = ProductDescriptionFragment()
+
+                        if (array.length()!=0) {
+                            for (i in 0..array.length() - 1) {
+                                   val objectArtist = array.getJSONObject(i)
+                                   val banners = sizeData(
+                                       objectArtist.getString("size"),
+                                       objectArtist.getString("desc_id")
+                                   )
+                                   sizesList.add(banners)
+                                   val adapter = SizeAdapter(sizesList,binding,myfrag)
+                                   binding.sizeList.adapter = adapter
+                            }
+                        }
+                        else
+                        {
+                            //hide colorlist if list length is zero
+                            size = false
+                            binding.sizeList.visibility = View.GONE
+                            binding.textView146.visibility = View.GONE
+                            binding.textView147.visibility = View.GONE
+                            if (color==false && size==false)
+                            {
+                                binding.cardView10.visibility = View.GONE
+                            }
+                        }
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    size = false
+                    binding.sizeList.visibility = View.GONE
+                    binding.textView146.visibility = View.GONE
+                    binding.textView147.visibility = View.GONE
+                    if (color==false && size==false)
+                    {
+                        binding.cardView10.visibility = View.GONE
+                    }
+                }
+
+            },
+            Response.ErrorListener { error -> Toast.makeText(requireActivity().applicationContext, error.message, Toast.LENGTH_SHORT).show() }
+        ) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params["id"] = product_id
+                return params
+
+            }
+        }
+
+        VolleySingleton.getInstance(requireActivity().applicationContext).addToRequestQueue(stringRequest)
+
+    }
 
     private fun getSimilarProducts() {
         val brandsList = mutableListOf<BrandAllProductData>()
@@ -319,7 +459,31 @@ class ProductDescriptionFragment : Fragment() {
                         //getting the user from the response
                         val userJson = obj.getJSONObject("user")
 
-                        binding.textView9.text = userJson.getString("heading")
+
+                            // Heading of product
+                        if (userJson.getString("heading") == null || userJson.getString("heading") == "null" || (userJson.getString("heading")).length==0)
+                            {
+                                binding.textView9.text = "Product name not available"
+                            }
+                        else
+                        {
+                            binding.textView9.text = userJson.getString("heading")
+                        }
+
+
+
+                        // Product description
+                        if (userJson.getString("disc")==null || userJson.getString("disc").length==0 || userJson.getString("disc")=="null" || userJson.getString("disc") == "")
+                        {
+                            binding.cardView8.visibility = View.GONE
+                        }
+                        else
+                        {
+                            binding.textView38.text = userJson.getString("disc")
+                        }
+
+
+
                         if (userJson.getString("sale")==userJson.getString("mrp"))
                         {
                             binding.textView11.visibility = View.GONE
@@ -330,7 +494,6 @@ class ProductDescriptionFragment : Fragment() {
                         else {
                             binding.textView10.text = "₹" + userJson.getString("sale")
                             binding.textView11.text = "₹" + userJson.getString("mrp")
-                            binding.textView38.text = userJson.getString("disc")
                             binding.textView12.text =
                                 userJson.getString("discount")+ "%off"
                         }
@@ -352,61 +515,75 @@ class ProductDescriptionFragment : Fragment() {
                         var five: String = userJson.getString("pt_five")
                         var six: String = userJson.getString("pt_six")
 
+    if (one.length==0 && two.length==0 && three.length==0 && four.length==0 && five.length==0 && six.length==0)
+    {
+        binding.cardView3.visibility = View.GONE
+    }
+    else if(one.length==null && two.length==null && three.length==null && four.length==null && five.length==null && six.length==null)
+    {
+        binding.cardView3.visibility = View.GONE
+    }
+    else if(one=="null" && two=="null" && three=="null" && four=="null" && five=="null" && six=="null")
+    {
+        binding.cardView3.visibility = View.GONE
+    }
 
-                        if (one.length == 0 || one == null) {
-                            binding.textView15.text =
-                                "Sorry , Key features of this product are not available right now."
+    else {
+        if (one.length == 0 || one == null) {
+            binding.textView15.visibility = View.GONE
+        } else {
+            binding.textView15.text = "• " + userJson.getString("pt_one")
 
-                        } else {
-                            binding.textView15.text = "• " + userJson.getString("pt_one")
+        }
 
-                        }
-                        if (two.length == 0 || two == null) {
-                            binding.textView16.visibility = View.GONE
-                        } else {
-                            binding.textView16.text = "• " + userJson.getString("pt_two")
-                            binding.textView16.visibility = View.VISIBLE
-                        }
-                        if (three.length == 0 || three == null) {
-                            binding.textView17.visibility = View.GONE
-                        } else {
-                            binding.textView17.text = "• " + userJson.getString("pt_three")
-                            binding.textView17.visibility = View.VISIBLE
-                        }
-
-                        if (four.length == 0 || four == null) {
-                            binding.textView18.visibility = View.GONE
-
-                        } else {
-                            binding.textView18.text = "• " + userJson.getString("pt_four")
-                            binding.textView18.visibility = View.VISIBLE
-                        }
-
-                        if (five.length == 0 || five == null) {
-
-                            binding.textView19.visibility = View.GONE
+        if (two.length == 0 || two == null) {
+            binding.textView16.visibility = View.GONE
+        } else {
+            binding.textView16.text = "• " + userJson.getString("pt_two")
+            binding.textView16.visibility = View.VISIBLE
+        }
 
 
-                        } else {
-                            binding.textView19.text = "• " + userJson.getString("pt_five")
-                            binding.textView19.visibility = View.VISIBLE
-                        }
-
-                        if (six.length == 0 || six == null) {
-                            binding.textView21.visibility = View.GONE
-                        } else {
-                            binding.textView21.text = "• " + userJson.getString("pt_six")
-                            binding.textView21.visibility = View.VISIBLE
-                        }
+        if (three.length == 0 || three == null) {
+            binding.textView17.visibility = View.GONE
+        } else {
+            binding.textView17.text = "• " + userJson.getString("pt_three")
+            binding.textView17.visibility = View.VISIBLE
+        }
 
 
-//                        binding.textView15.text = "• "+userJson.getString("pt_one")
-//                        binding.textView16.text = "• "+userJson.getString("pt_two")
-//                        binding.textView17.text =  "• "+userJson.getString("pt_three")
-//                        binding.textView18.text =  "• "+userJson.getString("pt_four")
-//                        binding.textView19.text =  "• "+userJson.getString("pt_five")
-//                        binding.textView21.text =  "• "+userJson.getString("pt_six")
-//
+
+        if (four.length == 0 || four == null) {
+            binding.textView18.visibility = View.GONE
+
+        } else {
+            binding.textView18.text = "• " + userJson.getString("pt_four")
+            binding.textView18.visibility = View.VISIBLE
+        }
+
+
+
+        if (five.length == 0 || five == null) {
+
+            binding.textView19.visibility = View.GONE
+
+
+        } else {
+            binding.textView19.text = "• " + userJson.getString("pt_five")
+            binding.textView19.visibility = View.VISIBLE
+        }
+
+
+
+        if (six.length == 0 || six == null) {
+            binding.textView21.visibility = View.GONE
+        } else {
+            binding.textView21.text = "• " + userJson.getString("pt_six")
+            binding.textView21.visibility = View.VISIBLE
+        }
+
+    }
+
                         var img1: String = userJson.getString("imageName1")
                         var img2: String = userJson.getString("imageName2")
                         var img3: String = userJson.getString("imageName3")
@@ -416,7 +593,7 @@ class ProductDescriptionFragment : Fragment() {
                         var img7: String = userJson.getString("imageName7")
 
                         if (img1 != null && img1.length!=0) {
-                            slideModels.add(SlideModel(userJson.getString("image1")))
+                            slideModels.add(SlideModel(userJson.getString("image1"),ScaleTypes.FIT))
                         }
                         else {
                             slideModels.add(SlideModel("https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg"))
@@ -424,41 +601,41 @@ class ProductDescriptionFragment : Fragment() {
                         }
 
                         if (img2 != null && img2.length!=0) {
-                            slideModels.add(SlideModel(userJson.getString("image2")))
+                            slideModels.add(SlideModel(userJson.getString("image2"),ScaleTypes.FIT))
                         }
 //                        else {
 //                            slideModels.add(SlideModel(R.drawable.not_available_picture))
 //
 //                        }
                         if (img3 != null && img3.length!=0) {
-                            slideModels.add(SlideModel(userJson.getString("image3")))
+                            slideModels.add(SlideModel(userJson.getString("image3"),ScaleTypes.FIT))
                         }
 //                        else {
 //                            slideModels.add(SlideModel(R.drawable.not_available_picture))
 //
 //                        }
                         if (img4 != null && img4.length!=0) {
-                            slideModels.add(SlideModel(userJson.getString("image4")))
+                            slideModels.add(SlideModel(userJson.getString("image4"),ScaleTypes.FIT))
                         }
 //                        else {
 //                            slideModels.add(SlideModel(R.drawable.not_available_picture))
-//
+
 //                        }
                         if (img5 != null && img5.length!=0) {
-                            slideModels.add(SlideModel(userJson.getString("image5")))
+                            slideModels.add(SlideModel(userJson.getString("image5"),ScaleTypes.FIT))
                         }
 //                        else {
 //                            slideModels.add(SlideModel(R.drawable.not_available_picture))
 //
 //                        }
                         if (img6 != null && img6.length!=0) {
-                            slideModels.add(SlideModel(userJson.getString("image6")))
+                            slideModels.add(SlideModel(userJson.getString("image6"),ScaleTypes.FIT))
                         }
 //                        else {
 //                            slideModels.add(SlideModel(R.drawable.not_available_picture))
 //
                         if (img7 != null && img7.length!=0) {
-                            slideModels.add(SlideModel(userJson.getString("image7")))
+                            slideModels.add(SlideModel(userJson.getString("image7"),ScaleTypes.FIT))
                         }
 
 //                        }
@@ -630,15 +807,43 @@ class ProductDescriptionFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when (item.itemId) {
-//            R.id.shareProduct -> startActivity(getShareIntent())
+        when (item.itemId) {
+            R.id.myCartFragment ->
+            {
+                if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
+                    return NavigationUI.onNavDestinationSelected(
+                        item!!,
+                        requireView().findNavController()
+                    ) || super.onOptionsItemSelected(item)
+                }
+                else
+                {
+                    Toast.makeText(requireContext(),"you will first need to login !!",Toast.LENGTH_SHORT).show()
+                    return true
+                }
+            }
+            else->
+            {
+                return NavigationUI.onNavDestinationSelected(
+                    item!!,
+                    requireView().findNavController()
+                ) || super.onOptionsItemSelected(item)
+            }
+        }
+
+//        if (SharedPrefManager.getInstance(requireActivity().applicationContext).isLoggedIn) {
+//            return NavigationUI.onNavDestinationSelected(
+//                item!!,
+//                requireView().findNavController()
+//            ) || super.onOptionsItemSelected(item)
+//        }
+//        else
+//        {
+//            Toast.makeText(requireContext(),"you will first need to login !!",Toast.LENGTH_SHORT).show()
+//            return true
 //        }
 
-        return NavigationUI.onNavDestinationSelected(
-            item!!,
-            requireView().findNavController()
-        ) || super.onOptionsItemSelected(item)
-    }
+        }
 
     // Creating our Share Intent
     private fun getShareIntent(): Intent {

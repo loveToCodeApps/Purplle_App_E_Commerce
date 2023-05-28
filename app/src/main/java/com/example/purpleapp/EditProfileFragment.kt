@@ -39,8 +39,8 @@ class EditProfileFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_edit_profile, container, false)
 
-        val activity: MainActivity = requireActivity() as MainActivity
-        activity.binding.bottomNavigationView.visibility = View.GONE
+//        val activity: MainActivity = requireActivity() as MainActivity
+//        activity.binding.bottomNavigationView.visibility = View.GONE
 
         binding.userFirstName.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.firstName.toString())
         binding.userLastName.setText(SharedPrefManager.getInstance(requireActivity().applicationContext).user.lastName.toString())

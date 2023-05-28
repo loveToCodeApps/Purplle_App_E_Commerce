@@ -28,8 +28,21 @@ class PaymentActivity : AppCompatActivity(), PaymentResultListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_payment)
+
+        binding.textView91.text = SharedPrefManager.getInstance(applicationContext).user.address.toString()
+        binding.textView124.text = SharedPrefManager.getInstance(applicationContext).user.firstName + " " +
+                SharedPrefManager.getInstance(applicationContext).user.middleName + " " + SharedPrefManager.getInstance(applicationContext).user.lastName
+        binding.textView126.text = SharedPrefManager.getInstance(applicationContext).user.phone.toString()
+
+
         getMyCurrentOrder()
         startPayment()
+
+
+        binding.button19.setOnClickListener {
+            finish()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
     }
 
     private fun getMyCurrentOrder() {

@@ -34,8 +34,11 @@ class DealsAdapter(val data: MutableList<DealsData>):
         {
          //   Picasso.get().load(R.drawable.not_available_picture).into(holder.img)
             val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
-            Glide.with(holder.img.context).load(R.drawable.not_available_picture)
-                .thumbnail(Glide.with(holder.img.context).load("https://www.pngfind.com/pngs/m/360-3604777_waiting-png-transparent-background-waiting-icon-transparent-png.png"))
+//            Glide.with(holder.img.context).load(R.drawable.not_available_picture)
+//                .thumbnail(Glide.with(holder.img.context).load("https://www.pngfind.com/pngs/m/360-3604777_waiting-png-transparent-background-waiting-icon-transparent-png.png"))
+//                .apply(requestOptions).into(holder.img)
+
+            Glide.with(holder.img.context).load(R.drawable.not_available_picture).thumbnail(0.05f)
                 .apply(requestOptions).into(holder.img)
 
             Glide.get(holder.img.context).clearMemory()
@@ -48,10 +51,8 @@ class DealsAdapter(val data: MutableList<DealsData>):
         else {
          //   Picasso.get().load(item.image).into(holder.img)
             val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
-            Glide.with(holder.img.context).load(item.image)
-                .thumbnail(Glide.with(holder.img.context).load("https://www.pngfind.com/pngs/m/360-3604777_waiting-png-transparent-background-waiting-icon-transparent-png.png"))
+            Glide.with(holder.img.context).load(item.image).thumbnail(0.05f)
                 .apply(requestOptions).into(holder.img)
-
             Glide.get(holder.img.context).clearMemory()
 
             Thread(Runnable {

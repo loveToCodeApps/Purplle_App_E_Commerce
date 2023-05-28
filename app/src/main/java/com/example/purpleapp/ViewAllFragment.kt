@@ -29,8 +29,8 @@ var listType=" "
 
     binding = DataBindingUtil.inflate(inflater,R.layout.fragment_view_all,container,false)
 
-        val activity:MainActivity = requireActivity() as MainActivity
-        activity.binding.bottomNavigationView.visibility = View.GONE
+//        val activity:MainActivity = requireActivity() as MainActivity
+//        activity.binding.bottomNavigationView.visibility = View.GONE
 
        var args = ViewAllFragmentArgs.fromBundle(requireArguments())
             listType = args.typeOfList.toString()
