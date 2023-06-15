@@ -1,4 +1,4 @@
-package com.example.purpleapp.api
+package com.example.purpleapp
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -10,8 +10,6 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.purpleapp.MainActivity
-import com.example.purpleapp.R
 
 
 class MemoBroadcast():BroadcastReceiver() {
@@ -19,7 +17,7 @@ class MemoBroadcast():BroadcastReceiver() {
         val repeating_Intent = Intent(context, MainActivity::class.java)
         repeating_Intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-         var pendingIntent:PendingIntent = PendingIntent.getActivity(context, 0, repeating_Intent, PendingIntent.FLAG_IMMUTABLE)
+        var pendingIntent:PendingIntent = PendingIntent.getActivity(context, 0, repeating_Intent, PendingIntent.FLAG_IMMUTABLE)
         val builder: NotificationCompat.Builder =
             NotificationCompat.Builder(context, "Notification")
                 .setContentIntent(pendingIntent)
@@ -45,11 +43,3 @@ class MemoBroadcast():BroadcastReceiver() {
     }
 
 }
-
-
-
-
-
-
-
-

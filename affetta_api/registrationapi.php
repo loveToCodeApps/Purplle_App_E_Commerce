@@ -1159,10 +1159,7 @@ $stmt->execute();
 //$stmt->store_result(); 
 $new = $stmt->get_result(); 
     //$result = $new->fetch_assoc();   
-
 if($stmt->execute()){ 
-
-   
     //$stmt->bind_result($pro_colour,$desc_id,$product_id,$product_link);
     $banner_data = array();
 

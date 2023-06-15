@@ -86,7 +86,7 @@ xmlns:tools="http://schemas.android.com/tools">
     <!--        </service>-->
 
     <receiver
-        android:name=".api.MemoBroadcast"
+        android:name=".MemoBroadcast"
         android:enabled="true"
         android:exported="true">
         <intent-filter>
