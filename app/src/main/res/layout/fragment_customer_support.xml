@@ -36,6 +36,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:hint="Customer's Name"
+            android:textColorHint="#FFA0A0A0"
             app:boxCornerRadiusBottomEnd="30dp"
             app:boxCornerRadiusBottomStart="30dp"
             app:boxCornerRadiusTopEnd="30dp"
@@ -54,7 +55,8 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_baseline_person_24"
                 android:drawablePadding="15dp"
-                android:drawableTint="#817E7E" />
+                android:drawableTint="#817E7E"
+                android:textColorHint="#FFA0A0A0" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,6 +69,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Customer's Email Id"
+            android:textColorHint="#FFA0A0A0"
             app:boxCornerRadiusBottomEnd="30dp"
             app:boxCornerRadiusBottomStart="30dp"
             app:boxCornerRadiusTopEnd="30dp"
@@ -85,7 +88,8 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_baseline_alternate_email_24"
                 android:drawablePadding="15dp"
-                android:drawableTint="#817E7E" />
+                android:drawableTint="#817E7E"
+                android:textColorHint="#FFA0A0A0" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,6 +102,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Customer's Phone Number"
+            android:textColorHint="#FFA0A0A0"
             app:boxCornerRadiusBottomEnd="30dp"
             app:boxCornerRadiusBottomStart="30dp"
             app:boxCornerRadiusTopEnd="30dp"
@@ -118,7 +123,8 @@
                 android:drawablePadding="15dp"
                 android:drawableTint="#817E7E"
                 android:inputType="number"
-                android:maxLength="10" />
+                android:maxLength="10"
+                android:textColorHint="#FFA0A0A0" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,6 +137,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Customer's Message"
+            android:textColorHint="#FFA0A0A0"
             app:boxCornerRadiusBottomEnd="30dp"
             app:boxCornerRadiusBottomStart="30dp"
             app:boxCornerRadiusTopEnd="30dp"
@@ -151,7 +158,8 @@
                 android:drawablePadding="15dp"
                 android:drawableTint="#817E7E"
                 android:inputType="textMultiLine"
-                android:textAlignment="viewStart" />
+                android:textAlignment="viewStart"
+                android:textColorHint="#FFA0A0A0" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

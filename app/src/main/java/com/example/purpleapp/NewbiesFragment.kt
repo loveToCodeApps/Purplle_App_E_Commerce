@@ -62,6 +62,9 @@ return binding.root
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
+                        binding.totalprod.text = "total " + array.length().toString() +" results"
+
+
                         for (i in 0 .. array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ViewAllProductsData(

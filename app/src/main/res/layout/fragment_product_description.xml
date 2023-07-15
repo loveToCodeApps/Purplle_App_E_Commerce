@@ -14,7 +14,13 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@id/buttonsLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -1434,7 +1440,8 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="#FFFFFF">
 
                         <androidx.constraintlayout.widget.Barrier
                             android:id="@+id/barrier"
@@ -1526,6 +1533,7 @@
         </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/buttonsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/white_rounder_background"
@@ -1576,29 +1584,39 @@
                 android:text="+"
                 android:textSize="20sp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/wishlistBtn"
-                app:layout_constraintEnd_toStartOf="@+id/textView23"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <Button
-                android:id="@+id/wishlistBtn"
+                android:id="@+id/buy_now"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_margin="5dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                android:drawableLeft="@drawable/ic_baseline_favorite_border_24"
-                android:text="Wishlist"
+                android:text="Buy Now"
                 android:textColor="#FF4081"
                 app:backgroundTint="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/addToCartBtn"
+                app:layout_constraintEnd_toStartOf="@+id/wishlistBtn"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/wishlistBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/round_button"
+                android:src="@drawable/ic_baseline_favorite_border_24"
+                app:layout_constraintBottom_toBottomOf="@+id/buy_now"
+                app:layout_constraintEnd_toStartOf="@+id/addToCartBtn"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/buy_now"
+                app:layout_constraintTop_toTopOf="@+id/buy_now" />
 
             <Button
                 android:id="@+id/addToCartBtn"
@@ -1609,11 +1627,11 @@
                 android:text="Add to cart"
                 android:textColor="#FFFFFF"
                 app:backgroundTint="#FF4081"
-                app:layout_constraintBottom_toBottomOf="@+id/wishlistBtn"
+                app:layout_constraintBottom_toBottomOf="@+id/buy_now"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/wishlistBtn"
-                app:layout_constraintTop_toTopOf="@+id/wishlistBtn" />
+                app:layout_constraintTop_toTopOf="@+id/buy_now" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

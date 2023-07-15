@@ -25,8 +25,9 @@ import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
 
-class ServiceCategoryAdapter(val data : List<ServiceCategoryData> , val data2 : List<ServiceSubCategoryData>):Adapter<ServiceCategoryViewHolder>()
+class ServiceCategoryAdapter(val data : List<ServiceCategoryData>,var fragment:String,var primary_categ:String):Adapter<ServiceCategoryViewHolder>()
 {
+    var context:String = ""
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServiceCategoryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.service_category_item_view,parent,false)
@@ -65,52 +66,16 @@ class ServiceCategoryAdapter(val data : List<ServiceCategoryData> , val data2 : 
             holder.title.visibility = View.GONE
             holder.newHeading.text = item.serviceCategoryHeading
         }
-       // holder.title.text = item.serviceCategoryHeading + " ⬇"
 
-       // val Expandable:Boolean = item.isExpandable
-   //     holder.expandableLayout.visibility = if (Expandable) View.VISIBLE else View.GONE
-//holder.nestedRecyclerView.
         holder.ogLayout.setOnClickListener {
-it.findNavController().navigate(CategoryFragmentDirections.actionCategoryFragmentToCategoryAllProductsFragment(item.serviceCategoryHeading))
+
+            when(fragment)
+            {
+                "AfterCategoryFragment"->it.findNavController().navigate(AfterCategoriesFragmentDirections.actionAfterCategoriesFragmentToSubCategoryFragment(item.serviceCategoryHeading,item.cat_id,primary_categ))
+                "categoryFragment"->it.findNavController().navigate(CategoryFragmentDirections.actionCategoryFragmentToAfterCategoriesFragment(item.serviceCategoryHeading))
+            }
+
         }
-
-
-
-
-
-//        holder.img.setOnClickListener {
-//
-//            item.isExpandable = !item.isExpandable
-//            notifyItemChanged(position)
-
-
-//            if (Expandable==false)
-//            {
-//                Expandable=true
-//                notifyItemChanged(position)
-//            }
-//            else
-//            {
-//                Expandable=false
-//                notifyItemChanged(position)
-//            }
-     //   }
-
-
-
-
-
-
-
-        //Must do part
-//        if (isExpandable)
-//        {
-//            show up arrow button
-//        }
-//        else
-//        {
-//            else show a down arrow button
-//        }
 
     }
 

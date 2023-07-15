@@ -37,6 +37,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
+        binding.imageView6.setOnClickListener {
+            finish()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
 
 
 

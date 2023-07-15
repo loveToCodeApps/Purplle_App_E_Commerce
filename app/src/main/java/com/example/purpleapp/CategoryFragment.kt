@@ -29,6 +29,8 @@ class CategoryFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category, container, false)
 
+
+
         val i1 = Internet()
 if (i1.checkConnection(requireContext()))
 {
@@ -44,18 +46,6 @@ else
     Snackbar.make(requireActivity().findViewById(android.R.id.content),
         "Poor internet connection!!", Snackbar.LENGTH_LONG).show();
 }
-
-      //  getServiceSubCategoryList()
-
-//        val serviceCategoryList = mutableListOf<ServiceCategoryData>()
-//        serviceCategoryList.add(ServiceCategoryData(R.drawable.girl_one,"MakeUp V"))
-//        serviceCategoryList.add(ServiceCategoryData(R.drawable.girl_three,"SkinCare V"))
-//        serviceCategoryList.add(ServiceCategoryData(R.drawable.girl_two,"HairCare V"))
-//        serviceCategoryList.add(ServiceCategoryData(R.drawable.girl_five,"Men V"))
-//        serviceCategoryList.add(ServiceCategoryData(R.drawable.girl_four,"Fragrance V"))
-
-
-//        binding.serviceCategoryList.adapter = ServiceCategoryAdapter(serviceCategoryList)
 
         return binding.root
 
@@ -124,15 +114,14 @@ else
                             val banners = ServiceCategoryData(
                                 objectArtist.getString("url"),
                                 objectArtist.getString("heading"),
-                                objectArtist.getString("img_name")
-
-
+                                objectArtist.getString("img_name"),
+                                objectArtist.getString("id")
 
                                 // here i have given default value of false to the expandable layout
                             )
 
                             serviceCategoryList.add(banners)
-                            val adapter = ServiceCategoryAdapter(serviceCategoryList,serviceSubCategoryList)
+                            val adapter = ServiceCategoryAdapter(serviceCategoryList,"categoryFragment","")
                             binding.serviceCategoryList.adapter = adapter
                         }
                     } else {

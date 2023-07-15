@@ -54,6 +54,8 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_brand_all_products,
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
+                        binding.totalprod.text = "total " + array.length().toString() +" results"
+
 
                         if (array.length()>0)
                         {

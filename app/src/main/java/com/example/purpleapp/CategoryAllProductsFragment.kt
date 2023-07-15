@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.android.volley.AuthFailureError
@@ -24,7 +25,7 @@ import org.json.JSONObject
 import java.util.HashMap
 
 class CategoryAllProductsFragment : Fragment() {
-    lateinit var binding:FragmentCategoryAllProductsBinding
+    lateinit var binding: FragmentCategoryAllProductsBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,23 +37,33 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_all_produc
 
 
         val args = CategoryAllProductsFragmentArgs.fromBundle(requireArguments())
-        val category = args.categName
-        binding.textView137CategName.text= category
+
+        if (args.child!="")
+        {
+            binding.textView137CategName.text= args.child
+            //set Action Bar Title
+            (activity as AppCompatActivity).supportActionBar?.title =  args.child
+            getParticularChildCategoryProducts()
+        }
+        else
+        {
+            binding.textView137CategName.text= args.sub
+            //set Action Bar Title
+            (activity as AppCompatActivity).supportActionBar?.title =  args.sub
+            getParticularSubCategoryProducts()
+        }
 
 
-
-        getParticularCategoryProducts()
 
 
     return  binding.root
 
     }
 
-    private fun getParticularCategoryProducts() {
+    private fun getParticularSubCategoryProducts() {
         val categorList = mutableListOf<CategoryAllProductsData>()
 
         val args = CategoryAllProductsFragmentArgs.fromBundle(requireArguments())
-       val category = args.categName
 
         val stringRequest = object : StringRequest(
             Request.Method.POST, URLs.URL_GET_PARTICULAR_CATEGORY_PRODUCTS,
@@ -62,6 +73,8 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_all_produc
                     val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
+
+                        binding.totalprod.text = "total " + array.length().toString() +" results"
 
 //
                         if (array.length()>0) {
@@ -107,7 +120,88 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category_all_produc
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["category"] = category
+                params["primary_category"] = args.primary
+                params["category"] = args.categ
+                params["sub_category"] = args.sub
+
+
+                return params
+
+            }
+        }
+
+        VolleySingleton.getInstance(requireActivity().applicationContext).addToRequestQueue(stringRequest)
+
+
+
+    }
+
+    private fun getParticularChildCategoryProducts() {
+        val categorList = mutableListOf<CategoryAllProductsData>()
+        var category = ""
+
+        val args = CategoryAllProductsFragmentArgs.fromBundle(requireArguments())
+
+        val stringRequest = object : StringRequest(
+            Request.Method.POST, URLs.URL_GET_PARTICULAR_CHILD_CATEGORY_PRODUCTS,
+            Response.Listener { response ->
+
+                try {
+                    val obj = JSONObject(response)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        binding.totalprod.text = "total " + array.length().toString() +" results"
+
+//
+                        if (array.length()>0) {
+                            binding.textView133.visibility = View.VISIBLE
+                            binding.textView137CategName.visibility = View.VISIBLE
+                            binding.categoryAllProductsList.visibility = View.VISIBLE
+                            binding.animationViewNotAvailable.visibility = View.GONE
+                            binding.textView42.visibility = View.GONE
+                            //   for (i in (array.length()-1) until  1) {
+                            for (i in 0..array.length() - 1) {
+                                val objectArtist = array.getJSONObject(i)
+                                val banners = CategoryAllProductsData(
+                                    objectArtist.optString("heading"),
+                                    objectArtist.optString("sale"),
+                                    objectArtist.optString("mrp"),
+                                    objectArtist.optString("image"),
+                                    objectArtist.optString("id"),
+                                    objectArtist.optString("disc")
+                                )
+                                categorList.add(banners)
+                                val adapter = CategoryAllProductsAdapter(categorList)
+                                binding.categoryAllProductsList.adapter = adapter
+                            }
+                        }
+                    } else {
+                        Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
+
+
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    binding.textView133.visibility = View.GONE
+                    binding.textView137CategName.visibility = View.GONE
+                    binding.categoryAllProductsList.visibility = View.GONE
+                    binding.animationViewNotAvailable.visibility = View.VISIBLE
+                    binding.textView42.visibility = View.VISIBLE
+                }
+
+            },
+            Response.ErrorListener { error -> Toast.makeText(requireActivity().applicationContext, error.message, Toast.LENGTH_SHORT).show() }
+        ) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params = HashMap<String, String>()
+                params["primary_category"] = args.primary
+                params["category"] = args.categ
+                params["sub_category"] = args.sub
+                params["child_category"] = args.child
+
                 return params
 
             }

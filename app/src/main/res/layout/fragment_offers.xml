@@ -59,12 +59,24 @@
             android:id="@+id/typeOfList"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView137"
             app:spanCount="2" />
+
+
+        <TextView
+            android:id="@+id/totalprod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gilroy_medium"
+            android:text="total 0 results"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="@+id/textView133"
+            app:layout_constraintTop_toBottomOf="@+id/textView133" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

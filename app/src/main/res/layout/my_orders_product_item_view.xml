@@ -35,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Order ID"
+                    android:textColor="#757575"
                     app:layout_constraintEnd_toStartOf="@+id/textView112"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Order Date"
+                    android:textColor="#757575"
                     app:layout_constraintEnd_toStartOf="@+id/button10"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/textView111"
@@ -62,7 +64,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/textView114"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView112"
-                    app:strokeColor="#F78195" />
+                    app:strokeColor="#757575" />
 
                 <TextView
                     android:id="@+id/textView113"
@@ -97,6 +99,7 @@
             android:layout_marginTop="13dp"
             android:layout_marginBottom="13dp"
             android:text="Total Price : "
+            android:textColor="#757575"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -109,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="₹0.00"
+            android:textColor="#757575"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView115"
@@ -127,6 +131,7 @@
             android:paddingRight="10dp"
             android:paddingBottom="3dp"
             android:text="Preparing"
+            android:textColor="#757575"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

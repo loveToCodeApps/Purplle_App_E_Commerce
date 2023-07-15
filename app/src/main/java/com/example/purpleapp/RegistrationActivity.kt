@@ -32,6 +32,11 @@ class RegistrationActivity : AppCompatActivity() {
             startActivity(Intent(this,LoginActivity::class.java))
         }
 
+        binding.imageView15.setOnClickListener {
+            finish()
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+
 
         //if the user is already logged in we will directly start the MainActivity (profile) activity
         if (SharedPrefManager.getInstance(this).isLoggedIn) {

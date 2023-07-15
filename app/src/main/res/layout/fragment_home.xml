@@ -73,6 +73,7 @@
             android:id="@+id/scrollView2"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -90,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="4dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -121,8 +122,8 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="4dp"
                     app:iss_auto_cycle="true"
-                    app:iss_delay="0"
-                    app:iss_period="1400"
+                    app:iss_delay="1000"
+                    app:iss_period="2000"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -134,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="FEATURED"
+                    android:text="SPECIAL PRODUCTS"
                     android:textColor="#E10450"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -147,8 +148,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="COMBO OFFERS"
+                    android:textColor="#E10450"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/stockClearanceList" />
+
+                <TextView
+                    android:id="@+id/textView148"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="STOCK CLEARANCE"
                     android:textColor="#E10450"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -160,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="CATEGORIES"
                     android:textColor="#E10450"
                     android:textSize="16sp"
@@ -181,6 +195,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dicountbanner_list" />
 
+                <TextView
+                    android:id="@+id/textView151"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="POPULAR PRODUCTS"
+                    android:textColor="#E10450"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/newArrivalsList" />
+
                 <com.denzcoskun.imageslider.ImageSlider
                     android:id="@+id/dicountbanner_list"
                     android:layout_width="0dp"
@@ -189,11 +216,11 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="4dp"
                     app:iss_auto_cycle="true"
-                    app:iss_delay="0"
-                    app:iss_period="1400"
+                    app:iss_delay="1000"
+                    app:iss_period="2000"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/offerProductList" />
+                    app:layout_constraintTop_toBottomOf="@+id/liveProductList" />
 
 
                 <TextView
@@ -201,13 +228,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="HOT DEALS"
                     android:textColor="#E10450"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/newArrivalsList" />
+                    app:layout_constraintTop_toBottomOf="@+id/offerProductList" />
 
                 <TextView
                     android:id="@+id/textView99"
@@ -219,6 +246,7 @@
                     android:textColor="#E10450"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/random_list" />
 
@@ -258,15 +286,24 @@
                     app:layout_constraintTop_toBottomOf="@+id/dicountbanner_list" />
 
                 <TextView
-                    android:id="@+id/textView135"
+                    android:id="@+id/textView152"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:text="VIEW ALL"
                     android:textColor="#FF4081"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/newArrivalsList" />
+                    app:layout_constraintTop_toTopOf="@+id/textView151" />
+
+                <TextView
+                    android:id="@+id/textView135"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="VIEW ALL"
+                    android:textColor="#FF4081"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView87" />
 
                 <TextView
                     android:id="@+id/textView138"
@@ -276,6 +313,7 @@
                     android:layout_marginEnd="16dp"
                     android:text="VIEW ALL"
                     android:textColor="#FF4081"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/random_list" />
 
@@ -283,12 +321,31 @@
                     android:id="@+id/textView136"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:text="VIEW ALL"
                     android:textColor="#FF4081"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/categoryList" />
+                    app:layout_constraintTop_toTopOf="@+id/textView95" />
+
+                <TextView
+                    android:id="@+id/textView149"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="VIEW ALL"
+                    android:textColor="#FF4081"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView148" />
+
+                <TextView
+                    android:id="@+id/textView150"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="VIEW ALL"
+                    android:textColor="#FF4081"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView103" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/liveProductList"
@@ -322,14 +379,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"
                     app:iss_auto_cycle="true"
-                    app:iss_delay="0"
-                    app:iss_period="1400"
+                    app:iss_delay="1000"
+                    app:iss_period="2000"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/liveProductList" />
+                    app:layout_constraintTop_toBottomOf="@+id/popularList" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -340,6 +399,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="4dp"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -352,6 +412,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -383,6 +444,34 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView98" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stockClearanceList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView148" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/popularList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView151"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

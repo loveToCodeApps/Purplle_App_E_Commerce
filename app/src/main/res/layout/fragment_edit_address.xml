@@ -24,6 +24,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Enter your address"
+            android:textColorHint="#FFA0A0A0"
             app:boxCornerRadiusBottomEnd="30dp"
             app:boxCornerRadiusBottomStart="30dp"
             app:boxCornerRadiusTopEnd="30dp"
@@ -34,13 +35,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:startIconDrawable="@drawable/ic_baseline_home_24">
+            app:startIconDrawable="@drawable/ic_baseline_home_24"
+            app:startIconTint="#FFA0A0A0">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/user_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="20dp" />
+                android:padding="20dp"
+                android:textColorHint="#FFA0A0A0" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,6 +56,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Enter Shipping state"
+            android:textColorHint="#FFA0A0A0"
             app:boxCornerRadiusBottomEnd="30dp"
             app:boxCornerRadiusBottomStart="30dp"
             app:boxCornerRadiusTopEnd="30dp"
@@ -63,12 +67,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl1"
-            app:startIconDrawable="@drawable/ic_baseline_place_24">
+            app:startIconDrawable="@drawable/ic_baseline_place_24"
+            app:startIconTint="#FFA0A0A0">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/user_shipping_state"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColorHint="#FFA0A0A0" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,6 +87,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Enter shipping city"
+            android:textColorHint="#FFA0A0A0"
             app:boxCornerRadiusBottomEnd="30dp"
             app:boxCornerRadiusBottomStart="30dp"
             app:boxCornerRadiusTopEnd="30dp"
@@ -91,12 +98,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl2"
-            app:startIconDrawable="@drawable/ic_baseline_place_24">
+            app:startIconDrawable="@drawable/ic_baseline_place_24"
+            app:startIconTint="#FFA0A0A0">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/user_shipping_city"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColorHint="#FFA0A0A0" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,6 +118,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Enter shipping zipcode"
+            android:textColorHint="#FFA0A0A0"
             app:boxCornerRadiusBottomEnd="30dp"
             app:boxCornerRadiusBottomStart="30dp"
             app:boxCornerRadiusTopEnd="30dp"
@@ -119,14 +129,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl3"
-            app:startIconDrawable="@drawable/ic_baseline_place_24">
+            app:startIconDrawable="@drawable/ic_baseline_place_24"
+            app:startIconTint="#FFA0A0A0">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/user_shipping_zipcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:maxLength="6" />
+                android:maxLength="6"
+                android:textColorHint="#FFA0A0A0" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.squareup.picasso.Picasso
+import java.sql.Types.NULL
 
 class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>() {
 
@@ -29,6 +30,7 @@ class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>
         val item = cate[position]
 
 
+
         if (item.heading == null || item.heading == "null" || item.heading.length == 0)
         {
             holder.img_name.text = ""
@@ -36,28 +38,29 @@ class CategoryAdapter(var cate:List<CategoryData>):Adapter<MyCategoryViewHolder>
         else
         {
             holder.img_name.text = item.heading
+            holder.img_title.text = item.heading
         }
 
-
-        Picasso.get().load(item.image).into(holder.headImg)
-        if (item.img_name=="0" || item.img_name=="null" || item.img_name=="")
+        if (item.img_name=="0" || item.img_name=="null" || item.img_name=="" || item.img_name== "NULL" || item.img_name.equals(NULL))
         {
-            holder.img_name.text = item.heading
-            holder.background.setBackgroundColor(Color.parseColor("#ff4646"))
-            holder.img_name.visibility=View.VISIBLE
-            holder.img_title.visibility=View.GONE
+           // holder.img_name.text = item.heading
+          //  holder.background.setBackgroundColor(Color.parseColor("#ff4646"))
+//            holder.img_name.visibility=View.VISIBLE
+//            holder.img_title.visibility=View.INVISIBLE
+//            holder.headImg.visibility = View.INVISIBLE
+            Picasso.get().load(R.drawable.shoppingcart).into(holder.headImg)
 
 
         }
         else
         {
-            holder.img_name.visibility=View.GONE
-            holder.img_title.text=item.heading.toString()
-
+            Picasso.get().load(item.image).into(holder.headImg)
+//            holder.img_name.visibility=View.GONE
+//            holder.img_title.text=item.heading.toString()
         }
 
         holder.headImg.setOnClickListener {
-            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCategoryHomeAllProductsFragment(item.heading))
+            it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAfterCategoriesFragment(item.heading))
 
         }
 

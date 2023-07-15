@@ -60,6 +60,9 @@ binding = DataBindingUtil.inflate(inflater,R.layout.fragment_offers,container,fa
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
+                        binding.totalprod.text = "total " + array.length().toString() +" results"
+
+                        
                         for (i in 0 .. array.length()-1) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ViewAllProductsData(

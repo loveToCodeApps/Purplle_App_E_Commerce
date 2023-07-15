@@ -32,11 +32,11 @@ class MyCartFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_cart, container, false)
 
-//        val activity:MainActivity = requireActivity() as MainActivity
-//        activity.binding.bottomNavigationView.visibility = View.GONE
+        val activity:MainActivity = requireActivity() as MainActivity
+        activity.binding.bottomNavigationView.visibility = View.GONE
 
         binding.button11.setOnClickListener {
-            it.findNavController().navigate(MyCartFragmentDirections.actionMyCartFragmentToShipToAddressFragment(count.toString(),total))
+            it.findNavController().navigate(MyCartFragmentDirections.actionMyCartFragmentToShipToAddressFragment(count.toString(),total,"shortbuy","0"))
         }
 val i1 = Internet()
 if (i1.checkConnection(requireContext()))

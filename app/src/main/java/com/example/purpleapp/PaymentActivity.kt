@@ -35,8 +35,16 @@ class PaymentActivity : AppCompatActivity(), PaymentResultListener {
         binding.textView126.text = SharedPrefManager.getInstance(applicationContext).user.phone.toString()
 
 
-        getMyCurrentOrder()
-        startPayment()
+        val intent = intent
+        val payStat = intent.getStringExtra("payStatus")
+        if (payStat=="Cash On Delivery (COD)")
+        {        getMyCurrentOrder()
+                 getShipmentData()
+        }
+        else if (payStat=="Online/Cards") {
+            getMyCurrentOrder()
+            startPayment()
+        }
 
 
         binding.button19.setOnClickListener {
@@ -64,6 +72,7 @@ class PaymentActivity : AppCompatActivity(), PaymentResultListener {
                         val parser = SimpleDateFormat("yyyy-MM-ddHH:mm:ss")
                         val formatter = SimpleDateFormat("dd.MM.yyyy")
                         binding.textView114.text = formatter.format(parser.parse(date))
+
 
                     } else {
                         Toast.makeText(
@@ -112,7 +121,13 @@ class PaymentActivity : AppCompatActivity(), PaymentResultListener {
         * */
         val activity: Activity = this
         val co = Checkout()
+
+//        Original online api key
         val etApiKey = "rzp_test_LQWOeFsCp7jmQ6"
+
+//        Original online api key
+//        val etApiKey = "rzp_test_LQWOeFsCp7jmQ6"
+
         co.setKeyID(etApiKey)
 
         try {
@@ -200,7 +215,7 @@ class PaymentActivity : AppCompatActivity(), PaymentResultListener {
                     }
 
                 } catch (e: JSONException) {
-                    e.printStackTrace()
+                        e.printStackTrace()
 //                    binding.animationViewEmpty.visibility=View.VISIBLE
 //                    binding.textView4.visibility=View.VISIBLE
 //                    binding.button16.visibility=View.VISIBLE

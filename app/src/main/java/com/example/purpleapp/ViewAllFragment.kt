@@ -41,12 +41,6 @@ var listType=" "
            getComboOffers()
            binding.textView137.text = "Combo Offers"
        }
-        else if (listType=="featured")
-       {
-         getFeaturedProducts()
-           binding.textView137.text = "Featured Products"
-
-       }
        else if (listType=="newArrivals")
        {
            getNewArrivals()
@@ -58,11 +52,205 @@ var listType=" "
            binding.textView137.text = "Hot Deals"
 
        }
+       else if (listType=="special")
+       {
+           getSpecialProducts()
+           binding.textView137.text = "Special Products"
 
+       }
+
+       else if (listType=="popular")
+       {
+           getPopularProducts()
+           binding.textView137.text = "Popular Products"
+       }
+       else if (listType=="Stock Clearance")
+       {
+           getStockClearanceProducts()
+           binding.textView137.text = "Stock Clearance"
+       }
 
 
         return binding.root
 
+    }
+
+    private fun getStockClearanceProducts() {
+        val dealsList = mutableListOf<ViewAllProductsData>()
+        val stringRequest = StringRequest(
+            Request.Method.GET,
+            URLs.URL_GET_STOCK_CLEARANCE_ALL,
+            { s ->
+                try {
+                    val obj = JSONObject(s)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        binding.totalprod.text = "total " + array.length().toString() +" results"
+
+
+                        for (i in 0 .. array.length()) {
+                            val objectArtist = array.getJSONObject(i)
+
+
+                            val banners = ViewAllProductsData(
+                                objectArtist.getString("heading"),
+                                objectArtist.getString("sale"),
+                                objectArtist.getString("mrp"),
+                                objectArtist.getString("image"),
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name"),
+                                objectArtist.getString("disc")
+
+                            )
+                            dealsList.add(banners)
+                            val adapter = ViewAllProductsAdapter(dealsList)
+                            binding.typeOfList.adapter = adapter
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            { volleyError ->
+                Toast.makeText(
+                    requireContext(),
+                    volleyError.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+        stringRequest.retryPolicy =
+            DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+    }
+
+    private fun getPopularProducts() {
+        val dealsList = mutableListOf<ViewAllProductsData>()
+        val stringRequest = StringRequest(
+            Request.Method.GET,
+            URLs.URL_GET_POPULAR_PRODUCTS_ALL,
+            { s ->
+                try {
+                    val obj = JSONObject(s)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        binding.totalprod.text = "total " + array.length().toString() +" results"
+
+
+                        for (i in 0 .. array.length()) {
+                            val objectArtist = array.getJSONObject(i)
+                            val banners = ViewAllProductsData(
+                                objectArtist.getString("heading"),
+                                objectArtist.getString("sale"),
+                                objectArtist.getString("mrp"),
+                                objectArtist.getString("image"),
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name"),
+                                objectArtist.getString("disc")
+
+                            )
+                            dealsList.add(banners)
+                            val adapter = ViewAllProductsAdapter(dealsList)
+                            binding.typeOfList.adapter = adapter
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            { volleyError ->
+                Toast.makeText(
+                    requireContext(),
+                    volleyError.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+        stringRequest.retryPolicy =
+            DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+    }
+
+    private fun getSpecialProducts() {
+        val dealsList = mutableListOf<ViewAllProductsData>()
+        val stringRequest = StringRequest(
+            Request.Method.GET,
+            URLs.URL_GET_SPECIAL_PRODUCTS_ALL,
+            { s ->
+                try {
+                    val obj = JSONObject(s)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        binding.totalprod.text = "total " + array.length().toString() +" results"
+
+                        for (i in 0 .. array.length()) {
+                            val objectArtist = array.getJSONObject(i)
+                            val banners = ViewAllProductsData(
+                                objectArtist.getString("heading"),
+                                objectArtist.getString("sale"),
+                                objectArtist.getString("mrp"),
+                                objectArtist.getString("image"),
+                                objectArtist.getString("id"),
+                                objectArtist.getString("name"),
+                                objectArtist.getString("disc")
+
+                            )
+                            dealsList.add(banners)
+                            val adapter = ViewAllProductsAdapter(dealsList)
+                            binding.typeOfList.adapter = adapter
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            { volleyError ->
+                Toast.makeText(
+                    requireContext(),
+                    volleyError.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+        stringRequest.retryPolicy =
+            DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
     }
 
     private fun getHotDeals() {
@@ -75,6 +263,9 @@ var listType=" "
                     val obj = JSONObject(s)
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
+
+                        binding.totalprod.text = "total " + array.length().toString() +" results"
+
 
                         for (i in 0 .. array.length()) {
                             val objectArtist = array.getJSONObject(i)
@@ -133,6 +324,9 @@ var listType=" "
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
 
+                        binding.totalprod.text = "total " + array.length().toString() +" results"
+
+
                         for (i in 0 .. array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val banners = ViewAllProductsData(
@@ -180,63 +374,6 @@ var listType=" "
 
     }
 
-    private fun getFeaturedProducts() {
-        val offerProductList = mutableListOf<ViewAllProductsData>()
-        val stringRequest = StringRequest(
-            Request.Method.GET,
-            URLs.URL_GET_FEATURED_PRODUCTS_ALL,
-            { s ->
-                try {
-                    val obj = JSONObject(s)
-                    if (!obj.getBoolean("error")) {
-                        val array = obj.getJSONArray("user")
-
-                        for (i in 0.. array.length()) {
-                            val objectArtist = array.getJSONObject(i)
-                            val banners = ViewAllProductsData(
-                                objectArtist.getString("heading"),
-                                objectArtist.getString("sale"),
-                                objectArtist.getString("mrp"),
-                                objectArtist.getString("image"),
-                                objectArtist.getString("id"),
-                                objectArtist.getString("name"),
-                                objectArtist.getString("disc")
-
-
-                            )
-
-                            offerProductList.add(banners)
-                            val adapter = ViewAllProductsAdapter(offerProductList)
-                            binding.typeOfList.adapter = adapter
-                        }
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            obj.getString("message"),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            },
-            { volleyError ->
-                Toast.makeText(
-                    requireContext(),
-                    volleyError.message,
-                    Toast.LENGTH_LONG
-                ).show()
-            })
-
-        val requestQueue = Volley.newRequestQueue(requireContext())
-        requestQueue.add(stringRequest)
-        stringRequest.retryPolicy =
-            DefaultRetryPolicy(
-                50000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-            )
-    }
 
     private fun getComboOffers() {
         val comboOffersList = mutableListOf<ViewAllProductsData>()
@@ -248,6 +385,9 @@ var listType=" "
                     val obj = JSONObject(s)
                     if (!obj.getBoolean("error")) {
                         val array = obj.getJSONArray("user")
+
+                        binding.totalprod.text = "total " + array.length().toString() +" results"
+
 
                         for (i in 0..array.length()) {
                             val objectArtist = array.getJSONObject(i)

@@ -1,6 +1,7 @@
 package com.example.purpleapp
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -26,8 +28,10 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.example.purpleapp.api.Internet
 import com.example.purpleapp.api.SharedPrefManager
 import com.example.purpleapp.api.URLs
+import com.example.purpleapp.api.VolleySingleton
 import com.example.purpleapp.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.Reflection.getPackageName
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -48,6 +52,15 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val i1 = Internet()
+
+
+        val autoCompleteTv = binding.searchView
+        autoCompleteTv.setDropDownBackgroundDrawable(
+            ColorDrawable(ContextCompat.getColor(requireContext(), R.color.white))
+        )
+
+
+
 
 
         Log.i("@@@@", "onCreateView() called")
@@ -124,17 +137,23 @@ class HomeFragment : Fragment() {
             //combo offers are here
             getComboOffers()
 
+            //stock clearance are here
+            getStockClearance()
+
             //banner ads here
             getProducts()
 
-            //product details here
+            //special products details here
             getOfferProducts()
+
+            //popular products details here
+            getPopularProducts()
 
             //Offer banners here
             getOfferBanners()
 
             //Brands here
-            getBrands()
+            //getBrands()
 
             //Deals here
             getDeals()
@@ -160,7 +179,7 @@ class HomeFragment : Fragment() {
             binding.textView3.visibility = View.VISIBLE
             binding.textView87.visibility = View.VISIBLE
             binding.textView98.visibility = View.VISIBLE
-            binding.textView99.visibility = View.VISIBLE
+//            binding.textView99.visibility = View.VISIBLE
             binding.comboOffersList.visibility = View.VISIBLE
             binding.productList.visibility = View.VISIBLE
             binding.offerProductList.visibility = View.VISIBLE
@@ -172,7 +191,7 @@ class HomeFragment : Fragment() {
             binding.textView134.visibility = View.VISIBLE
             binding.textView135.visibility = View.VISIBLE
             binding.textView136.visibility = View.VISIBLE
-            binding.textView138.visibility = View.VISIBLE
+//            binding.textView138.visibility = View.VISIBLE
             binding.searchView.visibility = View.VISIBLE
             binding.randomList.visibility = View.VISIBLE
 
@@ -298,10 +317,24 @@ class HomeFragment : Fragment() {
                 .navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("comboOffers"))
         }
 
-        // All featured products
+        binding.textView149.setOnClickListener {
+            it.findNavController()
+                .navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("Stock Clearance"))
+        }
+
         binding.textView3.setOnClickListener {
             it.findNavController()
-                .navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("featured"))
+                .navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("special"))
+        }
+
+        binding.textView152.setOnClickListener {
+            it.findNavController()
+                .navigate(HomeFragmentDirections.actionHomeFragmentToViewAllFragment("popular"))
+        }
+
+        binding.textView150.setOnClickListener {
+            it.findNavController()
+                .navigate(HomeFragmentDirections.actionHomeFragmentToCategoryFragment())
         }
 
         // All combo offers
@@ -320,6 +353,59 @@ class HomeFragment : Fragment() {
         return binding.root
 
     }
+
+    private fun getPopularProducts() {
+        val popularProductsList = mutableListOf<OfferProductData>()
+        val stringRequest = StringRequest(
+            Request.Method.GET,
+            URLs.URL_GET_POPULAR_PRODUCTS,
+            { s ->
+                try {
+                    val obj = JSONObject(s)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                        for (i in 0..array.length() - 1) {
+                            val objectArtist = array.getJSONObject(i)
+                            val banners = OfferProductData(
+                                objectArtist.getString("id"),
+                                objectArtist.getString("heading"),
+                                objectArtist.getString("sale"),
+                                objectArtist.getString("disc"),
+                                objectArtist.getString("mrp"),
+                                objectArtist.getString("image"),
+                                objectArtist.getString("name")
+                            )
+
+                            popularProductsList.add(banners)
+                            val adapter = OfferProductAdapter(popularProductsList)
+                            binding.popularList.adapter = adapter
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            { volleyError ->
+                Toast.makeText(
+                    requireContext(),
+                    volleyError.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+
+        requestQueue.addRequestFinishedListener<Any> { requestQueue.cache.clear() }
+    }
+
 
     private fun getCartItemsCount() {
         val stringRequest = object : StringRequest(
@@ -519,35 +605,6 @@ class HomeFragment : Fragment() {
 
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.i("@@@@", "onPause() called")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i("@@@@", "onStop() called")
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.i("@@@@", "onDestroyView() called")
-        //activityAlreadyCreated=false
-
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i("@@@@", "onDestroy() called")
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i("@@@@", "onCreate() called")
-    }
 
     private fun getNewArrivals() {
         val newArrivalsList = mutableListOf<NewArrivalsData>()
@@ -602,7 +659,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getDeals() {
-        val dealsList = mutableListOf<DealsData>()
+        val dealsList = mutableListOf<NewArrivalsData>()
         val stringRequest = StringRequest(
             Request.Method.GET,
             URLs.URL_GET_HOT_DEALS,
@@ -614,7 +671,7 @@ class HomeFragment : Fragment() {
 
                         for (i in 0..array.length() - 1) {
                             val objectArtist = array.getJSONObject(i)
-                            val banners = DealsData(
+                             val banners = NewArrivalsData(
                                 objectArtist.getString("heading"),
                                 objectArtist.getString("sale"),
                                 objectArtist.getString("disc"),
@@ -625,7 +682,7 @@ class HomeFragment : Fragment() {
 
                             )
                             dealsList.add(banners)
-                            val adapter = DealsAdapter(dealsList)
+                            val adapter = NewArrivalsAdapter(dealsList)
                             binding.liveProductList.adapter = adapter
                         }
                     } else {
@@ -654,8 +711,61 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun getStockClearance() {
+
+        val stockClearanceList = mutableListOf<ComboOffersData>()
+
+        val stringRequest = object : StringRequest(
+            Request.Method.POST, URLs.URL_GET_STOCK_CLEARANCE,
+            Response.Listener { response ->
+
+                try {
+                    val obj = JSONObject(response)
+                    if (!obj.getBoolean("error")) {
+                        val array = obj.getJSONArray("user")
+
+                            for (i in 0..array.length() - 1) {
+                                val objectArtist = array.getJSONObject(i)
+                                val banners = ComboOffersData(
+                                    objectArtist.getString("heading"),
+                                    objectArtist.getString("sale"),
+                                    objectArtist.getString("disc"),
+                                    objectArtist.getString("mrp"),
+                                    objectArtist.getString("image"),
+                                    objectArtist.getString("id"),
+                                    objectArtist.getString("name")
+                                )
+                                stockClearanceList.add(banners)
+                                val adapter = ComboOffersAdspter(stockClearanceList)
+                                binding.stockClearanceList.adapter = adapter
+                            }
+                    } else {
+                        Toast.makeText(requireActivity().applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            },
+            Response.ErrorListener { error -> Toast.makeText(requireActivity().applicationContext, error.message, Toast.LENGTH_SHORT).show() }
+        ) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params["category"] = "Stock Clearance"
+                return params
+
+            }
+        }
+
+        VolleySingleton.getInstance(requireActivity().applicationContext).addToRequestQueue(stringRequest)
+
+
+    }
+
     private fun getComboOffers() {
-        Log.i("@@@@", "volley fired")
+
         val comboOffersList = mutableListOf<ComboOffersData>()
         val stringRequest = StringRequest(
             Request.Method.GET,
@@ -834,7 +944,7 @@ class HomeFragment : Fragment() {
         val offerProductList = mutableListOf<OfferProductData>()
         val stringRequest = StringRequest(
             Request.Method.GET,
-            URLs.URL_GET_FEATURED_PRODUCTS,
+            URLs.URL_GET_SPECIAL_PRODUCTS,
             { s ->
                 try {
                     val obj = JSONObject(s)

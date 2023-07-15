@@ -43,9 +43,16 @@ class ProductDescriptionFragment : Fragment() {
     lateinit var prod_ogp: String
     lateinit var prod_newp: String
     var quantitiesCounter: Int = 1
-    lateinit var categ: String
+   var primary=""
+    var category=""
+    var subcategory=""
+    var child=""
  var color:Boolean = true
     var size:Boolean = true
+    var prodPrice:String="0"
+
+    //this category is needed to pass to similarProducts() , for eg. popular/special/ products
+    var urgentCategory:String=""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,7 +78,7 @@ class ProductDescriptionFragment : Fragment() {
         getColors()
         getSizes()
 
-//    getSimilarProducts()
+    getSimilarProducts()
 
 //       prodDescriptionImgList.add(ProductImageData(R.drawable.demo_prod_one))
 //        prodDescriptionImgList.add(ProductImageData(R.drawable.demo_prod_two))
@@ -117,6 +124,11 @@ class ProductDescriptionFragment : Fragment() {
             }
         }
 
+        binding.buyNow.setOnClickListener {
+            var args = ProductDescriptionFragmentArgs.fromBundle(requireArguments())
+            it.findNavController().navigate(ProductDescriptionFragmentDirections.actionProductDescriptionFragmentToShipToAddressFragment("1",prodPrice,"longbuy",args.prodId))
+        }
+
         // plus and minus button
         binding.button13.setOnClickListener {
             if (quantitiesCounter >= 1) {
@@ -136,7 +148,7 @@ class ProductDescriptionFragment : Fragment() {
         binding.textView31.setOnClickListener {
             it.findNavController().navigate(
                 ProductDescriptionFragmentDirections.actionProductDescriptionFragmentToCategoryAllProductsFragment(
-                    categ
+                    primary,category,subcategory,child
                 )
             )
         }
@@ -300,7 +312,12 @@ class ProductDescriptionFragment : Fragment() {
 //        binding.22.text = brand
         var args = ProductDescriptionFragmentArgs.fromBundle(requireArguments())
         var id = args.prodId
-        categ = binding.textView22.text.toString()
+        var cat = binding.textView22.text.toString()
+        if (cat==null || cat.length==0 || cat=="")
+        {
+            cat=urgentCategory
+        }
+//        categ = binding.textView22.text.toString()
 
         val stringRequest = object : StringRequest(
             Request.Method.POST, URLs.URL_GET_SIMILAR_PRODUCTS,
@@ -364,7 +381,7 @@ class ProductDescriptionFragment : Fragment() {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = java.util.HashMap<String, String>()
-                params["category"] = binding.textView22.text.toString()
+                params["category"] = cat
                 params["id"] = id
 
                 return params
@@ -460,6 +477,12 @@ class ProductDescriptionFragment : Fragment() {
                         val userJson = obj.getJSONObject("user")
 
 
+                        primary = userJson.getString("primary")
+                        category = userJson.getString("category")
+                        subcategory = userJson.getString("subcategory")
+                        child = userJson.getString("child_category")
+
+
                             // Heading of product
                         if (userJson.getString("heading") == null || userJson.getString("heading") == "null" || (userJson.getString("heading")).length==0)
                             {
@@ -482,7 +505,7 @@ class ProductDescriptionFragment : Fragment() {
                             binding.textView38.text = userJson.getString("disc")
                         }
 
-
+                        prodPrice = userJson.getString("mrp")
 
                         if (userJson.getString("sale")==userJson.getString("mrp"))
                         {
@@ -514,6 +537,8 @@ class ProductDescriptionFragment : Fragment() {
                         var four: String = userJson.getString("pt_four")
                         var five: String = userJson.getString("pt_five")
                         var six: String = userJson.getString("pt_six")
+
+                        urgentCategory = userJson.getString("primary")
 
     if (one.length==0 && two.length==0 && three.length==0 && four.length==0 && five.length==0 && six.length==0)
     {

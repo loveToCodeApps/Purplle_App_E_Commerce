@@ -64,6 +64,22 @@
             app:popEnterAnim="@anim/left_to_center"
             app:popExitAnim="@anim/center_to_right"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_afterCategoriesFragment"
+            app:destination="@id/afterCategoriesFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/myCartFragment"
@@ -93,8 +109,8 @@
         android:label="categories"
         tools:layout="@layout/fragment_category" >
         <action
-            android:id="@+id/action_categoryFragment_to_categoryAllProductsFragment"
-            app:destination="@id/categoryAllProductsFragment"
+            android:id="@+id/action_categoryFragment_to_afterCategoriesFragment"
+            app:destination="@id/afterCategoriesFragment"
             app:enterAnim="@anim/right_to_center"
             app:exitAnim="@anim/center_to_left"
             app:popEnterAnim="@anim/left_to_center"
@@ -138,6 +154,14 @@
         <action
             android:id="@+id/action_productDescriptionFragment_to_categoryAllProductsFragment"
             app:destination="@id/categoryAllProductsFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/productDescriptionFragment" />
+        <action
+            android:id="@+id/action_productDescriptionFragment_to_shipToAddressFragment"
+            app:destination="@id/shipToAddressFragment"
             app:enterAnim="@anim/right_to_center"
             app:exitAnim="@anim/center_to_left"
             app:popEnterAnim="@anim/left_to_center"
@@ -261,8 +285,15 @@
         android:label="All Products"
         tools:layout="@layout/fragment_category_all_products" >
         <argument
-            android:name="categ_name"
+            android:name="primary"
             app:argType="string" />
+        <argument
+            android:name="categ"
+            app:argType="string" />
+        <argument
+            android:name="sub"
+            app:argType="string" />
+
         <action
             android:id="@+id/action_categoryAllProductsFragment_to_productDescriptionFragment"
             app:destination="@id/productDescriptionFragment"
@@ -271,6 +302,9 @@
             app:popEnterAnim="@anim/left_to_center"
             app:popExitAnim="@anim/center_to_right"
             app:popUpTo="@id/categoryAllProductsFragment" />
+        <argument
+            android:name="child"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/brandAllProductsFragment"
@@ -341,6 +375,12 @@
             app:popEnterAnim="@anim/left_to_center"
             app:popExitAnim="@anim/center_to_right"
             app:popUpTo="@id/homeFragment" />
+        <argument
+            android:name="orderStatus"
+            app:argType="string" />
+        <argument
+            android:name="prodId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/editAddressFragment"
@@ -367,8 +407,7 @@
         tools:layout="@layout/fragment_view_all" >
         <argument
             android:name="typeOfList"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="string" />
         <action
             android:id="@+id/action_viewAllFragment_to_productDescriptionFragment"
             app:destination="@id/productDescriptionFragment"
@@ -456,6 +495,80 @@
         <argument
             android:name="link"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/subCategoryFragment"
+        android:name="com.example.purpleapp.SubCategoryFragment"
+        android:label="categories"
+        tools:layout="@layout/fragment_sub_category">
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <argument
+            android:name="cat_id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_subCategoryFragment_to_childCategoryFragment"
+            app:destination="@id/childCategoryFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/subCategoryFragment" />
+        <argument
+            android:name="primary_category"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_subCategoryFragment_to_categoryAllProductsFragment"
+            app:destination="@id/categoryAllProductsFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/subCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/childCategoryFragment"
+        android:name="com.example.purpleapp.ChildCategoryFragment"
+        android:label="categories"
+        tools:layout="@layout/fragment_child_category">
+        <argument
+            android:name="sub_id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_childCategoryFragment_to_categoryAllProductsFragment"
+            app:destination="@id/categoryAllProductsFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/childCategoryFragment" />
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <argument
+            android:name="primary_category"
+            app:argType="string" />
+        <argument
+            android:name="sub_category"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/afterCategoriesFragment"
+        android:name="com.example.purpleapp.AfterCategoriesFragment"
+        android:label="fragment_after_categories"
+        tools:layout="@layout/fragment_after_categories" >
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_afterCategoriesFragment_to_subCategoryFragment"
+            app:destination="@id/subCategoryFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            app:popUpTo="@id/afterCategoriesFragment" />
     </fragment>
 </navigation>
 

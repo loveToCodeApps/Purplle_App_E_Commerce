@@ -22,6 +22,14 @@ class ColorAdapter(var color: List<colorData>,var prod_id: String,var binding: F
 
         val item = color[position]
 
+        // hide selected color tick if there is only one color
+        if(color.size==1)
+        {
+            holder.img.visibility = View.GONE
+
+        }
+
+
          if (item.color != "null" && item.color.length != 0)
          {
              try {
